@@ -571,9 +571,6 @@
         justify-content: center;
         cursor: pointer;
     }
-    #contenedor-productos{
-      width: 100%;
-    }
 
     .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
       max-height: 750px;
@@ -721,7 +718,7 @@
     }
 
     #buttonmenuAmburguesa i::before{
-      font-size: 1.5rem;
+      font-size: 3rem;
     }
 
     .btnIniciarSesion,
