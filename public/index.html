@@ -102,6 +102,385 @@
     <div id="favoritos-container" class="row g-4"></div>
   </div>
 
+<footer id="dynamic-footer" class="py-4 mt-5">
+    <div class="capa-movimiento movimiento-lento"></div>
+    <div class="capa-movimiento movimiento-rapido"></div>
+
+    <div class="container container-footer-img">
+        <div class="row align-items-center text-center content-items-img-footer">
+            <div class="col-md-5 mb-5 mb-md-5 imgfooter1" id="footer-img-1">
+                <img src="" alt="Contacto" class="img-fluid">
+                  
+                <div id="footer-img-2" class="mb-2 imgfooter2">
+                  <img src="" alt="Vuélvete Proveedor" class="img-fluid">
+                  <button class="btn-proveedor-footer" 
+                          style="border-style: dashed;" 
+                          onclick="prepararCambioPerfil()">
+                      PROVEEDOR
+                  </button>
+                </div>
+            </div>
+
+            <div class="col-md-5 imgfooter3" id="footer-img-3">
+                <a href="https://www.instagram.com/libre_aura?igsh=OTJ2MjBoYjh5bTNw" target="_blank"><img src="" alt="Siguenos en Instagram" class="img-fluid"> </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 btnFooterupIma" id="btnFooterupImaId" style="display: none">
+            <button class="btn btn-sm btn-dark opacity-50" onclick="abrirModalGestionFooter()">
+                <i class="bi bi-pencil-square"></i> Editar Footer
+            </button>
+        </div>
+    </div>
+</footer>
+
+  <!-- modal para editar productos -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content p-4">
+      <h5>Editar Producto</h5>
+      <form id="editForm" onsubmit="event.preventDefault(); guardarEdicion();">
+        <div>
+          <img id="ImgNom" class="small"/>
+          <div class="mb-3">
+            <label class="form-label fw-bold">Imágenes actuales</label>
+            <div id="contenedorMiniaturasEdit" class="d-flex flex-wrap gap-2 mb-2"></div>
+          </div>
+
+          <input type="hidden" id="editIdsActuales">
+          <label class="small">Cargar Imagen</label><input type="file" id="upNewImg" class="form-control mb-2" multiple>
+        </div>
+        <label disable class="small">SKU</label><input type="text" id="eNomSKU" class="form-control mb-2">
+        <label class="small">Nombre</label><input type="text" id="eNom" class="form-control mb-2">
+        <label class="small">Precio</label><input type="number" id="ePre" class="form-control mb-2">
+        <label class="small">Stock</label><input type="number" id="eSto" class="form-control mb-2">
+        <label class="small">Tipo de Cliente</label>
+        <select id="eTipoCliente" class="form-select mb-3">
+          <option value="cliente">Clientes</option>
+          <option value="proveedor">Proveedores</option>
+        </select>
+        <label class="small">Tipo de Producto</label>
+        <select id="eTipoProducto" class="form-select mb-3" onchange="selectProductOption(this.value, 'eTiposubCategoria')">
+          <option value="bolsos">Bolsos</option>
+          <option value="llavero">Llavero</option>
+          <option value="sobrero">Sombrero</option>
+          <option value="ropa">Ropa</option>
+        </select>
+        <select id="eTiposubCategoria" class="form-select mb-3" style="display:none">
+            <option value="personalizado">Personalizado</option>
+            <option value="elegante">Elegante</option>
+            <option value="casual">Casual</option>
+            <option value="mochila">Mochila</option>
+            <option value="cartera">Cartera</option>
+            <option value="divertida">Divertida</option>
+            <option value="alternativa">Alternativa</option>
+        </select>
+        <label class="small">Descripción</label><textarea id="eDes" class="form-control mb-3"></textarea>
+        <button type="submit" class="btn btn-danger w-100" id="saveChangeId">Guardar Cambios</button>
+      </form>
+    </div></div>
+  </div>
+
+<!-- modal para informar que se actualizo un pedido -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="text-success mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </svg>
+      </div>
+      <h5 class="modal-title">¡Actualizado!</h5>
+      <p class="small text-muted">La información se guardó correctamente en el Excel.</p>
+      <button type="button" class="btn btn-dark btn-sm w-100" data-bs-dismiss="modal">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- modal para agregar nuevos productos -->
+<div class="modal fade" id="modalNuevoProducto" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registrar Nuevos Productos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetFormularioMasivo()"></button>
+      </div>
+      <div class="modal-body">
+        <div id="pasoCantidad">
+          <p>¿Cuántos productos deseas cargar en esta sesión?</p>
+          <div class="input-group mb-3">
+            <input type="number" id="cantAbonar" class="form-control" min="1" max="10" value="1">
+            <button class="btn btn-primary" onclick="generarFormularios()">Continuar</button>
+          </div>
+        </div>
+
+        <div id="pasoFormularios" class="d-none">
+          <form id="formMasivo" onsubmit="event.preventDefault(); guardarProductosMasivos();">
+            <div id="contenedorFormularios"></div>
+            <hr>
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-secondary me-2" onclick="resetFormularioMasivo()">Cancelar</button>
+              <button type="submit" id="btnGuardarMasivo" class="btn btn-success">Guardar Todos los Productos</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal arga Exitosa de producto -->
+<div class="modal fade" id="modalExitoCarga" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center p-4 shadow-lg border-0">
+      <div class="text-success mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+        </svg>
+      </div>
+      <h4 class="fw-bold">¡Excelente!</h4>
+      <p class="text-muted small">Todos los productos e imágenes han sido registrados en el sistema.</p>
+      <button type="button" class="btn btn-success w-100 mt-2" data-bs-dismiss="modal">Entendido</button>
+    </div>
+  </div>
+</div>
+
+
+<!--Modal de registro exitoso-->
+<div class="modal fade" id="modalRegistroExitoso" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center p-4 border-0 shadow-lg">
+      <div class="text-primary mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+          <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+      </div>
+      <h4 class="fw-bold">¡Bienvenido!</h4>
+      <p class="text-muted small">Tu registro se ha completado. Ahora puedes comprar y ver precios exclusivos.</p>
+      <button type="button" class="btn btn-primary w-100 mt-2" data-bs-dismiss="modal">Empezar</button>
+    </div>
+  </div>
+</div>
+
+<!--Modal para editar perfil de usuario -->
+<div class="modal fade" id="modalPerfil" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar mi Perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="perfilForm" onsubmit="event.preventDefault(); guardarCambiosPerfil();">
+          <div class="mb-3">
+            <label class="form-label small">Nombre Completo</label>
+            <input type="text" id="pNombre" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small">Perfil</label>
+            <input disabled type="text" id="pRol" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small">Teléfono</label>
+            <input type="text" id="pTelefono" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small">Dirección de Envío</label>
+            <textarea id="pDireccion" class="form-control" rows="3" required></textarea>
+          </div>
+            <label class="form-label small">Dirección de Envío</label>
+            <textarea id="pIndicaciones" class="form-control" rows="3" required></textarea>
+          </div>
+          <button type="submit" id="btnGuardarPerfil" class="btn btn-primary w-100">
+            Actualizar mis datos
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal de compra exitosa-->
+<div class="modal fade" id="modalCompraExitosa" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content text-center p-4 border-0 shadow-lg">
+      <div class="text-success mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+        </svg>
+      </div>
+      <h4 class="fw-bold">¡Pedido Realizado!</h4>
+      <p class="text-muted small">Tu compra se ha registrado con el folio: <br><strong id="folioExito" class="text-dark"></strong></p>
+      <p class="x-small text-muted">Te enviamos los detalles por Correo.</p>
+      <button type="button" class="btn btn-success w-100 mt-2" data-bs-dismiss="modal">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar detalle del producto -->
+<div class="modal fade modalProductDetalle" id="modalDetalle" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="detalleNombre"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="carouselProducto" class="carousel slide carousel-dark" data-bs-ride="carousel">
+          <div class="carousel-inner" id="carouselImagenes"></div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselProducto" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselProducto" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="text-muted small titieTextDescripcion">Descripción:</h6>
+          <p class="textdetalleDescripcion" id="detalleDescripcion"></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold textdetallePrecio" id="detallePrecio"></h4>
+            <span class="badge bg-secondary textdetalleStock" id="detalleStock"></span>
+          </div>
+<div class="mt-4 p-3 bg-light rounded">
+  <label class="form-label small fw-bold">Cantidad a comprar:</label>
+  <div class="input-group">
+    <button class="btn btn-outline-secondary" type="button" id="btnRestarDetalle">-</button>
+    <input type="number" id="qtyDetalle" class="form-control text-center" value="1" min="1">
+    <button class="btn btn-outline-secondary" type="button" id="btnSumarDetalle">+</button>
+  </div>
+  <small class="text-muted d-block mt-1" id="maxStockAviso"></small>
+</div>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary w-100" id="btnAgregarDesdeDetalle">Añadir al carrito</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal Registro de sesion -->
+  <div class="modal fade" id="regModal" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content p-4">
+      <h3>Crear Cuenta</h3>
+      <form id="regForm" onsubmit="event.preventDefault(); registrar();">
+        <input type="email" id="rEmail" class="form-control mb-2" placeholder="Correo Electronico" required>
+        <input type="password" id="rPass" class="form-control mb-2" placeholder="Contraseña" required>
+        <input type="text" id="rNom" class="form-control mb-2" placeholder="Nombre completo" required>
+        <input type="text" id="rTel" class="form-control mb-2" placeholder="Teléfono" required>
+        <textarea id="rDir" class="form-control mb-3" placeholder="Dirección de envío" required></textarea>
+        <textarea id="rIndRef" class="form-control mb-3" placeholder="Indicaciones o referencias sobre el domicilio" required></textarea>
+        <select id="rTipo" class="form-select mb-3">
+          <option value="cliente">Cliente</option>
+          <option value="proveedor">Proveedor</option></select>
+        <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+      </form>
+    </div></div>
+  </div>
+
+<!-- modal inicio de sesion -->
+  <div class="modal fade" id="initModal" tabindex="-1">
+    <div class="modal-dialog"><div class="modal-content p-4">
+      <h3>Iniciar Sesión</h3>
+      <form id="initForm" onsubmit="event.preventDefault(); inicioSesionUser();">
+        <input type="email" id="loginEmail" class="form-control" placeholder="ejemplo@correo.com">
+        <input type="password" id="loginPassword" class="form-control" placeholder="******">
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+      </form>
+    </div></div>
+  </div>
+
+<!-- modal de errores -->
+  <div class="modal fade" id="modalAlerta" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="tituloAlerta">Notificación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pb-4">
+        <div id="iconoAlerta" class="display-1 mb-3"></div>
+        <p id="mensajeAlerta" class="fs-5 textModal"></p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- cambio de perfil de los usuarios de cliente a cliente mayorista -->
+<div class="modal fade" id="modalToggleRol" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-dark text-white border-0">
+        <h5 class="modal-title fw-bold" id="modalRolTitle">Cambio de Perfil</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-4">
+        <div id="iconContainer" class="mb-3 text-warning">
+            <i class="bi bi-arrow-left-right" style="font-size: 3rem;"></i>
+        </div>
+        <h5 class="fw-bold mb-3" id="modalRolMensaje">¿Estás seguro de realizar este cambio?</h5>
+        
+        <div id="beneficiosMayorista" class="alert alert-info border-0 shadow-sm d-none">
+            <h6 class="fw-bold mb-2">🎁 Beneficios de Mayorista:</h6>
+            <p class="mb-0 small ">Accederás a <strong>precios especiales</strong> por volumen en todos los productos de nuestro catálogo.</p>
+        </div>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center pb-4">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-dark px-4 fw-bold" id="btnConfirmarCambio">Confirmar Cambio</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal para agregar o eliminar imagenes del banner -->
+<div class="modal fade" id="modalGestionBanner" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Gestionar Imágenes del Banner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <h6>Subir nueva foto:</h6>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="inputNuevaFoto" accept="image/*">
+                        <button class="btn btn-primary" onclick="subirFotoBanner()">Subir</button>
+                    </div>
+                </div>
+                <h6>Fotos actuales:</h6>
+                <div id="listaFotosGestion" class="row g-2">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal para editar imagenes de footer -->
+<div class="modal fade" id="modalGestionFooter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Administrar Imágenes del Footer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="listaEdicionFooter">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="cartModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -141,37 +520,6 @@
     </div>
   </div>
 </div> 
-<footer id="dynamic-footer" class="py-4 mt-5">
-    <div class="capa-movimiento movimiento-lento"></div>
-    <div class="capa-movimiento movimiento-rapido"></div>
-
-    <div class="container container-footer-img">
-        <div class="row align-items-center text-center content-items-img-footer">
-            <div class="col-md-5 mb-5 mb-md-5 imgfooter1" id="footer-img-1">
-                <img src="" alt="Contacto" class="img-fluid">
-                  
-                <div id="footer-img-2" class="mb-2 imgfooter2">
-                  <img src="" alt="Vuélvete Proveedor" class="img-fluid">
-                  <button class="btn-proveedor-footer" 
-                          style="border-style: dashed;" 
-                          onclick="prepararCambioPerfil()">
-                      PROVEEDOR
-                  </button>
-                </div>
-            </div>
-
-            <div class="col-md-5 imgfooter3" id="footer-img-3">
-                <a href="https://www.instagram.com/libre_aura?igsh=OTJ2MjBoYjh5bTNw" target="_blank"><img src="" alt="Siguenos en Instagram" class="img-fluid"> </a>
-            </div>
-        </div>
-
-        <div class="text-center mt-4 btnFooterupIma" id="btnFooterupImaId" style="display: none">
-            <button class="btn btn-sm btn-dark opacity-50" onclick="abrirModalGestionFooter()">
-                <i class="bi bi-pencil-square"></i> Editar Footer
-            </button>
-        </div>
-    </div>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
