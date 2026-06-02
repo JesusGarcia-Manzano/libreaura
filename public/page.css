@@ -572,6 +572,7 @@
         text-align: center;
         justify-content: center;
         cursor: pointer;
+        margin: 0;
     }
 
     .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
@@ -633,7 +634,7 @@
 
     #modalPerfil .modal-content form input,
     #regModal .modal-content form input{
-      height: 6rem;
+      height: 3rem;
     }
     
     #modalPerfil .modal-content form input,
@@ -703,7 +704,7 @@
     }
     #cartCount{
       top: 30px !important;
-      font-size: 1.5rem !important;
+      font-size: 1rem !important;
     }
     #authBtn button,
     .btn-close{
@@ -720,6 +721,11 @@
 
     #buttonmenuAmburguesa i::before{
       font-size: 3rem;
+    }
+
+    #buttonmenuAmburguesa{
+      margin: 0 !important;
+      padding: 0;
     }
 
     .btnIniciarSesion,
@@ -799,6 +805,13 @@
 
   button#btnVistaPedidos{
     font-size: 2rem;
+    padding: 0;
+    margin: 0 !important;
+  }
+
+  .buttons-navbar button{
+    padding: 0;
+    margin: .5rem;
   }
 
 }
