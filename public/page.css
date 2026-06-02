@@ -628,7 +628,6 @@
     #modalPerfil .modal-dialog,
     #regModal .modal-dialog{
       max-width: none;
-      margin: 2rem 5rem;
     }
 
 
@@ -708,7 +707,7 @@
     }
     #authBtn button,
     .btn-close{
-      font-size: 2.5rem;
+      font-size: 1.5rem;
     }
     #nav-logo-dynamic{
       display: none;
@@ -734,12 +733,12 @@
     }
 
     .offcanvas button{
-      height: 10rem;
+      height: 4rem;
       padding: 0;
     }
     .offcanvas button,
     .offcanvas h5{
-      font-size: 2rem;
+      font-size: 1rem;
       text-align: center;
     }
   #cartModal .modal-header button{
@@ -759,7 +758,7 @@
   }
 
   .modal .modal-dialog{
-    width: 75%;
+    width: 90%;
     max-width: none;
   }
 
