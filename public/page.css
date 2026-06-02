@@ -452,7 +452,7 @@
     
     /* 1. Forzar que los productos se vean en una sola columna */
     .card-item{
-      width: 100%;
+      width: 90%;
       height: 23rem;
     }
 
