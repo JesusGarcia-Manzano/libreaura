@@ -472,7 +472,7 @@
     /* 2. Ajustar el Navbar para que no se amontone */
     body .navbar {
       padding: 0.5rem !important;
-      height: 10rem;
+      height: 7rem;
       display: flex;
       width: 100%;
       justify-content: center;
