@@ -1,89 +1,186 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<head>
+  <base target="_top">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./../page.css">
+</head>
+<body>
+<nav class="navbar sticky-top navbar-rosa">
+  <div class="container">
+    
+    <div class="d-flex align-items-center">
+      <button id="buttonmenuAmburguesa" class="btn btn-outline-light me-2 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuCategorias" aria-controls="menuCategorias">
+        <i class="bi bi-list fs-3 text-white"></i>
+      </button>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.14.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.14.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.14.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+      <a class="navbar-brand d-flex align-items-center" href="<?= urlPage ?>">
+        <img src="" id="nav-logo-dynamic" alt="Logo" style="max-height: 40px; width: auto;">
+      </a>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <div class="d-flex align-items-center text-white">
+      <button onclick="prepararCambioPerfil()" class="header btn-proveedor-footer" style="display: none;">Cliente Mayorista</button>
+      <button class="nav-link d-none" id="btn-nav-productos" href="#" onclick="mostrarVistaTienda()">
+        <i class="bi bi-bag-fill"></i> <span class="VerProductos">Ver Productos</span>
+      </button>
+      <button id="btnVistaPedidos" class="btn btn-sm btn-outline-light me-2 d-none" onclick="mostrarVistaCompras()"></button>
+      <div id="adminActions" class="me-3"></div>
+    
+      <div class="hidenContent" id="authBtn"></div>
+      
+      <button id="btnPerfil" class="nav-btn-custom d-none editPerfil" onclick="abrirModalPerfil()">
+        <i class="bi bi-person-fill icono-rosa"></i>
+      </button>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+      <button class="nav-btn-custom favoritosbutton" id="favoritosbuttonId" onclick="mostrarVistaFavoritos()">
+        <i class="bi bi-heart-fill icono-rosa"></i>
+      </button>
+
+      <button class="nav-btn-custom position-relative carritobuton" id="carritobutonId" data-bs-toggle="modal" data-bs-target="#cartModal">
+        <i class="bi bi-cart-fill icono-rosa"></i>
+        <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="menuCategorias" aria-labelledby="menuCategoriasLabel" style="max-width: 300px;">
+  <div class="offcanvas-header" style="background-color: var(--color-rosa, #e6739f); color: white;">
+    <h5 class="offcanvas-title font-weight-bold" id="menuCategoriasLabel">🎒 Categorías</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="list-group list-group-flush">
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" onclick="filtrarPorCategoria('todos', appData.productos)">
+        <i class="bi bi-grid-fill me-2 text-warning"></i> Ver Todo
+      </button>
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" onclick="filtrarPorCategoria('bolsa', appData.bolsos)">
+        👜 Bolsa
+      </button>
+
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" onclick="filtrarPorCategoria('llavero', appData.llaveritos)">
+        🔑 Llavero
+      </button>
+
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" onclick="filtrarPorCategoria('sombrero', appData.sombreros)">
+        👒 Sombrero
+      </button>
+
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" onclick="filtrarPorCategoria('ropa', appData.ropa)">
+        👗 Ropa
+      </button>
+
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
+      <button class="list-group-item list-group-item-action text-white bg-transparent py-3 border-secondary" data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>
+    </div>
+  </div>
+</div>
+<section id="banner-carousel-container">
+    <div id="carouselExample" class="carousel slide shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+        <div class="carousel-inner" id="carousel-slides">
+            </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <div class="text-center mt-3" id="inserImgAdmin" style="display:none">
+        <button class="btn btn-sm btn-dark" onclick="abrirModalGestionBanner()">
+            <i class="bi bi-images me-2"></i>Gestionar Banner
+        </button>
+    </div>
+</section>
+  <div class="container mt-4">
+    <div id="contenedor-productos" class="row g-4"></div>
+    <div id="pedidos-container" class="row g-4"></div>
+    <div id="favoritos-container" class="row g-4"></div>
+  </div>
+
+<div class="modal fade" id="cartModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tu Carrito</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      
+      <div class="modal-body">
+        <div id="cartItems"></div>
+        
+        <hr>
+        
+        <div class="p-3 bg-light border rounded">
+          <h6 class="fw-bold text-primary mb-3"><i class="bi bi-bank"></i> Datos de Pago (BBVA)</h6>
+          
+          <div class="small">
+            <p class="mb-1"><strong>Número de cuenta:</strong> <code class="text-dark">1575788351</code></p>
+            <p class="mb-1"><strong>CLABE Interbancaria:</strong> <code class="text-dark">012180015757883512</code></p>
+            <p class="mb-1"><strong>Número de tarjeta:</strong> <code class="text-dark">4152314453528153</code></p>
+          </div>
+          
+          <div class="alert alert-info mt-3 mb-0 p-2 small">
+            <i class="bi bi-whatsapp"></i> Una vez realizada tu transferencia, envía el comprobante al: 
+            <a href="https://wa.me/525575044042" target="_blank" class="fw-bold text-decoration-none">55 7504 4042</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between align-items-center">
+        <h4 id="cartTotal" class="mb-0">Total: $0</h4>
+<div id="alertaMinimoProveedor" class="alert alert-warning d-none small py-2 mt-2" role="alert">
+  Se requieren un mínimo de 4 piezas por producto para poder realizar la compra.
+</div>
+        <button id="btnFinalizarCompra" class="btn btn-success px-4" onclick="checkOut()">Finalizar Compra</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<footer id="dynamic-footer" class="py-4 mt-5">
+    <div class="capa-movimiento movimiento-lento"></div>
+    <div class="capa-movimiento movimiento-rapido"></div>
+
+    <div class="container container-footer-img">
+        <div class="row align-items-center text-center content-items-img-footer">
+            <div class="col-md-5 mb-5 mb-md-5 imgfooter1" id="footer-img-1">
+                <img src="" alt="Contacto" class="img-fluid">
+                  
+                <div id="footer-img-2" class="mb-2 imgfooter2">
+                  <img src="" alt="Vuélvete Proveedor" class="img-fluid">
+                  <button class="btn-proveedor-footer" 
+                          style="border-style: dashed;" 
+                          onclick="prepararCambioPerfil()">
+                      PROVEEDOR
+                  </button>
+                </div>
+            </div>
+
+            <div class="col-md-5 imgfooter3" id="footer-img-3">
+                <a href="https://www.instagram.com/libre_aura?igsh=OTJ2MjBoYjh5bTNw" target="_blank"><img src="" alt="Siguenos en Instagram" class="img-fluid"> </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 btnFooterupIma" id="btnFooterupImaId" style="display: none">
+            <button class="btn btn-sm btn-dark opacity-50" onclick="abrirModalGestionFooter()">
+                <i class="bi bi-pencil-square"></i> Editar Footer
+            </button>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+<script src="./../page.js"></script>
+</body>
 </html>
