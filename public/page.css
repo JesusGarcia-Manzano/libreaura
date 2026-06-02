@@ -472,7 +472,7 @@
     /* 2. Ajustar el Navbar para que no se amontone */
     body .navbar {
       padding: 0.5rem !important;
-      height: 7rem;
+      height: 5rem;
       display: flex;
       width: 100%;
       justify-content: center;
@@ -691,10 +691,10 @@
       font-size: 1.5rem;
     }
     .navbar-rosa button i{
-      font-size: 3rem;
+      font-size: 2rem;
     }
     .navbar-rosa button.favoritosbutton i{
-      font-size: 2.5rem;
+      font-size: 1.5rem;
     }
 
     .btn-icon-solo.favorito,
@@ -725,7 +725,7 @@
     }
 
     #buttonmenuAmburguesa i::before{
-      font-size: 3rem;
+      font-size: 2rem;
     }
 
     #buttonmenuAmburguesa{
@@ -809,7 +809,7 @@
   }
 
   button#btnVistaPedidos{
-    font-size: 2rem;
+    font-size: 1.3rem;
     padding: 0;
     margin: 0 !important;
   }
