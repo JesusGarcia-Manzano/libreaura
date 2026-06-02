@@ -457,9 +457,8 @@
     }
 
     body #contenedor-productos {
-      display: grid;
+      display: inline-block;
       align-items: center;
-      grid-template-columns: repeat(2, 1fr);
       padding: 10px;
       margin: 0;
       place-items: center;
@@ -687,10 +686,10 @@
       font-size: 3rem;
     }
     .navbar-rosa button i{
-      font-size: 5rem;
+      font-size: 3rem;
     }
     .navbar-rosa button.favoritosbutton i{
-      font-size: 4.5rem;
+      font-size: 2.5rem;
     }
 
     .btn-icon-solo.favorito,
@@ -721,7 +720,7 @@
     }
 
     #buttonmenuAmburguesa i::before{
-      font-size: 5rem;
+      font-size: 3rem;
     }
 
     .btnIniciarSesion,
