@@ -672,10 +672,10 @@
 
     .imgfooter1 {
       justify-content: center;
-      display: inline-block;
+      width: 100%;
     }
     .imgfooter1 img{
-      width: 90%;
+      width: 50%;
     }
 
 
@@ -684,6 +684,7 @@
     }
     .imgfooter2{
       display: inline-block !important;
+      width: 50%;
     }
 
     .imgfooter2 button{
