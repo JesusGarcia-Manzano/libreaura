@@ -453,7 +453,7 @@
     /* 1. Forzar que los productos se vean en una sola columna */
     .card-item{
       width: 90%;
-      height: 23rem;
+      height: 24rem;
     }
 
     body #contenedor-productos {
@@ -575,13 +575,13 @@
     }
 
     .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
-      max-height: 750px;
-      height: 750px !important;
+      max-height: 20rem;
+      height: 20rem !important;
     }
 
     .modalProductDetalle .modal-dialog{
       max-width: none;
-      margin: 0 5rem;
+      margin: auto;
     }
     .modalProductDetalle .modal-header h5{
       font-size: 1.5rem;
@@ -748,12 +748,14 @@
 
   .btn.btn-outline-secondary{
     font-size: 1.5rem;
-    width: 5rem;
-    height: 5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   #qtyDetalle{
     font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
   }
 
   .modal .modal-dialog{
