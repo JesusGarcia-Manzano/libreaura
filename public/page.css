@@ -479,7 +479,7 @@ span#cartCount{
     /* 1. Forzar que los productos se vean en una sola columna */
     .card-item{
       width: 90%;
-      height: 17rem;
+      height: 20rem;
     }
 
     body #contenedor-productos {
