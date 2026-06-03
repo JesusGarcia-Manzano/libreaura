@@ -112,7 +112,7 @@
     .priceProduct,
     .textdetallePrecio{
       color: var(--color-rosa-fuerte);
-      font-size: 1.5rem !important;
+      font-size: 1rem !important;
     }
     #authBtn button{
       margin: 0 .5rem;
@@ -439,6 +439,18 @@ span#cartCount{
   margin: auto;
 }
 
+.offcanvas-title{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+    .btnIniciarSesion,
+    .btnRegistrarse{
+      background-color: var(--color-rosa-botones-oscuro);
+      color: white;
+    }
+
     .nameProducto{
       color: var(--color-grid-oscuro);
       font-size: 1.2rem;
@@ -460,11 +472,14 @@ span#cartCount{
     }
   /* --- FUERZA PARA MÓVILES (Menos de 768px) --- */
   @media only screen and (max-width: 1000px) {
+    .actionsContentProduct{
+      gap: .3rem !important;
+    }
     
     /* 1. Forzar que los productos se vean en una sola columna */
     .card-item{
       width: 90%;
-      height: 24rem;
+      height: 17rem;
     }
 
     body #contenedor-productos {
@@ -482,8 +497,8 @@ span#cartCount{
 
     /* 2. Ajustar el Navbar para que no se amontone */
     body .navbar {
-      padding: 0.5rem !important;
-      height: 5rem;
+      padding: 0 !important;
+      height: 4rem;
       display: flex;
       width: 100%;
       justify-content: center;
@@ -575,7 +590,7 @@ span#cartCount{
     #btnVistaPedidos,
     #userName,
     #btnPerfil{
-      font-size: 1rem;
+      font-size: 0.6rem;
     }
     .navbar-brand{
         font-size: 1rem;
@@ -587,8 +602,8 @@ span#cartCount{
     }
 
     .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
-      max-height: 20rem;
-      height: 20rem !important;
+      max-height: 12rem;
+      height: 12rem !important;
     }
 
     .modalProductDetalle .modal-dialog{
@@ -599,16 +614,22 @@ span#cartCount{
       font-size: 1.5rem;
     }
     .titieTextDescripcion,
-    #btnAgregarDesdeDetalle,
-    #btnFinalizarCompra,
     #cartTotal{
-      font-size: 1.5rem !important;
+      font-size: 1rem !important;
+    }
+    #btnAgregarDesdeDetalle,
+    #btnFinalizarCompra{
+      font-size: .5rem !important;
+      border: none;
+    }
+    .textdetallePrecio{
+      margin: 0;
     }
     .textdetalleDescripcion,
     .textdetallePrecio,
     .textdetalleStock,
     #pedidos-container tr{
-      font-size: 1rem;
+      font-size: .5rem;
     }
     
     .btn-outline-light,
@@ -621,15 +642,17 @@ span#cartCount{
     .alert-info,
     .badge.bg-primary,
     .rounded label,
-    .rounded small{
-      font-size: 1rem;
+    .rounded small,
+    .alert-danger{
+      font-size: .5rem;
     }
+
     #cartModal #cartItems div div div.text-danger,
     #cartModal #cartItems div div button.text-danger{
       font-size: 1rem !important;
     }
     .container a img{
-        width: 70% !important;
+        width: 40% !important;
         max-height: none !important;
     }
     .container a strong{
@@ -682,30 +705,42 @@ span#cartCount{
     }
 
     .imgfooter1 {
+      margin-bottom: 1rem !important;
       justify-content: center;
       width: 100%;
+      align-items: center;
     }
     .imgfooter1 img{
-      width: 50%;
+      width: 25%;
+      height: 6rem;
+      margin: 0;
     }
 
 
     .imgfooter2 img{
       width: 100%;
+      margin: 0;
+      height: 2rem;
     }
     .imgfooter2{
       display: inline-block !important;
-      width: 50%;
+      width: 25%;
     }
 
     .imgfooter2 button{
-      font-size: 1.5rem;
+      font-size: .5rem;
     }
     .navbar-rosa button i{
-      font-size: 2rem;
+      font-size: 1.7rem;
     }
     .navbar-rosa button.favoritosbutton i{
       font-size: 1.5rem;
+    }
+    
+    .nav-link i{
+        position: relative;
+        top: -2px;
+        left: 17px;
     }
 
     .btn-icon-solo.favorito,
@@ -714,12 +749,16 @@ span#cartCount{
       margin: 0;
     }
 
-    .btn-icon-solo.favorito i,
+    .btn-icon-solo.favorito i{
+      font-size: .8rem;
+      top: -2px;
+      position: relative;
+    }
     .btn-icon-solo.card i{
-      font-size: 1.5rem;
+      font-size: .9rem;
     }
     #cartCount{
-      top: 15px !important;
+      top: 10px !important;
     }
     #authBtn button,
     .btn-close{
@@ -760,20 +799,20 @@ span#cartCount{
     .offcanvas button,
     .offcanvas h5{
       font-size: 1rem;
-      text-align: center;
+      padding-left: 1rem;
     }
   #cartModal .modal-header button{
     font-size: 1.5rem;
   }
 
   .btn.btn-outline-secondary{
-    font-size: 1.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
+    font-size: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   #qtyDetalle{
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: 0;
     margin: 0;
   }
@@ -828,5 +867,30 @@ span#cartCount{
     padding: 0;
     margin: .6rem;
   }
+
+  div#carouselExample{
+    border-radius: 0 !important;
+  }
+
+  .card.card-product .card-body,
+  .modal.modalProductDetalle .modal-dialog .modal-body,
+  #cartModal .modal-dialog .modal-body{
+    padding: .5rem;
+  }
+  .modal.modalProductDetalle .modal-dialog .modal-body .rounded{
+    padding: 0 !important;
+  }
+
+  .modal.modalProductDetalle .modal-dialog,
+  #cartModal .modal-dialog{
+    width: 65%;
+    top: 4rem;
+    margin: 0 auto;
+  }
+  #cartModal .modal-dialog .modal-header button,
+  #cartModal .modal-dialog .modal-header .modal-title{
+    font-size: 1rem;
+  }
+
 
 }

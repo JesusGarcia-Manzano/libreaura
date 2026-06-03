@@ -61,8 +61,8 @@ auth.onAuthStateChanged((user) => {
         updateCartUI();
 
         contentButton.innerHTML = `
-          <button class="btn btn-sm btn-warning btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
-          <button class="btn btn-sm btn-warning btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
+          <button class="btn btn-sm btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
+          <button class="btn btn-sm btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
         
         cargarProductosSegunRol('visitante', appData);
         contentButton.classList.remove('hidenContent');
@@ -75,8 +75,8 @@ auth.onAuthStateChanged((user) => {
     updateCartUI();
 
     contentButton.innerHTML = `
-      <button class="btn btn-sm btn-warning btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
-      <button class="btn btn-sm btn-warning btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
+      <button class="btn btn-sm btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
+      <button class="btn btn-sm btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
     
     cargarProductosSegunRol('visitante', appData);
     contentButton.classList.remove('hidenContent');
