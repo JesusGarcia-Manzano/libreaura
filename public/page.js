@@ -1574,24 +1574,22 @@ function verDetalle(idPedido) {
     // Aseguramos que el contenedor tenga la clase para el Lightbox
     carouselInner.parentElement.classList.add('pswp-gallery');
 
-    listaIds.forEach((idDrive, index) => {
-        const activeClass = index === 0 ? 'active' : '';
-        const url = idDrive.trim();
-        
-        // Creamos un enlace (<a>) que envuelve a la imagen
-        // PhotoSwipe necesita este <a> para abrir la imagen en pantalla completa
-        carouselInner.innerHTML += `
-            <div class="carousel-item ${activeClass}">
-                <a href="${url}" 
-                   data-pswp-width="1200" 
-                   data-pswp-height="1200"
-                   class="d-block w-100">
-                    <img src="${url}" 
-                         class="d-block w-100 img-fluid rounded" 
-                         style="height: 300px; object-fit: contain; cursor: zoom-in;">
-                </a>
-            </div>`;
-    });
+listaIds.forEach((idDrive, index) => {
+    const activeClass = index === 0 ? 'active' : '';
+    const url = idDrive.trim();
+    
+    // Usamos un div con onclick en lugar de un enlace <a>
+    carouselInner.innerHTML += `
+        <div class="carousel-item ${activeClass}">
+            <div class="img-wrapper" 
+                 onclick="abrirZoom('${url}')" 
+                 style="cursor: zoom-in; height: 300px; display: flex; align-items: center; justify-content: center;">
+                <img src="${url}" 
+                     class="d-block w-100 img-fluid rounded" 
+                     style="max-height: 100%; object-fit: contain;">
+            </div>
+        </div>`;
+});
 
     // 5. Configurar botón de agregar
     const btnAgregar = document.getElementById('btnAgregarDesdeDetalle');
@@ -2158,12 +2156,18 @@ async function enviarCorreoPedido(pedido) {
         throw error; // Re-lanzar para que el checkout sepa que falló
     }
 }
+function abrirZoom(urlImagen) {
+    // Definimos el objeto de la imagen que queremos mostrar
+    const items = [{
+        src: urlImagen,
+        w: 1200,
+        h: 1200
+    }];
 
-const lightbox = new PhotoSwipeLightbox({
-  gallery: '.pswp-gallery',
-  children: 'a',
-  pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js'),
-  // Esto ayuda a que el zoom viva sobre el modal y no fuera de él
-  appendToElement: document.getElementById('modalDetalle') 
-});
-lightbox.init();
+    // Abrimos el visor manualmente
+    const pswp = new PhotoSwipe({
+        dataSource: items,
+        pswpModule: PhotoSwipe // Asegúrate de tener la librería cargada
+    });
+    pswp.init();
+}

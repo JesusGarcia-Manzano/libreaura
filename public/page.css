@@ -977,6 +977,6 @@ span#cartCount {
   #cartModal .modal-dialog .modal-header .modal-title {
     font-size: 1rem;
   }
-.pswp-gallery a { cursor: zoom-in; }
+.img-wrapper { cursor: zoom-in; }
 
 }
