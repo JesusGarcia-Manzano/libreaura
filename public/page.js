@@ -2159,3 +2159,10 @@ async function enviarCorreoPedido(pedido) {
         throw error; // Re-lanzar para que el checkout sepa que falló
     }
 }
+
+const lightbox = new PhotoSwipeLightbox({
+  gallery: '.pswp-gallery',
+  children: 'a',
+  pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js')
+});
+lightbox.init();
