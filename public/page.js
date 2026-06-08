@@ -164,7 +164,7 @@ function renderizarTarjetaProducto(p, contenedor, perfil, idPedido) {
     // VERIFICACIÓN: ¿Este producto está en mis favoritos?
     const esFav = idsFavoritosUser.includes(p.idProducto);
     // 3. Crear el HTML de la tarjeta (Card)
-    if (!sinStock && perfil.rol !== 'administrador') {
+    if (!sinStock || perfil.rol !== 'administrador') {
 
         contenedor.innerHTML += `
         <div class="card-item col-6 col-md-6 col-lg-3 mb-4">
