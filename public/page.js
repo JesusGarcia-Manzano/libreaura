@@ -1572,33 +1572,19 @@ const listaIds = producto.imagenes.split(',');
 let carouselInner = document.getElementById('carouselImagenes');
 carouselInner.innerHTML = '';
 
-// Dentro de tu función verDetalle, después de llenar el innerHTML del carrusel:
-
-// 1. Inyectas el HTML igual que antes
 listaIds.forEach((idDrive, index) => {
     const activeClass = index === 0 ? 'active' : '';
     const url = idDrive.trim();
     
+    // Al hacer clic, enviamos la URL a una función global que abre el segundo modal
     carouselInner.innerHTML += `
         <div class="carousel-item ${activeClass}">
-            <div data-fslightbox="galeria" 
-                 data-type="image" 
-                 data-source="${url}" 
-                 style="cursor: zoom-in; height: 300px; display: flex; align-items: center; justify-content: center;">
-                <img src="${url}" 
-                     class="d-block w-100 img-fluid rounded" 
-                     style="max-height: 100%; object-fit: contain;">
-            </div>
+            <img src="${url}" 
+                 class="d-block w-100 img-fluid rounded" 
+                 style="height: 300px; object-fit: contain; cursor: zoom-in;"
+                 onclick="abrirZoom('${url}')">
         </div>`;
 });
-
-// 2. IMPORTANTE: Forzamos la actualización de la librería con un pequeño retraso
-// Esto permite que el DOM se renderice antes de buscar las imágenes
-setTimeout(() => {
-    if (typeof refreshFsLightbox === 'function') {
-        refreshFsLightbox();
-    }
-}, 300); // 300 milisegundos de espera
 
     // 5. Configurar botón de agregar
     const btnAgregar = document.getElementById('btnAgregarDesdeDetalle');
@@ -2165,18 +2151,14 @@ async function enviarCorreoPedido(pedido) {
         throw error; // Re-lanzar para que el checkout sepa que falló
     }
 }
-function abrirZoom(urlImagen) {
-    // Definimos el objeto de la imagen que queremos mostrar
-    const items = [{
-        src: urlImagen,
-        w: 1200,
-        h: 1200
-    }];
 
-    // Abrimos el visor manualmente
-    const pswp = new PhotoSwipe({
-        dataSource: items,
-        pswpModule: PhotoSwipe // Asegúrate de tener la librería cargada
-    });
-    pswp.init();
+function abrirZoom(url) {
+    const modalZoom = new bootstrap.Modal(document.getElementById('zoomModal'));
+    document.getElementById('imgZoom').src = url;
+    modalZoom.show();
+}
+
+function cerrarZoom() {
+    const modalZoom = bootstrap.Modal.getInstance(document.getElementById('zoomModal'));
+    modalZoom.hide();
 }
