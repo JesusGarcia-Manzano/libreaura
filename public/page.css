@@ -619,7 +619,7 @@ span#cartCount{
     }
     #btnAgregarDesdeDetalle,
     #btnFinalizarCompra{
-      font-size: .7rem !important;
+      font-size: 1rem !important;
       border: none;
     }
     .textdetallePrecio{
