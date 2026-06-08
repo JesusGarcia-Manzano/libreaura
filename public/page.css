@@ -1,435 +1,477 @@
+:root {
+  --color-rosa-claro: #F8BBD0;
+  --color-rosa-fuerte: #E93C96;
+  --color-rosa-botones-oscuro: #E24E96;
+  --color-rosa-botones-claro: #EB7AAE;
+  --color-blanco: #FFFFFF;
+  --color-grid-oscuro: #666666;
+  --color-grid-claro: #888888;
+}
 
-    :root { 
-      --color-rosa-claro: #F8BBD0;
-      --color-rosa-fuerte: #E93C96;
-      --color-rosa-botones-oscuro: #E24E96;
-      --color-rosa-botones-claro: #EB7AAE;
-      --color-blanco: #FFFFFF;
-      --color-grid-oscuro: #666666;
-      --color-grid-claro: #888888;
-    }
-    body { 
-      background-color: #f8f9fa;
-    }
+body {
+  background-color: #f8f9fa;
+}
 
 .main-footer {
-    background-color: #F8BBD0; /* Rosa suave de fondo */
-    color: #555;
-    padding-top: 40px;
-    margin-top: 60px;
-    border-top: 5px solid #E93C96; /* Detalle rosa intenso */
-  }
+  background-color: #F8BBD0;
+  /* Rosa suave de fondo */
+  color: #555;
+  padding-top: 40px;
+  margin-top: 60px;
+  border-top: 5px solid #E93C96;
+  /* Detalle rosa intenso */
+}
 
-  #btn-nav-productos{
-    color: var(--color-rosa-botones-oscuro)
-  }
+#btn-nav-productos {
+  color: var(--color-rosa-botones-oscuro)
+}
 
-  .footer-brand,
-  .titleNavAura {
-    font-family: 'serif'; /* O la fuente que uses en tu logo */
-    color: #E93C96;
-    font-weight: bold;
-    text-transform: lowercase;
-  }
+.footer-brand,
+.titleNavAura {
+  font-family: 'serif';
+  /* O la fuente que uses en tu logo */
+  color: #E93C96;
+  font-weight: bold;
+  text-transform: lowercase;
+}
 
-  .footer-brand span,
-  .titleNavAura span {
-    font-style: italic;
-    font-size: 1.4em;
-  }
+.footer-brand span,
+.titleNavAura span {
+  font-style: italic;
+  font-size: 1.4em;
+}
 
-  .header.btn-proveedor-footer{
-    margin: 0 2rem;
-    
-  }
+.header.btn-proveedor-footer {
+  margin: 0 2rem;
 
-  /* Estilo de los iconos sociales */
-  .social-icon {
-    background-color: white;
-    color: #E93C96;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: 0.3s;
-  }
+}
 
-  .social-icon:hover {
-    transform: translateY(-3px);
-    background-color: #E93C96;
-    color: white;
-  }
+/* Estilo de los iconos sociales */
+.social-icon {
+  background-color: white;
+  color: #E93C96;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
 
-  /* Botón de Proveedor inspirado en tu imagen */
-  .btn-proveedor-footer {
-    background: none;
-    border: 2px dashed white;
-    color: white;
-    padding: 5px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    margin-top: 5px;
-    transition: 0.3s;
-  }
+.social-icon:hover {
+  transform: translateY(-3px);
+  background-color: #E93C96;
+  color: white;
+}
 
-  .btn-proveedor-footer:hover {
-    background-color: white;
-    color: #E93C96;
-  }
+/* Botón de Proveedor inspirado en tu imagen */
+.btn-proveedor-footer {
+  background: none;
+  border: 2px dashed white;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  transition: 0.3s;
+}
 
-  .btn-footer-link {
-    background: none;
-    border: none;
-    color: #555;
-    display: block;
-    margin: 5px auto;
-    font-size: 0.95rem;
-  }
+.btn-proveedor-footer:hover {
+  background-color: white;
+  color: #E93C96;
+}
 
-  .btn-footer-link:hover {
-    color: #E93C96;
-    text-decoration: underline;
-  }
+.btn-footer-link {
+  background: none;
+  border: none;
+  color: #555;
+  display: block;
+  margin: 5px auto;
+  font-size: 0.95rem;
+}
 
-  button.btn-primary,
-  .modal .modal-footer button,
-  button.buttonFavCard{
-    background: var(--color-rosa-botones-oscuro);
-    color: white;
-  }
+.btn-footer-link:hover {
+  color: #E93C96;
+  text-decoration: underline;
+}
 
-  .footer-divider {
-    border-top: 1px solid rgba(255,255,255,0.5);
-    margin: 30px 0 20px;
-  }
-  #btnVistaPedidos{
-    border: none;
-  }
-    .priceProduct,
-    .textdetallePrecio{
-      color: var(--color-rosa-fuerte);
-      font-size: 1rem !important;
-    }
-    #authBtn button{
-      margin: 0 .5rem;
-    }
-    .butondeletedImg{
-      padding: 0;
-      width: 1.7rem;
-      height: 1.7rem;
-    }
-    .navbar { 
-      background-color: var(--color-rosa-claro);
-    }
-    .navbar strong{
-      color: var(--color-blanco);
-    }
-    .img-container img{ 
-      width: 100%;
-      object-fit: cover;
-      border-radius: 15px 15px 0 0; 
-    }
-    .card-product { 
-      border: none; 
-      border-radius: 25px; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      transition: 0.3s; 
-      height: 100%;
-      width: 90%;
-      margin: 0 auto;
-    }
-    .card-product img{ 
-      border-radius: 25px;
-    }
-    .card-product:hover { 
-      transform: translateY(-5px);
-    }
-    .out-of-stock { 
-      filter: grayscale(1); opacity: 0.6;
-    }
-    #cart-badge { 
-      font-size: 0.7rem;
-    }
+button.btn-primary,
+.modal .modal-footer button,
+button.buttonFavCard {
+  background: var(--color-rosa-botones-oscuro);
+  color: white;
+}
 
-    #editForm img{
-      width: 100%;
-    }
-    input{
-      text-align: center;
-      margin-right: 1rem;
-    }
-    .carousel-item{
-    width: 100%;
-    overflow: hidden;
-    }
-    .carousel-item .imgcarruselBanner{
+.footer-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 30px 0 20px;
+}
 
-    max-height: none;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    }
+#btnVistaPedidos {
+  border: none;
+}
 
-    #banner-carousel-container{
-      margin-bottom: 2rem;
-    }
+.priceProduct,
+.textdetallePrecio {
+  color: var(--color-rosa-fuerte);
+  font-size: 1rem !important;
+}
+
+#authBtn button {
+  margin: 0 .5rem;
+}
+
+.butondeletedImg {
+  padding: 0;
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.navbar {
+  background-color: var(--color-rosa-claro);
+}
+
+.navbar strong {
+  color: var(--color-blanco);
+}
+
+.img-container img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0;
+}
+
+.card-product {
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: 0.3s;
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.card-product img {
+  border-radius: 25px;
+}
+
+.card-product:hover {
+  transform: translateY(-5px);
+}
+
+.out-of-stock {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+#cart-badge {
+  font-size: 0.7rem;
+}
+
+#editForm img {
+  width: 100%;
+}
+
+input {
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.carousel-item {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-item .imgcarruselBanner {
+
+  max-height: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+#banner-carousel-container {
+  margin-bottom: 2rem;
+}
 
 /* Botón de Corazón Circular */
-  .btn-favorito-circular {
-    width: auto;
-    height: auto;
-    background-color: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    padding: 0;
-  }
+.btn-favorito-circular {
+  width: auto;
+  height: auto;
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0;
+}
 
-  /* Color rosa de la marca */
-  .btn-icon-solo i {
-    color: var(--color-rosa-fuerte) !important;
-  }
+/* Color rosa de la marca */
+.btn-icon-solo i {
+  color: var(--color-rosa-fuerte) !important;
+}
 
-  /* Ajuste del 'mxn' más pequeño */
-  .priceProduct small {
-    font-size: 0.9rem;
-    font-weight: normal;
-  }
+/* Ajuste del 'mxn' más pequeño */
+.priceProduct small {
+  font-size: 0.9rem;
+  font-weight: normal;
+}
 
-  /* Botones limpios sin bordes ni fondo circular */
-  .btn-icon-solo {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
+/* Botones limpios sin bordes ni fondo circular */
+.btn-icon-solo {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
-  .btn-icon-solo i {
-    font-size: 1.4rem; /* Tamaño de los iconos */
-  }
+.btn-icon-solo i {
+  font-size: 1.4rem;
+  /* Tamaño de los iconos */
+}
 
-  .btn-icon-solo:hover {
-    transform: scale(1.2);
-  }
+.btn-icon-solo:hover {
+  transform: scale(1.2);
+}
 
-  /* Contenedor principal */
-  .contentInfoProducto {
-    width: 100%;
-    padding: 10px 0;
-  }
+/* Contenedor principal */
+.contentInfoProducto {
+  width: 100%;
+  padding: 10px 0;
+}
 
-  .btn-favorito-circular i {
-    color: #E93C96; /* El rosa de tu marca */
-    font-size: 1.2rem;
-  }
-    .accionsAdmin{
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-      padding: 20px 0 0;
-      width: 100%;
-    }
-    .accionsAdmin button{
-      width: 50%;
-    }
+.btn-favorito-circular i {
+  color: #E93C96;
+  /* El rosa de tu marca */
+  font-size: 1.2rem;
+}
+
+.accionsAdmin {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 20px 0 0;
+  width: 100%;
+}
+
+.accionsAdmin button {
+  width: 50%;
+}
 
 /* Color Rosa Fuerte para los iconos */
-  .icono-rosa {
-    color: var(--color-rosa-fuerte) !important;
-  }
+.icono-rosa {
+  color: var(--color-rosa-fuerte) !important;
+}
 
-  .carritobuton i {
+.carritobuton i {
 
-    font-size: 1.8rem;
-  }
-  .favoritosbutton i {
-    font-size: 1.7rem;
-  }
+  font-size: 1.8rem;
+}
 
-  .editPerfil i {
-    font-size: 2.5rem;
-  }
+.favoritosbutton i {
+  font-size: 1.7rem;
+}
 
-  .container-footer-img{
-    position: relative;
-  }
+.editPerfil i {
+  font-size: 2.5rem;
+}
 
-  .btnFooterupIma{
-    position: absolute;
-    width: 100%;
-    bottom: -1.5rem;
-  }
+.container-footer-img {
+  position: relative;
+}
+
+.btnFooterupIma {
+  position: absolute;
+  width: 100%;
+  bottom: -1.5rem;
+}
 
 .content-items-img-footer,
-.imgfooter1{
+.imgfooter1 {
   display: flex;
   justify-content: space-between;
 }
 
 #dynamic-footer {
-    background-color: #f8c0d5; /* Tu rosa base */
-    position: relative;
-    overflow: hidden;
-  
+  background-color: #f8c0d5;
+  /* Tu rosa base */
+  position: relative;
+  overflow: hidden;
+
 }
 
 /* Añadimos un efecto de "chispa" adicional con pseudoelementos */
 #dynamic-footer {
-    background-color: #f8c0d5;
-    position: relative;
-    overflow: hidden; /* Importante para que no se salgan las estrellas */
-    z-index: 1;
+  background-color: #f8c0d5;
+  position: relative;
+  overflow: hidden;
+  /* Importante para que no se salgan las estrellas */
+  z-index: 1;
 }
 
 /* Estilo para las estrellas del GIF */
 .capa-movimiento {
-    position: absolute;
-    top: -100%; /* Área extra para que no se vea el corte al mover */
-    left: -100%;
-    width: 300%; 
-    height: 300%;
-    pointer-events: none;
-    z-index: 0;
-    /* Usamos un SVG de estrella de 4 puntas nítida */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 0l2 10 10 2-10 2-2 10-2-10-10-2 10-2z"/></svg>');
+  position: absolute;
+  top: -100%;
+  /* Área extra para que no se vea el corte al mover */
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  pointer-events: none;
+  z-index: 0;
+  /* Usamos un SVG de estrella de 4 puntas nítida */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 0l2 10 10 2-10 2-2 10-2-10-10-2 10-2z"/></svg>');
 }
 
 /* Capa 1: Estrellas grandes que se mueven lento (Diagonal) */
 .movimiento-lento {
-    background-size: 200px 200px;
-    opacity: 0.4;
-    animation: diagonalMove 20s linear infinite;
+  background-size: 200px 200px;
+  opacity: 0.4;
+  animation: diagonalMove 20s linear infinite;
 }
 
 /* Capa 2: Estrellas pequeñas que se mueven más rápido y brillan */
 .movimiento-rapido {
-    opacity: 0.2;
-    animation: diagonalMove 10s linear infinite, twinkle 4s ease-in-out infinite;
+  opacity: 0.2;
+  animation: diagonalMove 10s linear infinite, twinkle 4s ease-in-out infinite;
 }
 
 /* --- LAS ANIMACIONES DEL GIF --- */
 
 /* Movimiento diagonal infinito sin saltos */
 @keyframes diagonalMove {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        /* Se mueve exactamente el tamaño del fondo para que sea un loop perfecto */
-        transform: translate(100px, 100px);
-    }
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    /* Se mueve exactamente el tamaño del fondo para que sea un loop perfecto */
+    transform: translate(100px, 100px);
+  }
 }
 
 /* Brillo que aparece y desaparece sutilmente */
 @keyframes twinkle {
-    0%, 100% { opacity: 0.1; }
-    50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* Asegurar que el contenido flote sobre el fondo */
 .container-footer-img {
-    z-index: 5;
-    position: relative;
+  z-index: 5;
+  position: relative;
 }
 
 /* Efecto sombra a las imágenes para que no se pierdan con el movimiento blanco */
 .container-footer-img img {
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
 }
 
-.imgfooter1 img{
+.imgfooter1 img {
   width: 40%;
   margin-top: 3rem;
 }
+
 .imgfooter2 {
   display: none;
 }
-.imgfooter2 img{
-    width: 90%;
-    margin: 6rem 0 2rem;
-}
-.imgfooter3 img{
-    width: 90%;
+
+.imgfooter2 img {
+  width: 90%;
+  margin: 6rem 0 2rem;
 }
 
-  .editPerfil,
-  .favoritosbutton,
-  .carritobuton{
-    margin: 0 1rem;
-  }
+.imgfooter3 img {
+  width: 90%;
+}
 
-  /* Estilo base para los botones de navegación */
-  .nav-btn-custom {
-    background: transparent;
-    border: none;
-    padding: 8px;
-    transition: transform 0.2s;
-  }
+.editPerfil,
+.favoritosbutton,
+.carritobuton {
+  margin: 0 1rem;
+}
 
-  .nav-btn-custom:hover {
-    transform: scale(1.1);
-  }
+/* Estilo base para los botones de navegación */
+.nav-btn-custom {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  transition: transform 0.2s;
+}
 
-  .btn.btn-outline-secondary{
-    padding: 0;
-    margin: 0;
-    line-height: normal;
-    border: none;
-    background: var(--color-rosa-botones-oscuro);
-    color: white;
-    width: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .nuevosProductoadmin{
-    color: white;
-  }
-  #qtyDetalle{
-    border: none;
-  }
+.nav-btn-custom:hover {
+  transform: scale(1.1);
+}
 
-  .rounded .input-group{
-    background: white;
-  }
+.btn.btn-outline-secondary {
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+  border: none;
+  background: var(--color-rosa-botones-oscuro);
+  color: white;
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .actionsContentProduct button.btn-favorito{
-      z-index: 10;
-      border: none;
-      background: white;
-      border-radius: 50% !important;
-      width: 35px;
-      height: 35px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
+.nuevosProductoadmin {
+  color: white;
+}
 
-    #authBtn span{
-      margin: .2rem 0 0
-    }
-    .hidenContent{
-      display: flex;
-      flex-direction: column;
-    }
+#qtyDetalle {
+  border: none;
+}
+
+.rounded .input-group {
+  background: white;
+}
+
+.actionsContentProduct button.btn-favorito {
+  z-index: 10;
+  border: none;
+  background: white;
+  border-radius: 50% !important;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#authBtn span {
+  margin: .2rem 0 0
+}
+
+.hidenContent {
+  display: flex;
+  flex-direction: column;
+}
+
 #carouselProducto {
   background-color: #f8f9fa;
   border-radius: 10px;
   overflow: hidden;
 }
 
-.card-item{
+.card-item {
   display: inline-block;
   width: 24%;
 }
 
-span#cartCount{
+span#cartCount {
   top: 15px;
 }
 
@@ -439,461 +481,500 @@ span#cartCount{
   margin: auto;
 }
 
-.offcanvas-title{
-    width: 100%;
-    display: inline-block;
-    text-align: center;
+.offcanvas-title {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
 }
 
-    .btnIniciarSesion,
-    .btnRegistrarse{
-      background-color: var(--color-rosa-botones-oscuro);
-      color: white;
-    }
+.btnIniciarSesion,
+.btnRegistrarse {
+  background-color: var(--color-rosa-botones-oscuro);
+  color: white;
+}
 
-    .nameProducto{
-      color: var(--color-grid-oscuro);
-      font-size: 1.2rem;
-      margin: 0;
-    }
+.nameProducto {
+  color: var(--color-grid-oscuro);
+  font-size: 1.2rem;
+  margin: 0;
+}
 
-    .descripcionProduct{
-      color: var(--color-grid-claro);
-      margin: 0;
-    }
+.descripcionProduct {
+  color: var(--color-grid-claro);
+  margin: 0;
+}
+
 /* Hacer que los controles sean visibles en fondos claros */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(100%);
 }
 
-    #nav-logo-dynamic-mobile{
-      display: none;
-    }
-  /* --- FUERZA PARA MÓVILES (Menos de 768px) --- */
-  @media only screen and (max-width: 1000px) {
-    .actionsContentProduct{
-      gap: .3rem !important;
-    }
-    
-    /* 1. Forzar que los productos se vean en una sola columna */
-    .card-item{
-      width: 90%;
-      height: 20rem;
-    }
+#nav-logo-dynamic-mobile {
+  display: none;
+}
 
-    body #contenedor-productos {
-      display: grid;
-      align-items: center;
-      grid-template-columns: repeat(2, 1fr);
-      margin: 0;
-      place-items: center;
-    }
+/* --- FUERZA PARA MÓVILES (Menos de 768px) --- */
+@media only screen and (max-width: 1000px) {
+  .actionsContentProduct {
+    gap: .3rem !important;
+  }
 
-    body .card {
-      width: 100%;
-      margin-bottom: 20px;
-    }
+  /* 1. Forzar que los productos se vean en una sola columna */
+  .card-item {
+    width: 90%;
+    height: 20rem;
+  }
 
-    /* 2. Ajustar el Navbar para que no se amontone */
-    body .navbar {
-      padding: 0 !important;
-      height: 4rem;
-      display: flex;
-      width: 100%;
-      justify-content: center;
-    }
-    .navbar .container{
-      max-width: none;
-      display: flex;
-      justify-content: space-between;
-      margin-right: 0;
-      margin-left: 0;
-    }
-    .container.mt-4{
-        max-width: none;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-    body #userName,
-    body #roolUserActive {
-      display: none !important; /* Escondemos el nombre para dar espacio a botones */
-    }
+  body #contenedor-productos {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+    place-items: center;
+  }
 
-    .header.btn-proveedor-footer{
-      display: none !important;
-    }
+  body .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-    /* 3. Convertir la tabla de pedidos en tarjetas legibles */
-    body #pedidos-container table, 
-    body #pedidos-container thead, 
-    body #pedidos-container tbody, 
-    body #pedidos-container th, 
-    body #pedidos-container td, 
-    body #pedidos-container tr { 
-      display: block !important; 
-    }
+  /* 2. Ajustar el Navbar para que no se amontone */
+  body .navbar {
+    padding: 0 !important;
+    height: 4rem;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
 
-    body #pedidos-container thead { display: none !important; }
+  .navbar .container {
+    max-width: none;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 0;
+    margin-left: 0;
+  }
 
-    body #pedidos-container tr {
-      border: 1px solid #dee2e6;
-      margin: 1rem;
-      border-radius: 10px;
-      background: white;
-      padding: 1rem 0;
-    }
+  .container.mt-4 {
+    max-width: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-    body #pedidos-container td {
-      position: relative;
-      border: none;
-      border-bottom: 1px solid #eee;
-    }
+  body #userName,
+  body #roolUserActive {
+    display: none !important;
+    /* Escondemos el nombre para dar espacio a botones */
+  }
 
-    body #pedidos-container td::before {
-      content: attr(data-label); /* Usaremos este atributo para las etiquetas */
-      position: absolute;
-      left: 10px;
-      width: 45%;
-      font-weight: bold;
-      text-align: left;
-    }
-    .accionsAdmin button,
-    .btn-success,
-    .buttonAgotado{
-      font-size: 30px !important;
-    }
+  .header.btn-proveedor-footer {
+    display: none !important;
+  }
 
-    .input-group.actionsCardCart{
-      flex-direction: column;
-    }
+  /* 3. Convertir la tabla de pedidos en tarjetas legibles */
+  body #pedidos-container table,
+  body #pedidos-container thead,
+  body #pedidos-container tbody,
+  body #pedidos-container th,
+  body #pedidos-container td,
+  body #pedidos-container tr {
+    display: block !important;
+  }
 
-    .input-group.actionsCardCart input,
-    .input-group.actionsCardCart button{
-      width: 100%;
-      font-size: 1rem;
-    }
-    .loader-catalogo{
-      width: 666px;;
-    }
-    .priceProduct,
-    .textdetallePrecio{
-      font-size: 2.5rem;
-    }
+  body #pedidos-container thead {
+    display: none !important;
+  }
 
-    .nameProducto,
-    .descripcionProduct,
-    .stockProduct,
-    #btnVistaPedidos,
-    #userName,
-    #btnPerfil{
-      font-size: 0.6rem;
-    }
-    .navbar-brand{
-        font-size: 1rem;
-        width: 100%;
-        text-align: center;
-        justify-content: center;
-        cursor: pointer;
-        margin: 0;
-    }
+  body #pedidos-container tr {
+    border: 1px solid #dee2e6;
+    margin: 1rem;
+    border-radius: 10px;
+    background: white;
+    padding: 1rem 0;
+  }
 
-    .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
-      max-height: 19rem;
-      height: 100% !important;
-    }
+  body #pedidos-container td {
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
 
-    .modalProductDetalle .modal-dialog{
-      max-width: none;
-      margin: auto;
-    }
-    .modalProductDetalle .modal-header h5{
-      font-size: 1.5rem;
-    }
-    .titieTextDescripcion,
-    #cartTotal{
-      font-size: 1.2rem !important;
-    }
-    #btnAgregarDesdeDetalle,
-    #btnFinalizarCompra{
-      font-size: 1rem !important;
-      border: none;
-    }
-    .textdetallePrecio{
-      margin: 0;
-      font-size: 1.2rem !important;
-    }
-    .textdetalleDescripcion,
-    .textdetallePrecio,
-    .textdetalleStock,
-    #pedidos-container tr{
-      font-size: .7rem;
-    }
-    
-    .btn-outline-light,
-    button#btnPerfil,
-    #cartModal .modal-body h6,
-    #cartModal .modal-body p,
-    #cartModal #cartItems div div div,
-    #cartModal #cartItems div div div span,
-    #cartModal #cartItems div div div button,
-    .alert-info,
-    .badge.bg-primary,
-    .rounded label,
-    .rounded small,
-    .alert-danger{
-      font-size: .5rem;
-    }
+  body #pedidos-container td::before {
+    content: attr(data-label);
+    /* Usaremos este atributo para las etiquetas */
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    font-weight: bold;
+    text-align: left;
+  }
 
-    #cartModal #cartItems div div div.text-danger,
-    #cartModal #cartItems div div button.text-danger{
-      font-size: 1rem !important;
-    }
-    .container a img{
-        width: 40% !important;
-        max-height: none !important;
-    }
-    .container a strong{
-      font-size: 2rem;
-    }
-    #modalPerfil .modal-dialog,
-    #cartModal .modal-dialog,
-    #modalPerfil .modal-dialog,
-    #regModal .modal-dialog{
-      max-width: none;
-    }
+  .accionsAdmin button,
+  .btn-success,
+  .buttonAgotado {
+    font-size: 30px !important;
+  }
 
+  .input-group.actionsCardCart {
+    flex-direction: column;
+  }
 
-    #modalPerfil .modal-content form input,
-    #regModal .modal-content form input{
-      height: 3rem;
-    }
-    
-    #modalPerfil .modal-content form input,
-    #modalPerfil .modal-content form textarea,
-    #modalPerfil .modal-content form select,
-    #modalPerfil .modal-content form label,
-    #regModal .modal-content form input,
-    #regModal .modal-content form textarea,
-    #regModal .modal-content form select{
-      font-size: 1rem;
-      text-align: left;
-      margin: 1rem 0;
-    }
+  .input-group.actionsCardCart input,
+  .input-group.actionsCardCart button {
+    width: 100%;
+    font-size: 1rem;
+  }
 
-    #cartModal .modal-content h5,
-    #modalPerfil .modal-content h5,
-    #modalPerfil .modal-content button,
-    #regModal .modal-content h3,
-    #regModal .modal-content form button{
-      font-size: 1.5rem;
-    }
+  .loader-catalogo {
+    width: 666px;
+    ;
+  }
 
-    .content-items-img-footer{
-      display: flex;
-      flex-direction: column;
-    }
+  .priceProduct,
+  .textdetallePrecio {
+    font-size: 2.5rem;
+  }
 
-    .imgfooter3{
-      width: 100%;
-    }
+  .nameProducto,
+  .descripcionProduct,
+  .stockProduct,
+  #btnVistaPedidos,
+  #userName,
+  #btnPerfil {
+    font-size: 0.6rem;
+  }
 
-    .imgfooter3 a img{
-      width: 100%;
-    }
+  .navbar-brand {
+    font-size: 1rem;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+  }
 
-    .imgfooter1 {
-      margin-bottom: 1rem !important;
-      justify-content: center;
-      width: 100%;
-      align-items: center;
-    }
-    .imgfooter1 img{
-      width: 25%;
-      height: 6rem;
-      margin: 0;
-    }
+  .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
+    max-height: 19rem;
+    height: 100% !important;
+  }
 
+  .modalProductDetalle .modal-dialog {
+    max-width: none;
+    margin: auto;
+  }
 
-    .imgfooter2 img{
-      width: 100%;
-      margin: 0;
-      height: 2rem;
-    }
-    .imgfooter2{
-      display: inline-block !important;
-      width: 25%;
-    }
-
-    .imgfooter2 button{
-      font-size: .5rem;
-    }
-    .navbar-rosa button i{
-      font-size: 1.7rem;
-    }
-    .navbar-rosa button.favoritosbutton i{
-      font-size: 1.5rem;
-    }
-    
-    .nav-link i{
-        position: relative;
-        top: -2px;
-        left: 17px;
-    }
-
-    .btn-icon-solo.favorito,
-    .btn-icon-solo.card{
-      margin-bottom: 0;
-      margin: 0;
-    }
-
-    .btn-icon-solo.favorito i{
-      font-size: .8rem;
-      top: -2px;
-      position: relative;
-    }
-    .btn-icon-solo.card i{
-      font-size: .9rem;
-    }
-    #cartCount{
-      top: 10px !important;
-    }
-    #authBtn button,
-    .btn-close{
-      font-size: 1rem;
-    }
-    #nav-logo-dynamic{
-      display: none;
-    }
-    #nav-logo-dynamic-mobile{
-      display: block;
-      width: 10rem;
-      height: 10rem;
-    }
-
-    #buttonmenuAmburguesa i::before{
-      font-size: 2rem;
-    }
-
-    #buttonmenuAmburguesa{
-      margin: 0 !important;
-      padding: 0;
-    }
-
-    .btnIniciarSesion,
-    .btnRegistrarse{
-      display: none;
-    }
-
-    .offcanvas.offcanvas-start {
-      max-width: none !important;
-      width: 50%;
-    }
-
-    .offcanvas button{
-      height: 4rem;
-      padding: 0;
-    }
-    .offcanvas button,
-    .offcanvas h5{
-      font-size: 1rem;
-      padding-left: 1rem;
-    }
-  #cartModal .modal-header button{
+  .modalProductDetalle .modal-header h5 {
     font-size: 1.5rem;
   }
 
-  .btn.btn-outline-secondary{
+  .titieTextDescripcion,
+  #cartTotal {
+    font-size: 1.2rem !important;
+  }
+
+  #btnAgregarDesdeDetalle,
+  #btnFinalizarCompra {
+    font-size: 1rem !important;
+    border: none;
+  }
+
+  .textdetallePrecio {
+    margin: 0;
+    font-size: 1.2rem !important;
+  }
+
+  .textdetalleDescripcion,
+  .textdetallePrecio,
+  .textdetalleStock,
+  #pedidos-container tr {
+    font-size: .7rem;
+  }
+
+  .btn-outline-light,
+  button#btnPerfil,
+  #cartModal .modal-body h6,
+  #cartModal .modal-body p,
+  #cartModal #cartItems div div div,
+  #cartModal #cartItems div div div span,
+  #cartModal #cartItems div div div button,
+  .alert-info,
+  .badge.bg-primary,
+  .rounded label,
+  .rounded small,
+  .alert-danger {
+    font-size: .5rem;
+  }
+
+  #cartModal #cartItems div div div.text-danger,
+  #cartModal #cartItems div div button.text-danger {
+    font-size: 1rem !important;
+  }
+
+  .container a img {
+    width: 40% !important;
+    max-height: none !important;
+  }
+
+  .container a strong {
+    font-size: 2rem;
+  }
+
+  #modalPerfil .modal-dialog,
+  #cartModal .modal-dialog,
+  #modalPerfil .modal-dialog,
+  #regModal .modal-dialog {
+    max-width: none;
+  }
+
+
+  #modalPerfil .modal-content form input,
+  #regModal .modal-content form input {
+    height: 3rem;
+  }
+
+  #modalPerfil .modal-content form input,
+  #modalPerfil .modal-content form textarea,
+  #modalPerfil .modal-content form select,
+  #modalPerfil .modal-content form label,
+  #regModal .modal-content form input,
+  #regModal .modal-content form textarea,
+  #regModal .modal-content form select {
+    font-size: 1rem;
+    text-align: left;
+    margin: 1rem 0;
+  }
+
+  #cartModal .modal-content h5,
+  #modalPerfil .modal-content h5,
+  #modalPerfil .modal-content button,
+  #regModal .modal-content h3,
+  #regModal .modal-content form button {
+    font-size: 1.5rem;
+  }
+
+  .content-items-img-footer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imgfooter3 {
+    width: 100%;
+  }
+
+  .imgfooter3 a img {
+    width: 100%;
+  }
+
+  .imgfooter1 {
+    margin-bottom: 1rem !important;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+
+  .imgfooter1 img {
+    width: 25%;
+    height: 6rem;
+    margin: 0;
+  }
+
+
+  .imgfooter2 img {
+    width: 100%;
+    margin: 0;
+    height: 2rem;
+  }
+
+  .imgfooter2 {
+    display: inline-block !important;
+    width: 25%;
+  }
+
+  .imgfooter2 button {
+    font-size: .5rem;
+  }
+
+  .navbar-rosa button i {
+    font-size: 1.7rem;
+  }
+
+  .navbar-rosa button.favoritosbutton i {
+    font-size: 1.5rem;
+  }
+
+  .nav-link i {
+    position: relative;
+    top: -2px;
+    left: 17px;
+  }
+
+  .btn-icon-solo.favorito,
+  .btn-icon-solo.card {
+    margin-bottom: 0;
+    margin: 0;
+  }
+
+  .btn-icon-solo.favorito i {
+    font-size: .8rem;
+    top: -2px;
+    position: relative;
+  }
+
+  .btn-icon-solo.card i {
+    font-size: .9rem;
+  }
+
+  #cartCount {
+    top: 10px !important;
+  }
+
+  #authBtn button,
+  .btn-close {
+    font-size: 1rem;
+  }
+
+  #nav-logo-dynamic {
+    display: none;
+  }
+
+  #nav-logo-dynamic-mobile {
+    display: block;
+    width: 10rem;
+    height: 10rem;
+  }
+
+  #buttonmenuAmburguesa i::before {
+    font-size: 2rem;
+  }
+
+  #buttonmenuAmburguesa {
+    margin: 0 !important;
+    padding: 0;
+  }
+
+  .btnIniciarSesion,
+  .btnRegistrarse {
+    display: none;
+  }
+
+  .offcanvas.offcanvas-start {
+    max-width: none !important;
+    width: 50%;
+  }
+
+  .offcanvas button {
+    height: 4rem;
+    padding: 0;
+  }
+
+  .offcanvas button,
+  .offcanvas h5 {
+    font-size: 1rem;
+    padding-left: 1rem;
+  }
+
+  #cartModal .modal-header button {
+    font-size: 1.5rem;
+  }
+
+  .btn.btn-outline-secondary {
     font-size: 1rem;
     width: 1.5rem;
     height: 1.5rem;
   }
 
-  #qtyDetalle{
+  #qtyDetalle {
     font-size: 1rem;
     padding: 0;
     margin: 0;
   }
 
-  .modal .modal-dialog{
+  .modal .modal-dialog {
     width: 90%;
     max-width: none;
   }
 
-  .modal .modal-header .modal-title{
+  .modal .modal-header .modal-title {
     font-size: 1rem;
   }
+
   .modal .modal-body .textModal,
   #grid-favoritos .card-product .card-body p.text-truncate {
     font-size: 1.5rem;
   }
+
   .modal .modal-footer button,
   #grid-favoritos .card-product .card-body p,
-  #grid-favoritos .card-product .card-body h6{
+  #grid-favoritos .card-product .card-body h6 {
     font-size: 1rem;
   }
 
-  #grid-favoritos .card-product img{
+  #grid-favoritos .card-product img {
     height: auto !important;
   }
-  #grid-favoritos .card-product .btn.btn-light{
+
+  #grid-favoritos .card-product .btn.btn-light {
     font-size: 1rem;
     height: 4rem;
     width: 4rem;
     font-weight: bold;
   }
 
-  button.buttonFavCard i{
+  button.buttonFavCard i {
     font-size: 1.5rem;
   }
+
   .VerProductos,
-  .ocultaMobile{
+  .ocultaMobile {
     display: none;
   }
 
-  #adminActions button{
+  #adminActions button {
     font-size: 3rem;
   }
 
-  button#btnVistaPedidos{
+  button#btnVistaPedidos {
     font-size: 1.3rem;
     padding: 0;
     margin: 0 !important;
   }
 
-  .buttons-navbar button{
+  .buttons-navbar button {
     padding: 0;
     margin: .6rem;
   }
 
-  div#carouselExample{
+  div#carouselExample {
     border-radius: 0 !important;
   }
 
   .card.card-product .card-body,
   .modal.modalProductDetalle .modal-dialog .modal-body,
-  #cartModal .modal-dialog .modal-body{
+  #cartModal .modal-dialog .modal-body {
     padding: .2rem .5rem;
   }
-  .modal.modalProductDetalle .modal-dialog .modal-body .rounded{
+
+  .modal.modalProductDetalle .modal-dialog .modal-body .rounded {
     padding: 0 !important;
   }
 
   .modal.modalProductDetalle .modal-dialog,
-  #cartModal .modal-dialog{
+  #cartModal .modal-dialog {
     width: 90%;
     top: 1rem;
     margin: 0 auto;
   }
 
-  .modal-dialog .modal-header{
+  .modal-dialog .modal-header {
     padding: .5rem 1rem;
   }
+
   #cartModal .modal-dialog .modal-header button,
-  #cartModal .modal-dialog .modal-header .modal-title{
+  #cartModal .modal-dialog .modal-header .modal-title {
     font-size: 1rem;
   }
 

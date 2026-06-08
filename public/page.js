@@ -1,172 +1,172 @@
 
-  let serviceEmailJs = "service_p1gef1a"
-  let publicKey = "zwpiAkNTP3O-Pu5wt"
-  let templateIDEmail = "template_ke6sxqa"
-  // Configuración de tu proyecto
-  const firebaseConfig = { 
-    apiKey: "AIzaSyC7tdpXaE5bwRFPb8HLOHNtF0lf_skt7Ss", 
-    authDomain: "bolsos-665b1.firebaseapp.com", 
-    projectId: "bolsos-665b1", 
-    storageBucket: "bolsos-665b1.firebasestorage.app", 
-    messagingSenderId: "796560660034", 
-    appId: "1:796560660034:web:7f529b4ed27314e0afbfdb", 
-    measurementId: "G-K3RYL1GL6Z" 
-  };
+let serviceEmailJs = "service_p1gef1a"
+let publicKey = "zwpiAkNTP3O-Pu5wt"
+let templateIDEmail = "template_ke6sxqa"
+// Configuración de tu proyecto
+const firebaseConfig = {
+    apiKey: "AIzaSyC7tdpXaE5bwRFPb8HLOHNtF0lf_skt7Ss",
+    authDomain: "bolsos-665b1.firebaseapp.com",
+    projectId: "bolsos-665b1",
+    storageBucket: "bolsos-665b1.firebasestorage.app",
+    messagingSenderId: "796560660034",
+    appId: "1:796560660034:web:7f529b4ed27314e0afbfdb",
+    measurementId: "G-K3RYL1GL6Z"
+};
 
-  // 2. INICIALIZACIÓN SEGURA (Evita el error de "No App created")
-  if (!firebase.apps.length) {
+// 2. INICIALIZACIÓN SEGURA (Evita el error de "No App created")
+if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-  }
-  
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+}
 
-  // Gestión de estado de autenticación
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Gestión de estado de autenticación
 auth.onAuthStateChanged((user) => {
-  let contentButton = document.getElementById('authBtn');
-  
-  if (user) {
-    db.collection("usuarios").doc(user.uid).get().then(async (doc) => {
-      if (doc.exists) {
-        if (!contentButton.classList.contains('hidenContent')) contentButton.classList.add('hidenContent');
-        const perfil = doc.data();
-        contentButton.innerHTML = `
+    let contentButton = document.getElementById('authBtn');
+
+    if (user) {
+        db.collection("usuarios").doc(user.uid).get().then(async (doc) => {
+            if (doc.exists) {
+                if (!contentButton.classList.contains('hidenContent')) contentButton.classList.add('hidenContent');
+                const perfil = doc.data();
+                contentButton.innerHTML = `
           <span id="userName">Bienvenido ${perfil.nombre.split(" ")[0]}</span>
           <span class="badge bg-primary" id="roolUserActive">${perfil.rol}</span>`;
-        
-        document.getElementById('btnRegModal').style.display = "none";
-        document.getElementById('btnInitModal').style.display = "none";
-        document.getElementById('btnPerfil').classList.remove('d-none');
-        document.getElementById('footer-img-2').style.display = "block"
-        
-        configurarBotonPedidos(perfil);
-        appData.rol = perfil.rol;
-        appData.perfil = perfil;
-        
-        obtenerFavoritosDelUsuario();
 
-        // --- LÓGICA DE CARRITO AL INICIAR SESIÓN ---
-        await sincronizarCarritoAlLogin(user.uid);
-        if (perfil.rol === 'administrador') {
-          cargarProductosSegunRol('administrador', perfil);
-          document.getElementById("inserImgAdmin").style.display = "block";
-          document.getElementById("btnFooterupImaId").style.display = "block";
-        } else {
-          cargarProductosSegunRol(perfil.rol, perfil);
-        }
-      } else {
+                document.getElementById('btnRegModal').style.display = "none";
+                document.getElementById('btnInitModal').style.display = "none";
+                document.getElementById('btnPerfil').classList.remove('d-none');
+                document.getElementById('footer-img-2').style.display = "block"
+
+                configurarBotonPedidos(perfil);
+                appData.rol = perfil.rol;
+                appData.perfil = perfil;
+
+                obtenerFavoritosDelUsuario();
+
+                // --- LÓGICA DE CARRITO AL INICIAR SESIÓN ---
+                await sincronizarCarritoAlLogin(user.uid);
+                if (perfil.rol === 'administrador') {
+                    cargarProductosSegunRol('administrador', perfil);
+                    document.getElementById("inserImgAdmin").style.display = "block";
+                    document.getElementById("btnFooterupImaId").style.display = "block";
+                } else {
+                    cargarProductosSegunRol(perfil.rol, perfil);
+                }
+            } else {
+                // Al cerrar sesión, limpiamos el carrito local para privacidad
+                appData.carrito = [];
+                localStorage.removeItem('carrito_libreaura');
+                updateCartUI();
+
+                contentButton.innerHTML = `
+          <button class="btn btn-sm btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
+          <button class="btn btn-sm btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
+
+                cargarProductosSegunRol('visitante', appData);
+                contentButton.classList.remove('hidenContent');
+            }
+        }).catch(err => console.error("Error al obtener perfil:", err));
+    } else {
         // Al cerrar sesión, limpiamos el carrito local para privacidad
         appData.carrito = [];
         localStorage.removeItem('carrito_libreaura');
         updateCartUI();
 
         contentButton.innerHTML = `
-          <button class="btn btn-sm btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
-          <button class="btn btn-sm btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
-        
-        cargarProductosSegunRol('visitante', appData);
-        contentButton.classList.remove('hidenContent');
-      }
-    }).catch(err => console.error("Error al obtener perfil:", err));
-  } else {
-    // Al cerrar sesión, limpiamos el carrito local para privacidad
-    appData.carrito = [];
-    localStorage.removeItem('carrito_libreaura');
-    updateCartUI();
-
-    contentButton.innerHTML = `
       <button class="btn btn-sm btnIniciarSesion" data-bs-toggle="modal" data-bs-target="#regModal" id="btnRegModal">Registrarse</button>
       <button class="btn btn-sm btnRegistrarse" data-bs-toggle="modal" data-bs-target="#initModal" id="btnInitModal">Iniciar Sesion</button>`;
-    
-    cargarProductosSegunRol('visitante', appData);
-    contentButton.classList.remove('hidenContent');
-  }
+
+        cargarProductosSegunRol('visitante', appData);
+        contentButton.classList.remove('hidenContent');
+    }
 });
 
 // Función de Inicio de Sesión
 function inicioSesionUser() {
-  const email = document.getElementById('loginEmail').value;
-  const pass = document.getElementById('loginPassword').value;
+    const email = document.getElementById('loginEmail').value;
+    const pass = document.getElementById('loginPassword').value;
 
-  const btn = event.submitter || document.querySelector('#initForm button[type="submit"]');
-  const originalText = btn.innerHTML;
+    const btn = event.submitter || document.querySelector('#initForm button[type="submit"]');
+    const originalText = btn.innerHTML;
 
-  btn.disabled = true;
-  btn.innerHTML = `
+    btn.disabled = true;
+    btn.innerHTML = `
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     Procesando...`;
 
-  auth.signInWithEmailAndPassword(email, pass)
-    .then((userCredential) => {
-      btn.disabled = false;
-      btn.innerHTML = originalText;
-      const regModal = bootstrap.Modal.getInstance(document.getElementById('initModal'));
-      if (regModal) regModal.hide();
-    })
-    .catch((error) => {
-      btn.disabled = false;
-      btn.innerHTML = originalText;
-      console.error("Error de login:", error.code);
-      alert("Error: " + error.message);
-    });
+    auth.signInWithEmailAndPassword(email, pass)
+        .then((userCredential) => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            const regModal = bootstrap.Modal.getInstance(document.getElementById('initModal'));
+            if (regModal) regModal.hide();
+        })
+        .catch((error) => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            console.error("Error de login:", error.code);
+            alert("Error: " + error.message);
+        });
 }
 
- // Función de apoyo para no saturar el onAuthStateChanged
+// Función de apoyo para no saturar el onAuthStateChanged
 async function sincronizarCarritoAlLogin(userId) {
-  try {
-    const cartDoc = await db.collection("carritos").doc(userId).get();
-    let carritoNube = [];
+    try {
+        const cartDoc = await db.collection("carritos").doc(userId).get();
+        let carritoNube = [];
 
-    if (cartDoc.exists) {
-      carritoNube = cartDoc.data().items || [];
+        if (cartDoc.exists) {
+            carritoNube = cartDoc.data().items || [];
+        }
+
+        // Obtenemos lo que el usuario agregó antes de loguearse
+        const carritoLocal = JSON.parse(localStorage.getItem('carrito_libreaura')) || [];
+
+        // Mezclamos ambos carritos evitando duplicar el mismo ID de producto
+        // Nota: Esta lógica asume que el objeto tiene 'idProducto'
+        const mapaCarrito = new Map();
+
+        [...carritoNube, ...carritoLocal].forEach(item => {
+            mapaCarrito.set(item.idProducto, item);
+        });
+
+        appData.carrito = Array.from(mapaCarrito.values());
+
+        // Guardamos la versión final mezclada en ambos sitios
+        localStorage.setItem('carrito_libreaura', JSON.stringify(appData.carrito));
+        await db.collection("carritos").doc(userId).set({
+            items: appData.carrito,
+            ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        updateCartUI();
+    } catch (error) {
+        console.error("Error sincronizando carrito:", error);
     }
-
-    // Obtenemos lo que el usuario agregó antes de loguearse
-    const carritoLocal = JSON.parse(localStorage.getItem('carrito_libreaura')) || [];
-
-    // Mezclamos ambos carritos evitando duplicar el mismo ID de producto
-    // Nota: Esta lógica asume que el objeto tiene 'idProducto'
-    const mapaCarrito = new Map();
-    
-    [...carritoNube, ...carritoLocal].forEach(item => {
-      mapaCarrito.set(item.idProducto, item);
-    });
-
-    appData.carrito = Array.from(mapaCarrito.values());
-    
-    // Guardamos la versión final mezclada en ambos sitios
-    localStorage.setItem('carrito_libreaura', JSON.stringify(appData.carrito));
-    await db.collection("carritos").doc(userId).set({
-      items: appData.carrito,
-      ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    updateCartUI();
-  } catch (error) {
-    console.error("Error sincronizando carrito:", error);
-  }
 }
 
-    let appData = {
-        rol: 'visitante',
-        usuario: null,
-        productos: [],
-        bolsos: [],
-        llaveritos: [],
-        ropa: [],
-        sombreros: []
-    };
-    let cart = [];
+let appData = {
+    rol: 'visitante',
+    usuario: null,
+    productos: [],
+    bolsos: [],
+    llaveritos: [],
+    ropa: [],
+    sombreros: []
+};
+let cart = [];
 
-    function renderizarTarjetaProducto(p, contenedor, perfil, idPedido) {
-        const imagen = p.imagenes ? p.imagenes.split(',')[0] : '';
-        const sinStock = parseInt(p.stock) <= 0;
-        // VERIFICACIÓN: ¿Este producto está en mis favoritos?
-        const esFav = idsFavoritosUser.includes(p.idProducto);
-        // 3. Crear el HTML de la tarjeta (Card)
-        if(!sinStock){
-          
-          contenedor.innerHTML += `
+function renderizarTarjetaProducto(p, contenedor, perfil, idPedido) {
+    const imagen = p.imagenes ? p.imagenes.split(',')[0] : '';
+    const sinStock = parseInt(p.stock) <= 0;
+    // VERIFICACIÓN: ¿Este producto está en mis favoritos?
+    const esFav = idsFavoritosUser.includes(p.idProducto);
+    // 3. Crear el HTML de la tarjeta (Card)
+    if (!sinStock) {
+
+        contenedor.innerHTML += `
         <div class="card-item col-6 col-md-6 col-lg-3 mb-4">
           <div class="card card-product h-100 ${sinStock ? 'out-of-stock' : ''}">
 
@@ -184,7 +184,7 @@ async function sincronizarCarritoAlLogin(userId) {
               
 
               ${sinStock ?
-                  '<div class="alert alert-danger p-1 text-center small mb-0">AGOTADO</div></div>' : `
+                '<div class="alert alert-danger p-1 text-center small mb-0">AGOTADO</div></div>' : `
                       <div class="actionsContentProduct d-flex gap-2">
                           <button id="fav-btn-${idPedido}" class="btn-icon-solo favorito" onclick="toggleFavorito('${idPedido}')">
                           <i class="bi bi-heart"></i>
@@ -209,15 +209,15 @@ async function sincronizarCarritoAlLogin(userId) {
             </div>
           </div>
         </div>`;
-        }
     }
-    function renderizarTarjetallaverito(p, contenedor, perfil, idPedido) {
-        const imagen = p.imagenes ? p.imagenes.split(',')[0] : '';
-        const sinStock = parseInt(p.stock) <= 0;
-        // VERIFICACIÓN: ¿Este producto está en mis favoritos?
-        const esFav = idsFavoritosUser.includes(p.idProducto);
-        // 3. Crear el HTML de la tarjeta (Card)
-        contenedor.innerHTML += `
+}
+function renderizarTarjetallaverito(p, contenedor, perfil, idPedido) {
+    const imagen = p.imagenes ? p.imagenes.split(',')[0] : '';
+    const sinStock = parseInt(p.stock) <= 0;
+    // VERIFICACIÓN: ¿Este producto está en mis favoritos?
+    const esFav = idsFavoritosUser.includes(p.idProducto);
+    // 3. Crear el HTML de la tarjeta (Card)
+    contenedor.innerHTML += `
       <div class="card-item col-5 col-md-5 col-lg-2 mb-4">
           <img src="${imagen}" class="card-img-top product-img" style="cursor: pointer; object-fit: cover; height: 200px;"
             onclick="verDetalle('${idPedido}')">
@@ -231,148 +231,148 @@ async function sincronizarCarritoAlLogin(userId) {
               </button>
             </div>` : ''}
       </div>`
+}
+
+function cargarProductosSegunRol(rolUsuario, perfil) {
+    const contenedor = document.getElementById('contenedor-productos');
+    contenedor.innerHTML = '<div class="text-center w-100">Cargando catálogo...</div>';
+    appData.productos = [];
+    appData.bolsos = [];
+    appData.llaveritos = [];
+    appData.ropa = [];
+    appData.sombreros = [];
+    let consulta = db.collection("productos");
+    // Aplicamos la lógica de filtros
+    if (rolUsuario === 'proveedor' || rolUsuario === 'clientes') {
+        document.getElementById("roolUserActive").innerHTML = rolUsuario
+    }
+    if (rolUsuario === 'cliente') {
+        document.querySelectorAll(".btn-proveedor-footer").forEach(item => {
+            item.style = "display:block"
+            item.innerHTML = "Cliente Mayorista"
+        })
+    }
+    if (rolUsuario === 'administrador') {
+        // Los administradores ven TODO, no añadimos filtros a la consulta
+        console.log("Modo Admin: Viendo todos los productos");
+    }
+    else if (rolUsuario === 'proveedor') {
+        // Los proveedores ven solo sus productos específicos
+        consulta = consulta.where("tipoCliente", "==", "proveedor");
+        document.querySelectorAll(".btn-proveedor-footer").forEach(item => {
+            item.style = "display:block"
+            item.innerHTML = "Cliente"
+        })
+    }
+    else {
+        // Clientes y visitantes ven solo productos de cliente
+        consulta = consulta.where("tipoCliente", "==", "cliente");
     }
 
-    function cargarProductosSegunRol(rolUsuario, perfil) {
-        const contenedor = document.getElementById('contenedor-productos');
-        contenedor.innerHTML = '<div class="text-center w-100">Cargando catálogo...</div>';
-        appData.productos = [];
-        appData.bolsos = [];
-        appData.llaveritos = [];
-        appData.ropa = [];
-        appData.sombreros = [];
-        let consulta = db.collection("productos");
-        // Aplicamos la lógica de filtros
-        if (rolUsuario === 'proveedor' || rolUsuario === 'clientes') {
-            document.getElementById("roolUserActive").innerHTML = rolUsuario
-        }
-        if (rolUsuario === 'cliente') {
-            document.querySelectorAll(".btn-proveedor-footer").forEach(item => {
-                item.style = "display:block"
-                item.innerHTML = "Cliente Mayorista"
-            })
-        }
-        if (rolUsuario === 'administrador') {
-            // Los administradores ven TODO, no añadimos filtros a la consulta
-            console.log("Modo Admin: Viendo todos los productos");
-        }
-        else if (rolUsuario === 'proveedor') {
-            // Los proveedores ven solo sus productos específicos
-            consulta = consulta.where("tipoCliente", "==", "proveedor");
-            document.querySelectorAll(".btn-proveedor-footer").forEach(item => {
-                item.style = "display:block"
-                item.innerHTML = "Cliente"
-            })
-        }
-        else {
-            // Clientes y visitantes ven solo productos de cliente
-            consulta = consulta.where("tipoCliente", "==", "cliente");
-        }
+    // Ejecutamos la consulta final
+    consulta.get()
+        .then((querySnapshot) => {
+            contenedor.innerHTML = '';
+            if (querySnapshot.empty) {
+                contenedor.innerHTML = '<p class="text-center w-100">No hay productos disponibles para este perfil.</p>';
+                return;
+            }
 
-        // Ejecutamos la consulta final
-        consulta.get()
-            .then((querySnapshot) => {
-                contenedor.innerHTML = '';
-                if (querySnapshot.empty) {
-                    contenedor.innerHTML = '<p class="text-center w-100">No hay productos disponibles para este perfil.</p>';
-                    return;
+            // 1. Separar los productos por tipo
+
+            querySnapshot.forEach((doc) => {
+                const p = doc.data();
+                p.idFirestore = doc.id; // Guardamos el ID por si lo necesitas
+
+                if (p.tipoProducto === 'bolsos') {
+                    appData.bolsos.push(p);
+                } else if (p.tipoProducto === 'llavero') {
+                    appData.llaveritos.push(p);
+                } else if (p.tipoProducto === 'ropa') {
+                    appData.ropa.push(p);
+                } else if (p.tipoProducto === 'sobrero') {
+                    appData.sombreros.push(p);
                 }
 
-                // 1. Separar los productos por tipo
-
-                querySnapshot.forEach((doc) => {
-                    const p = doc.data();
-                    p.idFirestore = doc.id; // Guardamos el ID por si lo necesitas
-
-                    if (p.tipoProducto === 'bolsos') {
-                        appData.bolsos.push(p);
-                    } else if (p.tipoProducto === 'llavero') {
-                        appData.llaveritos.push(p);
-                    } else if (p.tipoProducto === 'ropa') {
-                        appData.ropa.push(p);
-                    } else if (p.tipoProducto === 'sobrero') {
-                        appData.sombreros.push(p);
-                    }
-
-                    // Mantenemos tu actualización de datos global
-                    appData.productos.push(p);
-                });
-
-                // 2. Intercalar (8 bolsos y 5 llaveritos)
-                let i = 0;
-
-                while (i < appData.productos.length) {
-                    // Pintar hasta 8 bolsos
-                    for (let count = 0; i < appData.productos.length; count++) {
-                        renderizarTarjetaProducto(appData.productos[i], contenedor, perfil, appData.productos[i].idProducto);
-                        i++;
-                    }
-                }
-            })
-            .catch((error) => {
-                console.error("Error al filtrar productos:", error);
+                // Mantenemos tu actualización de datos global
+                appData.productos.push(p);
             });
+
+            // 2. Intercalar (8 bolsos y 5 llaveritos)
+            let i = 0;
+
+            while (i < appData.productos.length) {
+                // Pintar hasta 8 bolsos
+                for (let count = 0; i < appData.productos.length; count++) {
+                    renderizarTarjetaProducto(appData.productos[i], contenedor, perfil, appData.productos[i].idProducto);
+                    i++;
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error al filtrar productos:", error);
+        });
+}
+
+
+
+function updateCartUI() {
+
+    const btnFinalizar = document.getElementById('btnFinalizarCompra');
+    const alertaProveedor = document.getElementById('alertaMinimoProveedor'); // Un nuevo div para el mensaje
+
+    if (cart.length > 0) {
+        btnFinalizar.disabled = false;
+
+        // Si no está registrado, cambiamos el color o el texto para avisar
+        if (appData.rol === 'visitante') {
+            btnFinalizar.innerHTML = 'Regístrate para comprar';
+            btnFinalizar.classList.replace('btn-success', 'btn-warning');
+        } else {
+            btnFinalizar.innerHTML = 'Finalizar Compra';
+            btnFinalizar.classList.replace('btn-warning', 'btn-success');
+        }
+    } else {
+        btnFinalizar.disabled = true;
     }
 
+    let permiteCompra = true;
+    let mensajeError = "";
 
-
-    function updateCartUI() {
-
-        const btnFinalizar = document.getElementById('btnFinalizarCompra');
-        const alertaProveedor = document.getElementById('alertaMinimoProveedor'); // Un nuevo div para el mensaje
-
-        if (cart.length > 0) {
-            btnFinalizar.disabled = false;
-
-            // Si no está registrado, cambiamos el color o el texto para avisar
-            if (appData.rol === 'visitante') {
-                btnFinalizar.innerHTML = 'Regístrate para comprar';
-                btnFinalizar.classList.replace('btn-success', 'btn-warning');
-            } else {
-                btnFinalizar.innerHTML = 'Finalizar Compra';
-                btnFinalizar.classList.replace('btn-warning', 'btn-success');
+    // 1. Validar solo si es proveedor
+    if (appData.rol === 'proveedor') {
+        cart.forEach(item => {
+            if (item.cantidad < 4) {
+                permiteCompra = false;
+                mensajeError = `El producto "${item.nombre}" requiere un mínimo de 4 unidades para realizar la compra.`;
             }
-        } else {
-            btnFinalizar.disabled = true;
+        });
+    }
+
+    // 2. Controlar el botón de finalizar
+    if (cart.length > 0 && permiteCompra) {
+        btnFinalizar.disabled = false;
+        if (alertaProveedor) alertaProveedor.classList.add('d-none');
+    } else {
+        btnFinalizar.disabled = true;
+        if (alertaProveedor && cart.length > 0 && !permiteCompra) {
+            alertaProveedor.innerText = mensajeError;
+            alertaProveedor.classList.remove('d-none');
         }
+    }
 
-        let permiteCompra = true;
-        let mensajeError = "";
+    const cartCount = document.getElementById('cartCount');
+    cartCount.innerText = cart.reduce((a, b) => a + b.cantidad, 0);
 
-        // 1. Validar solo si es proveedor
-        if (appData.rol === 'proveedor') {
-            cart.forEach(item => {
-                if (item.cantidad < 4) {
-                    permiteCompra = false;
-                    mensajeError = `El producto "${item.nombre}" requiere un mínimo de 4 unidades para realizar la compra.`;
-                }
-            });
-        }
+    const body = document.getElementById('cartItems');
+    let total = 0;
 
-        // 2. Controlar el botón de finalizar
-        if (cart.length > 0 && permiteCompra) {
-            btnFinalizar.disabled = false;
-            if (alertaProveedor) alertaProveedor.classList.add('d-none');
-        } else {
-            btnFinalizar.disabled = true;
-            if (alertaProveedor && cart.length > 0 && !permiteCompra) {
-                alertaProveedor.innerText = mensajeError;
-                alertaProveedor.classList.remove('d-none');
-            }
-        }
+    body.innerHTML = cart.map((item, i) => {
+        total += item.precio * item.cantidad;
 
-        const cartCount = document.getElementById('cartCount');
-        cartCount.innerText = cart.reduce((a, b) => a + b.cantidad, 0);
-
-        const body = document.getElementById('cartItems');
-        let total = 0;
-
-        body.innerHTML = cart.map((item, i) => {
-            total += item.precio * item.cantidad;
-
-            // Verificamos si este ítem ya alcanzó su stock máximo
-            const reachesLimit = item.cantidad >= item.stock;
-            return `
+        // Verificamos si este ítem ya alcanzó su stock máximo
+        const reachesLimit = item.cantidad >= item.stock;
+        return `
                 <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
                     <div>
                     <div class="fw-bold">${item.nombre}</div>
@@ -394,190 +394,190 @@ async function sincronizarCarritoAlLogin(userId) {
                     <button class="btn btn-link btn-sm text-danger d-block w-100 p-0" onclick="eliminar(${i})">Eliminar</button>
                     </div>
                 </div>`;
-        }).join('');
+    }).join('');
 
-        document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+    document.getElementById('cartTotal').innerText = `Total: $${total.toFixed(2)}`;
+}
+
+async function cambiarCant(i, delta) {
+    const itemEnCarrito = cart[i];
+
+    // --- (Aquí mantienes tu lógica de validación de stock) ---
+
+    itemEnCarrito.cantidad += delta;
+
+    if (itemEnCarrito.cantidad <= 0) {
+        return eliminar(i);
     }
 
-    async function cambiarCant(i, delta) {
-        const itemEnCarrito = cart[i];
+    // 1. Actualizar la interfaz inmediatamente para que el usuario vea el cambio
+    updateCartUI();
 
-        // --- (Aquí mantienes tu lógica de validación de stock) ---
+    // --- 2. PERSISTENCIA DE DATOS ---
 
-        itemEnCarrito.cantidad += delta;
+    // A. Guardar en LocalStorage (Para que no se pierda al recargar)
+    localStorage.setItem('carrito_libreaura', JSON.stringify(cart));
 
-        if (itemEnCarrito.cantidad <= 0) {
-            return eliminar(i);
-        }
-
-        // 1. Actualizar la interfaz inmediatamente para que el usuario vea el cambio
-        updateCartUI();
-
-        // --- 2. PERSISTENCIA DE DATOS ---
-
-        // A. Guardar en LocalStorage (Para que no se pierda al recargar)
-        localStorage.setItem('carrito_libreaura', JSON.stringify(cart));
-
-        // B. Sincronizar con Firebase (Para persistencia en la cuenta del usuario)
-        const user = firebase.auth().currentUser;
-        if (user) {
-            try {
-                await db.collection("carritos").doc(user.uid).set({
-                    items: cart,
-                    ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            } catch (error) {
-                console.error("Error al actualizar cantidad en la nube:", error);
-            }
-        }
-
-        // --- 3. Lógica de habilitación de botones en la tienda ---
-        const indexOriginal = appData.productos.findIndex(p =>
-            p.rowIdx === itemEnCarrito.rowIdx && p.hojaOrigen === itemEnCarrito.hojaOrigen
-        );
-
-        if (indexOriginal !== -1) {
-            const productoOriginal = appData.productos[indexOriginal];
-            if (itemEnCarrito.cantidad < productoOriginal.stock) {
-                const btn = document.querySelector(`button[onclick="addToCart(${indexOriginal})"]`);
-                if (btn) {
-                    btn.disabled = false;
-                    btn.classList.replace('btn-secondary', 'btn-dark');
-                    btn.innerText = "Agregar Carrito";
-                }
-            }
+    // B. Sincronizar con Firebase (Para persistencia en la cuenta del usuario)
+    const user = firebase.auth().currentUser;
+    if (user) {
+        try {
+            await db.collection("carritos").doc(user.uid).set({
+                items: cart,
+                ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (error) {
+            console.error("Error al actualizar cantidad en la nube:", error);
         }
     }
 
-    async function eliminar(i) {
-        // 1. Identificar qué producto estamos eliminando
-        const itemAEliminar = cart[i];
+    // --- 3. Lógica de habilitación de botones en la tienda ---
+    const indexOriginal = appData.productos.findIndex(p =>
+        p.rowIdx === itemEnCarrito.rowIdx && p.hojaOrigen === itemEnCarrito.hojaOrigen
+    );
 
-        // 2. Buscar el índice de ese producto en la lista principal
-        const indexOriginal = appData.productos.findIndex(p =>
-            p.rowIdx === itemAEliminar.rowIdx && p.hojaOrigen === itemAEliminar.hojaOrigen
-        );
-
-        // 3. Eliminar el producto del array del carrito
-        cart.splice(i, 1);
-
-        // 4. Actualizar la interfaz del carrito (contador y lista)
-        updateCartUI();
-
-        // --- 5. PERSISTENCIA DE DATOS (Sincronización) ---
-
-        // A. Actualizar LocalStorage inmediatamente
-        localStorage.setItem('carrito_libreaura', JSON.stringify(cart));
-
-        // B. Sincronizar con Firebase si el usuario está autenticado
-        const user = firebase.auth().currentUser;
-        if (user) {
-            try {
-                await db.collection("carritos").doc(user.uid).set({
-                    items: cart,
-                    ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                console.log("Carrito actualizado en la base de datos tras eliminar producto.");
-            } catch (error) {
-                console.error("Error al sincronizar eliminación con Firebase:", error);
-            }
-        }
-
-        // 6. HABILITAR EL BOTÓN EN LA TIENDA
-        if (indexOriginal !== -1) {
+    if (indexOriginal !== -1) {
+        const productoOriginal = appData.productos[indexOriginal];
+        if (itemEnCarrito.cantidad < productoOriginal.stock) {
             const btn = document.querySelector(`button[onclick="addToCart(${indexOriginal})"]`);
             if (btn) {
                 btn.disabled = false;
                 btn.classList.replace('btn-secondary', 'btn-dark');
                 btn.innerText = "Agregar Carrito";
             }
-
-            const qtyInput = document.getElementById(`qty-${indexOriginal}`);
-            if (qtyInput) qtyInput.value = 1;
         }
+    }
+}
 
-        mostrarNotificacion("Producto eliminado del carrito", "success");
+async function eliminar(i) {
+    // 1. Identificar qué producto estamos eliminando
+    const itemAEliminar = cart[i];
+
+    // 2. Buscar el índice de ese producto en la lista principal
+    const indexOriginal = appData.productos.findIndex(p =>
+        p.rowIdx === itemAEliminar.rowIdx && p.hojaOrigen === itemAEliminar.hojaOrigen
+    );
+
+    // 3. Eliminar el producto del array del carrito
+    cart.splice(i, 1);
+
+    // 4. Actualizar la interfaz del carrito (contador y lista)
+    updateCartUI();
+
+    // --- 5. PERSISTENCIA DE DATOS (Sincronización) ---
+
+    // A. Actualizar LocalStorage inmediatamente
+    localStorage.setItem('carrito_libreaura', JSON.stringify(cart));
+
+    // B. Sincronizar con Firebase si el usuario está autenticado
+    const user = firebase.auth().currentUser;
+    if (user) {
+        try {
+            await db.collection("carritos").doc(user.uid).set({
+                items: cart,
+                ultimaActualizacion: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("Carrito actualizado en la base de datos tras eliminar producto.");
+        } catch (error) {
+            console.error("Error al sincronizar eliminación con Firebase:", error);
+        }
     }
 
-    function registrar(event) {
-        // 0. Evitar que la página se recargue
-        if (event) event.preventDefault();
+    // 6. HABILITAR EL BOTÓN EN LA TIENDA
+    if (indexOriginal !== -1) {
+        const btn = document.querySelector(`button[onclick="addToCart(${indexOriginal})"]`);
+        if (btn) {
+            btn.disabled = false;
+            btn.classList.replace('btn-secondary', 'btn-dark');
+            btn.innerText = "Agregar Carrito";
+        }
 
-        const btn = document.querySelector('#regForm button[type="submit"]');
-        const originalText = btn.innerHTML;
+        const qtyInput = document.getElementById(`qty-${indexOriginal}`);
+        if (qtyInput) qtyInput.value = 1;
+    }
 
-        // 1. ACTIVAR LOADER
-        btn.disabled = true;
-        btn.innerHTML = `
+    mostrarNotificacion("Producto eliminado del carrito", "success");
+}
+
+function registrar(event) {
+    // 0. Evitar que la página se recargue
+    if (event) event.preventDefault();
+
+    const btn = document.querySelector('#regForm button[type="submit"]');
+    const originalText = btn.innerHTML;
+
+    // 1. ACTIVAR LOADER
+    btn.disabled = true;
+    btn.innerHTML = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Procesando registro...
     `;
 
-        // 2. CAPTURAR DATOS (Asegúrate de que estos IDs existan en tu HTML)
-        const datos = {
-            correo: document.getElementById('rEmail').value,
-            pass: document.getElementById('rPass').value,
-            nombre: document.getElementById('rNom').value,
-            telefono: document.getElementById('rTel').value,
-            direccion: document.getElementById('rDir').value,
-            tipo: document.getElementById('rTipo').value,
-            refIndi: document.getElementById("rIndRef").value
-        };
+    // 2. CAPTURAR DATOS (Asegúrate de que estos IDs existan en tu HTML)
+    const datos = {
+        correo: document.getElementById('rEmail').value,
+        pass: document.getElementById('rPass').value,
+        nombre: document.getElementById('rNom').value,
+        telefono: document.getElementById('rTel').value,
+        direccion: document.getElementById('rDir').value,
+        tipo: document.getElementById('rTipo').value,
+        refIndi: document.getElementById("rIndRef").value
+    };
 
-        // 3. Crear el usuario en Authentication
-        // NOTA: Usamos datos.correo y datos.pass
-        firebase.auth().createUserWithEmailAndPassword(datos.correo, datos.pass)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log("Cuenta creada:", user.uid);
+    // 3. Crear el usuario en Authentication
+    // NOTA: Usamos datos.correo y datos.pass
+    firebase.auth().createUserWithEmailAndPassword(datos.correo, datos.pass)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log("Cuenta creada:", user.uid);
 
-                // 4. Guardar los datos adicionales en FIRESTORE
-                // Usamos las propiedades del objeto 'datos'
-                return db.collection("usuarios").doc(user.uid).set({
-                    nombre: datos.nombre,
-                    email: datos.correo,
-                    telefono: datos.telefono,
-                    direccion: datos.direccion,
-                    indicaciones: datos.refIndi,
-                    rol: datos.tipo,
-                    fechaRegistro: new Date().toISOString()
-                });
-            })
-            .then(() => {
-                // RESTAURAR BOTÓN
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-
-                // MOSTRAR EL BOTÓN DE PERFIL
-                const btnPerfil = document.getElementById('btnPerfil');
-                if (btnPerfil) btnPerfil.classList.remove('d-none');
-
-                // CERRAR MODAL DE REGISTRO
-                const regModalElem = document.getElementById('regModal');
-                if (regModalElem) {
-                    const regModal = bootstrap.Modal.getInstance(regModalElem) || new bootstrap.Modal(regModalElem);
-                    regModal.hide();
-                }
-
-                // MOSTRAR MODAL DE ÉXITO
-                const exitoElem = document.getElementById('modalRegistroExitoso');
-                if (exitoElem) {
-                    const modalExito = new bootstrap.Modal(exitoElem);
-                    modalExito.show();
-                }
-            })
-            .catch((error) => {
-                // IMPORTANTE: Restaurar botón si hay error
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                console.error("Error íntegro:", error);
-                mostrarNotificacion("Error al registrarse: " + error.message, "error");
+            // 4. Guardar los datos adicionales en FIRESTORE
+            // Usamos las propiedades del objeto 'datos'
+            return db.collection("usuarios").doc(user.uid).set({
+                nombre: datos.nombre,
+                email: datos.correo,
+                telefono: datos.telefono,
+                direccion: datos.direccion,
+                indicaciones: datos.refIndi,
+                rol: datos.tipo,
+                fechaRegistro: new Date().toISOString()
             });
-    }
+        })
+        .then(() => {
+            // RESTAURAR BOTÓN
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+
+            // MOSTRAR EL BOTÓN DE PERFIL
+            const btnPerfil = document.getElementById('btnPerfil');
+            if (btnPerfil) btnPerfil.classList.remove('d-none');
+
+            // CERRAR MODAL DE REGISTRO
+            const regModalElem = document.getElementById('regModal');
+            if (regModalElem) {
+                const regModal = bootstrap.Modal.getInstance(regModalElem) || new bootstrap.Modal(regModalElem);
+                regModal.hide();
+            }
+
+            // MOSTRAR MODAL DE ÉXITO
+            const exitoElem = document.getElementById('modalRegistroExitoso');
+            if (exitoElem) {
+                const modalExito = new bootstrap.Modal(exitoElem);
+                modalExito.show();
+            }
+        })
+        .catch((error) => {
+            // IMPORTANTE: Restaurar botón si hay error
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            console.error("Error íntegro:", error);
+            mostrarNotificacion("Error al registrarse: " + error.message, "error");
+        });
+}
 
 async function checkOut() {
     // 1. VERIFICACIONES PREVIAS
-    
+
     if (appData.rol === 'visitante') {
         const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
         if (cartModal) cartModal.hide();
@@ -637,7 +637,7 @@ async function checkOut() {
         cart = [];
         localStorage.removeItem('carrito_libreaura');
         await db.collection("carritos").doc(user.uid).delete();
-       // 5. ENVIAR CORREOS MEDIANTE GMAIL / EMAILJS
+        // 5. ENVIAR CORREOS MEDIANTE GMAIL / EMAILJS
         // Usamos la función que adaptamos anteriormente
         //try {
         //    await enviarCorreoPedido(pedidoData);
@@ -663,115 +663,115 @@ async function checkOut() {
     }
 }
 
-    // Variable global para guardar los datos del usuario actual
-    let datosUsuarioActual = {};
+// Variable global para guardar los datos del usuario actual
+let datosUsuarioActual = {};
 
-    function abrirModalPerfil() {
-        // Cargamos los datos que ya tenemos en appData (obtenidos al iniciar o registrar)
-        // Nota: Asegúrate de que tu función getAppData en el servidor devuelva: nombre, telefono, direccion, rowIdx y hojaOrigen
-        document.getElementById('pNombre').value = appData.perfil.nombre || "";
-        document.getElementById('pTelefono').value = appData.perfil.telefono || "";
-        document.getElementById('pDireccion').value = appData.perfil.direccion || "";
-        document.getElementById('pIndicaciones').value = appData.perfil.indicaciones || "";
-        document.getElementById('pRol').value = appData.perfil.rol || "";
+function abrirModalPerfil() {
+    // Cargamos los datos que ya tenemos en appData (obtenidos al iniciar o registrar)
+    // Nota: Asegúrate de que tu función getAppData en el servidor devuelva: nombre, telefono, direccion, rowIdx y hojaOrigen
+    document.getElementById('pNombre').value = appData.perfil.nombre || "";
+    document.getElementById('pTelefono').value = appData.perfil.telefono || "";
+    document.getElementById('pDireccion').value = appData.perfil.direccion || "";
+    document.getElementById('pIndicaciones').value = appData.perfil.indicaciones || "";
+    document.getElementById('pRol').value = appData.perfil.rol || "";
 
-        new bootstrap.Modal(document.getElementById('modalPerfil')).show();
+    new bootstrap.Modal(document.getElementById('modalPerfil')).show();
+}
+
+async function guardarCambiosPerfil() {
+    const btn = document.getElementById('btnGuardarPerfil');
+    const originalText = btn.innerHTML;
+
+    // 1. Verificar que haya un usuario con sesión activa
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        mostrarNotificacion("No hay una sesión activa. Por favor, inicia sesión.", "warning");
+        return;
     }
 
-    async function guardarCambiosPerfil() {
-        const btn = document.getElementById('btnGuardarPerfil');
-        const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
 
-        // 1. Verificar que haya un usuario con sesión activa
-        const user = firebase.auth().currentUser;
-        if (!user) {
-            mostrarNotificacion("No hay una sesión activa. Por favor, inicia sesión.", "warning");
-            return;
+    // 2. Recolectar los datos del formulario
+    const nuevosDatos = {
+        nombre: document.getElementById('pNombre').value,
+        telefono: document.getElementById('pTelefono').value,
+        direccion: document.getElementById('pDireccion').value,
+        indicaciones: document.getElementById('pIndicaciones').value,
+    };
+
+    try {
+        // 3. Actualizar directamente en la colección 'usuarios' usando el UID del auth
+        await db.collection("usuarios").doc(user.uid).update(nuevosDatos);
+
+        // 4. Éxito: Actualizar interfaz y cerrar modal
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+
+        const modalPerfil = bootstrap.Modal.getInstance(document.getElementById('modalPerfil'));
+        if (modalPerfil) modalPerfil.hide();
+
+        mostrarNotificacion("Perfil actualizado correctamente", "success");
+
+        // Actualizar datos globales en tu aplicación si los usas
+        if (typeof perfil !== 'undefined') {
+            perfil.nombre = nuevosDatos.nombre;
+            // Actualizar otros campos si es necesario
         }
 
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Guardando...';
-
-        // 2. Recolectar los datos del formulario
-        const nuevosDatos = {
-            nombre: document.getElementById('pNombre').value,
-            telefono: document.getElementById('pTelefono').value,
-            direccion: document.getElementById('pDireccion').value,
-            indicaciones: document.getElementById('pIndicaciones').value,
-        };
-
-        try {
-            // 3. Actualizar directamente en la colección 'usuarios' usando el UID del auth
-            await db.collection("usuarios").doc(user.uid).update(nuevosDatos);
-
-            // 4. Éxito: Actualizar interfaz y cerrar modal
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-
-            const modalPerfil = bootstrap.Modal.getInstance(document.getElementById('modalPerfil'));
-            if (modalPerfil) modalPerfil.hide();
-
-            mostrarNotificacion("Perfil actualizado correctamente", "success");
-
-            // Actualizar datos globales en tu aplicación si los usas
-            if (typeof perfil !== 'undefined') {
-                perfil.nombre = nuevosDatos.nombre;
-                // Actualizar otros campos si es necesario
-            }
-
-        } catch (error) {
-            console.error("Error al actualizar perfil:", error);
-            mostrarNotificacion("Hubo un error al guardar los cambios: " + error.message, "error");
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        }
+    } catch (error) {
+        console.error("Error al actualizar perfil:", error);
+        mostrarNotificacion("Hubo un error al guardar los cambios: " + error.message, "error");
+        btn.disabled = false;
+        btn.innerHTML = originalText;
     }
+}
 
-    let mostrandoPedidos = false;
+let mostrandoPedidos = false;
 
-    // 1. Configurar el botón al cargar la app
-    function configurarBotonPedidos(perfil) {
-        const btn = document.getElementById('btnVistaPedidos');
-        if (perfil.rol === 'visitante') return;
+// 1. Configurar el botón al cargar la app
+function configurarBotonPedidos(perfil) {
+    const btn = document.getElementById('btnVistaPedidos');
+    if (perfil.rol === 'visitante') return;
 
-        btn.classList.remove('d-none');
-        btn.innerHTML = (perfil.rol === 'administrador') ? "📦 <span class='ocultaMobile'> Pedidos Solicitados</span>" : "🛍️ <span class='ocultaMobile'>Mis Compras</span>";
-        document.getElementById('adminActions').innerHTML = perfil.rol === 'administrador' ? `
+    btn.classList.remove('d-none');
+    btn.innerHTML = (perfil.rol === 'administrador') ? "📦 <span class='ocultaMobile'> Pedidos Solicitados</span>" : "🛍️ <span class='ocultaMobile'>Mis Compras</span>";
+    document.getElementById('adminActions').innerHTML = perfil.rol === 'administrador' ? `
       <button class="btn btn-sm nuevosProductoadmin" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
         + <span class="ocultaMobile agregarPorductos">Nuevos Productos </span>
       </button>` : '';
-    }
+}
 
-    async function cargarDatosPedidos() {
-        const container = document.getElementById('pedidos-container');
-        container.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-danger"></div><p>Cargando historial...</p></div>';
+async function cargarDatosPedidos() {
+    const container = document.getElementById('pedidos-container');
+    container.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-danger"></div><p>Cargando historial...</p></div>';
 
-        try {
-            let consulta;
-            // 1. Definir la consulta según el rol
-            if (appData.rol === 'administrador') {
-                // El admin ve todos los pedidos, ordenados por fecha
-                consulta = db.collection("pedidos").orderBy("fecha", "desc");
-            } else {
-                // El cliente solo ve los suyos
-                const user = firebase.auth().currentUser;
-                consulta = db.collection("pedidos")
-                    .where("clienteId", "==", user.uid);
-            }
+    try {
+        let consulta;
+        // 1. Definir la consulta según el rol
+        if (appData.rol === 'administrador') {
+            // El admin ve todos los pedidos, ordenados por fecha
+            consulta = db.collection("pedidos").orderBy("fecha", "desc");
+        } else {
+            // El cliente solo ve los suyos
+            const user = firebase.auth().currentUser;
+            consulta = db.collection("pedidos")
+                .where("clienteId", "==", user.uid);
+        }
 
-            const snapshot = await consulta.get();
+        const snapshot = await consulta.get();
 
-            let html = `<div class="d-flex justify-content-between align-items-center mb-4">
+        let html = `<div class="d-flex justify-content-between align-items-center mb-4">
                         <h3>${appData.rol === 'administrador' ? '🛡️ Gestión de Pedidos' : '🛍️ Mis Compras'}</h3>
                         <button class="btn btn-outline-secondary btn-sm" onclick="cargarDatosPedidos()">Volver al catálogo</button>
                     </div>`;
 
-            if (snapshot.empty) {
-                container.innerHTML = html + '<div class="alert alert-light text-center">No se encontraron pedidos.</div>';
-                return;
-            }
+        if (snapshot.empty) {
+            container.innerHTML = html + '<div class="alert alert-light text-center">No se encontraron pedidos.</div>';
+            return;
+        }
 
-            html += `<div class="table-responsive">
+        html += `<div class="table-responsive">
                     <table class="table table-hover mt-3" style="font-size: 0.9rem;">
                         <thead class="table-dark">
                             <tr>
@@ -786,14 +786,14 @@ async function checkOut() {
                         </thead>
                         <tbody>`;
 
-            snapshot.forEach(doc => {
-                const p = doc.data();
-                const id = doc.id;
+        snapshot.forEach(doc => {
+            const p = doc.data();
+            const id = doc.id;
 
-                // Convertimos el array de productos en un texto legible
-                const detalleTexto = p.productos.map(prod => `- ${prod.nombre} (x${prod.cantidad}): ${prod.descripcion}`).join('<br>');
+            // Convertimos el array de productos en un texto legible
+            const detalleTexto = p.productos.map(prod => `- ${prod.nombre} (x${prod.cantidad}): ${prod.descripcion}`).join('<br>');
 
-                html += `
+            html += `
                 <tr>
                     <td><span class="badge bg-light text-dark border">${p.folio}</span></td>
                     <td>
@@ -814,100 +814,100 @@ async function checkOut() {
                         <button class="btn btn-sm btn-primary w-100" onclick="actualizarEstadoPedido('${id}', 'pagoValidado', true)">Marcar Pagado</button>
                     </td>` : ''}
                 </tr>`;
-            });
+        });
 
-            html += '</tbody></table></div>';
-            container.innerHTML = html;
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
 
-        } catch (error) {
-            console.error("Error al cargar pedidos:", error);
-            container.innerHTML = '<div class="alert alert-danger">Error al conectar con la base de datos de pedidos.</div>';
+    } catch (error) {
+        console.error("Error al cargar pedidos:", error);
+        container.innerHTML = '<div class="alert alert-danger">Error al conectar con la base de datos de pedidos.</div>';
+    }
+}
+async function actualizarEstadoPedido(idPedido, campo, valor) {
+    try {
+        const updateData = {};
+        updateData[campo] = valor;
+
+        await db.collection("pedidos").doc(idPedido).update(updateData);
+
+        // Refrescamos la vista para ver los cambios
+        cargarDatosPedidos();
+    } catch (error) {
+        mostrarNotificacion("Error al actualizar: " + error.message, "error");
+    }
+}
+
+function gestionarNavegacion(vistaActual) {
+    const btnProductos = document.getElementById('btn-nav-productos');
+    const btnFavoritos = document.getElementById('favoritosbuttonId');
+    const btnCarrito = document.getElementById('carritobutonId');
+    const contTienda = document.getElementById('contenedor-productos');
+    const contbanner = document.getElementById('banner-carousel-container');
+    const contPedidos = document.getElementById('pedidos-container');
+    const contFavoritos = document.getElementById('favoritos-container');
+
+    // 1. Ocultar todos los contenedores primero
+    contTienda.classList.add('d-none');
+    contbanner.classList.add('d-none');
+    if (contPedidos) contPedidos.classList.add('d-none');
+    if (contFavoritos) contFavoritos.classList.add('d-none');
+    // 2. Lógica de visibilidad del botón "Productos" en el Navbar
+    if (vistaActual === 'tienda') {
+        btnProductos.classList.add('d-none'); // Oculto si ya estoy en la tienda
+        contTienda.classList.remove('d-none');
+        contbanner.classList.remove('d-none');
+        btnFavoritos.classList.remove('d-none');
+    } else {
+        btnProductos.classList.remove('d-none'); // Visible si estoy en favoritos o compras
+
+        if (vistaActual === 'favoritos') {
+            contFavoritos.classList.remove('d-none');
+            btnFavoritos.classList.add('d-none');
+        } else if (vistaActual === 'compras') {
+            contPedidos.classList.remove('d-none');
         }
     }
-    async function actualizarEstadoPedido(idPedido, campo, valor) {
-        try {
-            const updateData = {};
-            updateData[campo] = valor;
+}
 
-            await db.collection("pedidos").doc(idPedido).update(updateData);
+function mostrarVistaTienda() {
+    gestionarNavegacion('tienda');
+    mostrandoFavoritos = false
+}
 
-            // Refrescamos la vista para ver los cambios
-            cargarDatosPedidos();
-        } catch (error) {
-            mostrarNotificacion("Error al actualizar: " + error.message, "error");
-        }
+async function mostrarVistaFavoritos() {
+    gestionarNavegacion('favoritos');
+    cargarFavoritos(); // Tu función que trae los datos de Firebase
+}
+
+function mostrarVistaCompras() {
+    gestionarNavegacion('compras');
+    cargarDatosPedidos(); // Tu función que trae las compras
+}
+
+// Variable global para rastrear favoritos del usuario actual
+let idsFavoritosUser = [];
+
+async function obtenerFavoritosDelUsuario() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        idsFavoritosUser = [];
+        return;
     }
 
-    function gestionarNavegacion(vistaActual) {
-        const btnProductos = document.getElementById('btn-nav-productos');
-        const btnFavoritos = document.getElementById('favoritosbuttonId');
-        const btnCarrito = document.getElementById('carritobutonId');
-        const contTienda = document.getElementById('contenedor-productos');
-        const contbanner = document.getElementById('banner-carousel-container');
-        const contPedidos = document.getElementById('pedidos-container');
-        const contFavoritos = document.getElementById('favoritos-container');
+    try {
+        const snapshot = await db.collection("favoritos")
+            .where("userId", "==", user.uid)
+            .get();
 
-        // 1. Ocultar todos los contenedores primero
-        contTienda.classList.add('d-none');
-        contbanner.classList.add('d-none');
-        if (contPedidos) contPedidos.classList.add('d-none');
-        if (contFavoritos) contFavoritos.classList.add('d-none');
-        // 2. Lógica de visibilidad del botón "Productos" en el Navbar
-        if (vistaActual === 'tienda') {
-            btnProductos.classList.add('d-none'); // Oculto si ya estoy en la tienda
-            contTienda.classList.remove('d-none');
-            contbanner.classList.remove('d-none');
-            btnFavoritos.classList.remove('d-none');
-        } else {
-            btnProductos.classList.remove('d-none'); // Visible si estoy en favoritos o compras
-
-            if (vistaActual === 'favoritos') {
-                contFavoritos.classList.remove('d-none');
-                btnFavoritos.classList.add('d-none');
-            } else if (vistaActual === 'compras') {
-                contPedidos.classList.remove('d-none');
-            }
-        }
+        // Guardamos solo los IDs de los productos en un array simple
+        idsFavoritosUser = snapshot.docs.map(doc => doc.data().idProducto);
+    } catch (error) {
+        console.error("Error obteniendo IDs de favoritos:", error);
     }
+}
 
-    function mostrarVistaTienda() {
-        gestionarNavegacion('tienda');
-        mostrandoFavoritos = false
-    }
-
-    async function mostrarVistaFavoritos() {
-        gestionarNavegacion('favoritos');
-        cargarFavoritos(); // Tu función que trae los datos de Firebase
-    }
-
-    function mostrarVistaCompras() {
-        gestionarNavegacion('compras');
-        cargarDatosPedidos(); // Tu función que trae las compras
-    }
-
-    // Variable global para rastrear favoritos del usuario actual
-    let idsFavoritosUser = [];
-
-    async function obtenerFavoritosDelUsuario() {
-        const user = firebase.auth().currentUser;
-        if (!user) {
-            idsFavoritosUser = [];
-            return;
-        }
-
-        try {
-            const snapshot = await db.collection("favoritos")
-                .where("userId", "==", user.uid)
-                .get();
-
-            // Guardamos solo los IDs de los productos en un array simple
-            idsFavoritosUser = snapshot.docs.map(doc => doc.data().idProducto);
-        } catch (error) {
-            console.error("Error obteniendo IDs de favoritos:", error);
-        }
-    }
-
-    // 1. Instanciar el menú de Bootstrap (ponlo al inicio de tu JS o dentro de un DOMContentLoaded)
+// 1. Instanciar el menú de Bootstrap (ponlo al inicio de tu JS o dentro de un DOMContentLoaded)
 const modalMenuCategorias = new bootstrap.Offcanvas(document.getElementById('menuCategorias'));
 
 /**
@@ -928,34 +928,34 @@ function filtrarPorCategoria(categoria, productos) {
     const contenedor = document.getElementById('contenedor-productos');
     contenedor.innerHTML = '';
     let i = 0;
- 
-    if(productos.length !== 0){
 
-      while (i < productos.length) {
-          // Pintar hasta 8 bolsos
-          for (let count = 0; i < productos.length; count++) {
-              renderizarTarjetaProducto(productos[i], contenedor, appData, productos[i].idProducto);
-              i++;
-          }
-      }
-    } else { 
-      contenedor.innerHTML = '<p class="text-center w-100">No hay productos disponibles.</p>'
+    if (productos.length !== 0) {
+
+        while (i < productos.length) {
+            // Pintar hasta 8 bolsos
+            for (let count = 0; i < productos.length; count++) {
+                renderizarTarjetaProducto(productos[i], contenedor, appData, productos[i].idProducto);
+                i++;
+            }
+        }
+    } else {
+        contenedor.innerHTML = '<p class="text-center w-100">No hay productos disponibles.</p>'
     }
     // Aquí pones tu lógica de Firebase para filtrar (ej. consulta con .where())
     // ...
-    
+
     // Al finalizar el filtrado, cierras el menú limpiamente
     cerrarMenuCategorias();
 }
 
 
 function generarFormularios() {
-  const cantidad = document.getElementById('cantAbonar').value;
-  const contenedor = document.getElementById('contenedorFormularios');
-  contenedor.innerHTML = "";
+    const cantidad = document.getElementById('cantAbonar').value;
+    const contenedor = document.getElementById('contenedorFormularios');
+    contenedor.innerHTML = "";
 
-  for (let i = 0; i < cantidad; i++) {
-    contenedor.innerHTML += `
+    for (let i = 0; i < cantidad; i++) {
+        contenedor.innerHTML += `
       <div class="border p-3 mb-3 rounded bg-white shadow-sm item-nuevo-producto" data-index="${i}">
         <h6>📦 Producto #${i + 1}</h6>
         <div class="row g-2">
@@ -1007,116 +1007,116 @@ function generarFormularios() {
           </div>
         </div>
       </div>`;
-  }
+    }
 
-  document.getElementById('pasoCantidad').classList.add('d-none');
-  document.getElementById('pasoFormularios').classList.remove('d-none');
+    document.getElementById('pasoCantidad').classList.add('d-none');
+    document.getElementById('pasoFormularios').classList.remove('d-none');
 }
 
-function selectProductOption(e, divSub){
-  e === "bolsos" 
-  ? document.getElementById(divSub).style.display = "block"
-  : document.getElementById(divSub).style.display = "none"
+function selectProductOption(e, divSub) {
+    e === "bolsos"
+        ? document.getElementById(divSub).style.display = "block"
+        : document.getElementById(divSub).style.display = "none"
 }
 
 async function guardarProductosMasivos() {
-  const btn = document.getElementById('btnGuardarMasivo');
-  
-  const user = firebase.auth().currentUser; // 1. Validar usuario
-  if (!user) return mostrarNotificacion("Debes iniciar sesión", "error");
+    const btn = document.getElementById('btnGuardarMasivo');
 
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Subiendo imágenes e insertando...';
+    const user = firebase.auth().currentUser; // 1. Validar usuario
+    if (!user) return mostrarNotificacion("Debes iniciar sesión", "error");
 
-  const items = document.querySelectorAll('.item-nuevo-producto');
-  
-  try {
-    const listaPromesas = Array.from(items).map(async (item) => {
-      const fileInput = item.querySelector('[name="imagen"]');
-      let urlsImagenes = [];
-      const files = fileInput.files;
-      if (files.length > 0) {
-        // Subimos todas las imágenes del producto en paralelo
-        const promesasImagenes = Array.from(files).map(file => subirAStorage(file));
-        urlsImagenes = await Promise.all(promesasImagenes);
-      }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Subiendo imágenes e insertando...';
 
-      let sku = "SKU-" + Math.floor(Math.random() * 10000000000);
-      
-      return {
-        idProducto: sku,
-        nombre: item.querySelector('[name="nombre"]').value,
-        precio: parseFloat(item.querySelector('[name="precio"]').value) || 0,
-        stock: parseInt(item.querySelector('[name="stock"]').value) || 0,
-        imagenes: urlsImagenes.join(','),
-        descripcion: item.querySelector('[name="descripcion"]').value,
-        tipoProducto: item.querySelector('[name="producto"]').value,
-        tipoCliente: item.querySelector('[name="cliente"]').value,
-        subCategoria: item.querySelector('[name="BolsoCategoria"]').value
-      };
-    });
+    const items = document.querySelectorAll('.item-nuevo-producto');
 
-    const productosParaSubir = await Promise.all(listaPromesas);
+    try {
+        const listaPromesas = Array.from(items).map(async (item) => {
+            const fileInput = item.querySelector('[name="imagen"]');
+            let urlsImagenes = [];
+            const files = fileInput.files;
+            if (files.length > 0) {
+                // Subimos todas las imágenes del producto en paralelo
+                const promesasImagenes = Array.from(files).map(file => subirAStorage(file));
+                urlsImagenes = await Promise.all(promesasImagenes);
+            }
 
-    // Guardar en Firestore (Batch Write)
-    const batch = db.batch();
-    productosParaSubir.forEach((producto) => {
-      const nuevoRef = db.collection("productos").doc(producto.idProducto);
-      batch.set(nuevoRef, producto);
-    });
+            let sku = "SKU-" + Math.floor(Math.random() * 10000000000);
 
-    await batch.commit();
+            return {
+                idProducto: sku,
+                nombre: item.querySelector('[name="nombre"]').value,
+                precio: parseFloat(item.querySelector('[name="precio"]').value) || 0,
+                stock: parseInt(item.querySelector('[name="stock"]').value) || 0,
+                imagenes: urlsImagenes.join(','),
+                descripcion: item.querySelector('[name="descripcion"]').value,
+                tipoProducto: item.querySelector('[name="producto"]').value,
+                tipoCliente: item.querySelector('[name="cliente"]').value,
+                subCategoria: item.querySelector('[name="BolsoCategoria"]').value
+            };
+        });
 
-    // Interfaz de éxito
-    const modalForm = bootstrap.Modal.getInstance(document.getElementById('modalNuevoProducto'));
-    if (modalForm) modalForm.hide();
+        const productosParaSubir = await Promise.all(listaPromesas);
 
-    btn.disabled = false;
-    btn.innerText = "Guardar Todos los Productos";
-    resetFormularioMasivo();
+        // Guardar en Firestore (Batch Write)
+        const batch = db.batch();
+        productosParaSubir.forEach((producto) => {
+            const nuevoRef = db.collection("productos").doc(producto.idProducto);
+            batch.set(nuevoRef, producto);
+        });
 
-    const modalExito = new bootstrap.Modal(document.getElementById('modalExitoCarga'));
-    modalExito.show();
+        await batch.commit();
 
-    cargarProductosSegunRol(appData.rol, appData.perfil);
+        // Interfaz de éxito
+        const modalForm = bootstrap.Modal.getInstance(document.getElementById('modalNuevoProducto'));
+        if (modalForm) modalForm.hide();
 
-  } catch (error) {
-    console.error("Error en carga masiva:", error);
-    mostrarNotificacion("Error: " + error.message, "error");
-    btn.disabled = false;
-    btn.innerText = "Reintentar Guardado";
-  }
+        btn.disabled = false;
+        btn.innerText = "Guardar Todos los Productos";
+        resetFormularioMasivo();
+
+        const modalExito = new bootstrap.Modal(document.getElementById('modalExitoCarga'));
+        modalExito.show();
+
+        cargarProductosSegunRol(appData.rol, appData.perfil);
+
+    } catch (error) {
+        console.error("Error en carga masiva:", error);
+        mostrarNotificacion("Error: " + error.message, "error");
+        btn.disabled = false;
+        btn.innerText = "Reintentar Guardado";
+    }
 }
 
 async function subirAStorage(file) {
-  const storageRef = firebase.storage().ref();
-  const nombreUnico = `productos/${Date.now()}_${file.name}`;
-  const referencia = storageRef.child(nombreUnico);
-  
-  const snapshot = await referencia.put(file);
-  return await snapshot.ref.getDownloadURL();
+    const storageRef = firebase.storage().ref();
+    const nombreUnico = `productos/${Date.now()}_${file.name}`;
+    const referencia = storageRef.child(nombreUnico);
+
+    const snapshot = await referencia.put(file);
+    return await snapshot.ref.getDownloadURL();
 }
 
 /**
  * Función auxiliar para convertir archivos a Base64
  */
 function leerArchivoComoBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => resolve({
-      base64: e.target.result.split(',')[1], // Solo el contenido
-      type: file.type,
-      name: file.name
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve({
+            base64: e.target.result.split(',')[1], // Solo el contenido
+            type: file.type,
+            name: file.name
+        });
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
     });
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 function resetFormularioMasivo() {
-  document.getElementById('pasoCantidad').classList.remove('d-none');
-  document.getElementById('pasoFormularios').classList.add('d-none');
-  document.getElementById('formMasivo').reset();
+    document.getElementById('pasoCantidad').classList.remove('d-none');
+    document.getElementById('pasoFormularios').classList.add('d-none');
+    document.getElementById('formMasivo').reset();
 }
 
 // Al cargar la página o script
@@ -1125,11 +1125,11 @@ function inicializarCarrito() {
     if (datosLocales) {
         // Llenamos nuestra variable global con lo que había en el navegador
         const contenidoRecuperado = JSON.parse(datosLocales);
-        
+
         // Es importante vaciar y llenar el arreglo original para mantener referencias
-        cart.length = 0; 
+        cart.length = 0;
         cart.push(...contenidoRecuperado);
-        
+
         updateCartUI();
     }
 }
@@ -1152,7 +1152,7 @@ function prepararCambioPerfil() {
         modalTitle.innerText = "✨ ¡Conviértete en Mayorista!";
         modalMensaje.innerText = "¿Estás seguro que quieres cambiar tu perfil de cliente a cliente mayorista?";
         boxBeneficios.classList.remove('d-none');
-        
+
     } else {
         modalTitle.innerText = "🔄 Volver a Cliente Estándar";
         modalMensaje.innerText = "¿Deseas regresar tu perfil a cliente estándar?";
@@ -1190,7 +1190,7 @@ async function ejecutarCambioEnBD(uid, rolActual) {
         // Cerrar modal y refrescar la vista
         const modalEl = document.getElementById('modalToggleRol');
         bootstrap.Modal.getInstance(modalEl).hide();
-        
+
         // Refrescamos los productos según el nuevo rol
         cargarProductosSegunRol(nuevoRol, appData.perfil);
 
@@ -1210,7 +1210,7 @@ async function cargarFooter() {
     const doc = await footerRef.get();
     if (doc.exists) {
         const data = doc.data();
-        
+
         // Verificamos que los elementos existan antes de asignar .src para evitar errores
         const img1 = document.querySelector("#footer-img-1 img");
         const img2 = document.querySelector("#footer-img-2 img");
@@ -1228,7 +1228,7 @@ async function cargarFooter() {
 async function abrirModalGestionFooter() {
     const doc = await footerRef.get();
     const data = doc.exists ? doc.data() : { img1: '', img2: '', img3: '', navLogo: '' };
-    
+
     const container = document.getElementById('listaEdicionFooter');
     if (!container) return; // Seguridad
     container.innerHTML = '';
@@ -1251,7 +1251,7 @@ async function abrirModalGestionFooter() {
         container.innerHTML += `
             <div class="mb-4 p-3 border rounded">
                 <h6>Imagen Footer ${i}</h6>
-                <img src="${data['img'+i] || 'placeholder.png'}" class="img-thumbnail mb-2 d-block" style="height: 80px">
+                <img src="${data['img' + i] || 'placeholder.png'}" class="img-thumbnail mb-2 d-block" style="height: 80px">
                 <input type="file" class="form-control form-control-sm" id="file-footer-${i}" accept="image/*">
                 <button class="btn btn-primary btn-sm mt-2" onclick="subirImagenGeneral('img${i}', 'file-footer-${i}')">Actualizar Imagen ${i}</button>
             </div>`;
@@ -1296,12 +1296,12 @@ async function subirImagenGeneral(campoDoc, inputId) {
 // 4. Eliminar
 async function eliminarImagenConfig(campoDoc) {
     if (!confirm("¿Estás seguro de que quieres eliminar esta imagen?")) return;
-    
+
     try {
         const updateData = {};
-        updateData[campoDoc] = ""; 
+        updateData[campoDoc] = "";
         await footerRef.update(updateData);
-        
+
         mostrarNotificacion("Imagen eliminada", "info");
         cargarFooter();
         abrirModalGestionFooter();
@@ -1316,88 +1316,88 @@ async function eliminarImagenConfig(campoDoc) {
 cargarFooter();
 
 
-    function abrirEditor(skuProducto) {
-        const user = auth.currentUser;
-        db.collection("usuarios").doc(user.uid).get().then((doc) => {
-            // Si es admin, mostramos el modal de edición
+function abrirEditor(skuProducto) {
+    const user = auth.currentUser;
+    db.collection("usuarios").doc(user.uid).get().then((doc) => {
+        // Si es admin, mostramos el modal de edición
 
-            const producto = appData.productos.find(item => item.idProducto === skuProducto);
-            let imagen = producto.imagenes ? producto.imagenes.split(',')[0] : '';
-            document.getElementById('eNomSKU').value = producto.idProducto;
-            document.getElementById('eNom').value = producto.nombre;
-            document.getElementById('ePre').value = producto.precio;
-            document.getElementById('eSto').value = producto.stock;
-            document.getElementById('eDes').value = producto.descripcion;
-            document.getElementById('ImgNom').src = imagen;
-            document.getElementById('eTipoCliente').value = producto.tipoCliente;
-            document.getElementById('eTipoProducto').value = producto.tipoProducto;
-            document.getElementById('eTiposubCategoria').value = producto.subCategoria;
-            prepararEdicion(producto.imagenes)
-            new bootstrap.Modal(document.getElementById('editModal')).show();
-        });
+        const producto = appData.productos.find(item => item.idProducto === skuProducto);
+        let imagen = producto.imagenes ? producto.imagenes.split(',')[0] : '';
+        document.getElementById('eNomSKU').value = producto.idProducto;
+        document.getElementById('eNom').value = producto.nombre;
+        document.getElementById('ePre').value = producto.precio;
+        document.getElementById('eSto').value = producto.stock;
+        document.getElementById('eDes').value = producto.descripcion;
+        document.getElementById('ImgNom').src = imagen;
+        document.getElementById('eTipoCliente').value = producto.tipoCliente;
+        document.getElementById('eTipoProducto').value = producto.tipoProducto;
+        document.getElementById('eTiposubCategoria').value = producto.subCategoria;
+        prepararEdicion(producto.imagenes)
+        new bootstrap.Modal(document.getElementById('editModal')).show();
+    });
+}
+
+/**
+ * Solicita confirmación antes de borrar
+ */
+function confirmarEliminacion(sku) {
+    const producto = appData.productos.find(item => item.idProducto === sku);
+
+    if (!producto) {
+        mostrarNotificacion("No pudimos encontrar tu producto", "warning");
+        return;
     }
-
-    /**
-     * Solicita confirmación antes de borrar
-     */
-    function confirmarEliminacion(sku) {
-        const producto = appData.productos.find(item => item.idProducto === sku);
-
-        if (!producto) {
-            mostrarNotificacion("No pudimos encontrar tu producto", "warning");
-            return;
-        }
-        if (confirm(`¿Estás seguro de que deseas eliminar permanentemente el producto "${producto.nombre}"?`)) {
-            eliminarProductoServidor(sku);
-        }
+    if (confirm(`¿Estás seguro de que deseas eliminar permanentemente el producto "${producto.nombre}"?`)) {
+        eliminarProductoServidor(sku);
     }
+}
 
-    async function eliminarProductoServidor(idProducto) {
-        let contentProdut = document.getElementById('contenedor-productos');
-        let textoOriginal = contentProdut.innerHTML;
+async function eliminarProductoServidor(idProducto) {
+    let contentProdut = document.getElementById('contenedor-productos');
+    let textoOriginal = contentProdut.innerHTML;
 
-        contentProdut.innerHTML = '<div class="text-center w-100 py-5"><div class="spinner-border text-danger"></div><p>Eliminando archivos y producto...</p></div>';
+    contentProdut.innerHTML = '<div class="text-center w-100 py-5"><div class="spinner-border text-danger"></div><p>Eliminando archivos y producto...</p></div>';
 
-        try {
-            // 1. Obtener los datos del producto antes de borrarlo para tener las URLs de las fotos
-            const docRef = db.collection("productos").doc(idProducto);
-            const docSnap = await docRef.get();
+    try {
+        // 1. Obtener los datos del producto antes de borrarlo para tener las URLs de las fotos
+        const docRef = db.collection("productos").doc(idProducto);
+        const docSnap = await docRef.get();
 
-            if (docSnap.exists) {
-                const datos = docSnap.data();
-                const fotos = datos.imagenes ? datos.imagenes.split(',').filter(url => url.trim() !== "") : [];
+        if (docSnap.exists) {
+            const datos = docSnap.data();
+            const fotos = datos.imagenes ? datos.imagenes.split(',').filter(url => url.trim() !== "") : [];
 
-                // 2. Eliminar cada foto de Firebase Storage
-                const promesasBorrado = fotos.map(async (url) => {
-                    try {
-                        // Solo intentar borrar si es una URL válida de Firebase
-                        if (url.includes("firebasestorage.googleapis.com")) {
-                            const refImagen = firebase.storage().refFromURL(url);
-                            await refImagen.delete();
-                            console.log("Imagen física eliminada de Storage");
-                        }
-                    } catch (err) {
-                        console.warn("La imagen no se pudo borrar de Storage (tal vez ya no existía):", err);
+            // 2. Eliminar cada foto de Firebase Storage
+            const promesasBorrado = fotos.map(async (url) => {
+                try {
+                    // Solo intentar borrar si es una URL válida de Firebase
+                    if (url.includes("firebasestorage.googleapis.com")) {
+                        const refImagen = firebase.storage().refFromURL(url);
+                        await refImagen.delete();
+                        console.log("Imagen física eliminada de Storage");
                     }
-                });
+                } catch (err) {
+                    console.warn("La imagen no se pudo borrar de Storage (tal vez ya no existía):", err);
+                }
+            });
 
-                // Esperamos a que terminen todos los borrados de Storage
-                await Promise.all(promesasBorrado);
-            }
-
-            // 3. Ahora que las fotos se borraron (o se intentó), borramos el documento de Firestore
-            await docRef.delete();
-
-            // 4. Éxito
-            mostrarNotificacion("Producto y fotos eliminados correctamente.", "success");
-            cargarProductosSegunRol(appData.rol, appData.perfil);
-
-        } catch (error) {
-            console.error("Error crítico al eliminar:", error);
-            mostrarNotificacion("Error al eliminar el producto", "error");
-            contentProdut.innerHTML = textoOriginal; // Restauramos la vista original
+            // Esperamos a que terminen todos los borrados de Storage
+            await Promise.all(promesasBorrado);
         }
+
+        // 3. Ahora que las fotos se borraron (o se intentó), borramos el documento de Firestore
+        await docRef.delete();
+
+        // 4. Éxito
+        mostrarNotificacion("Producto y fotos eliminados correctamente.", "success");
+        cargarProductosSegunRol(appData.rol, appData.perfil);
+
+    } catch (error) {
+        console.error("Error crítico al eliminar:", error);
+        mostrarNotificacion("Error al eliminar el producto", "error");
+        contentProdut.innerHTML = textoOriginal; // Restauramos la vista original
     }
+}
 async function addToCart(productId) {
     // 1. Buscamos el producto en el catálogo
     const p = appData.productos.find(item => item.idProducto === productId);
@@ -1443,7 +1443,7 @@ async function addToCart(productId) {
     }
 
     // --- 5. PERSISTENCIA ---
-    
+
     // A. Guardar en LocalStorage (Para recargas de página)
     localStorage.setItem('carrito_libreaura', JSON.stringify(cart));
 
@@ -1474,246 +1474,256 @@ async function addToCart(productId) {
     mostrarNotificacion(`¡${cantidadAñadir} unidad(es) añadida(s)!`, "success");
 }
 
-    function actualizarEstadoBotones(index) {
-        const p = appData.productos[index];
-        const btn = document.querySelector(`button[onclick="addToCart(${index})"]`);
-        const itemEnCarrito = cart.find(item => item.rowIdx === p.rowIdx && item.hojaOrigen === p.hojaOrigen);
-        const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
+function actualizarEstadoBotones(index) {
+    const p = appData.productos[index];
+    const btn = document.querySelector(`button[onclick="addToCart(${index})"]`);
+    const itemEnCarrito = cart.find(item => item.rowIdx === p.rowIdx && item.hojaOrigen === p.hojaOrigen);
+    const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
 
-        if (btn && cantidadEnCarrito >= p.stock) {
-            btn.disabled = true;
-            btn.classList.replace('btn-dark', 'btn-secondary');
-            btn.innerText = "Límite alcanzado";
-        }
-    }
-
-    function verDetalle(idPedido) {
-
-        // 1. Buscamos el producto exacto en tu lista global mediante su ID
-        // NOTA: Asegúrate de guardar el 'id' en tus objetos cuando haces el fetch de Firebase
-        const producto = appData.productos.find(p => p.idProducto === idPedido);
-        console.log("producto- > ", producto)
-        if (!producto) {
-            return mostrarNotificacion("No se encontró la información del producto", "error");
-        }
-
-        document.getElementById('detalleNombre').innerText = producto.nombre;
-        document.getElementById('detalleDescripcion').innerText = producto.descripcion;
-        document.getElementById('detallePrecio').innerText = `$${producto.precio}`;
-        document.getElementById('detalleStock').innerText = `Stock disponible: ${producto.stock}`;
-
-        // Configurar límites del input de cantidad
-        const inputQty = document.getElementById('qtyDetalle');
-        const btnSumar = document.getElementById('btnSumarDetalle');
-        const btnRestar = document.getElementById('btnRestarDetalle');
-        const avisoStock = document.getElementById('maxStockAviso');
-
-        inputQty.value = 1;
-        inputQty.max = producto.stock;
-        avisoStock.innerText = `Máximo disponible: ${producto.stock} pzs`;
-
-        // Lógica de botones +/-
-        btnSumar.onclick = () => {
-            let actual = parseInt(inputQty.value);
-            if (actual < producto.stock) inputQty.value = actual + 1;
-        };
-
-        btnRestar.onclick = () => {
-            let actual = parseInt(inputQty.value);
-            if (actual > 1) inputQty.value = actual - 1;
-        };
-
-        // Manejo de Imágenes
-        const listaIds = producto.imagenes.split(',');
-        let carouselInner = document.getElementById('carouselImagenes');
-        carouselInner.innerHTML = '';
-
-        listaIds.forEach((idDrive, index) => {
-            const activeClass = index === 0 ? 'active' : '';
-            carouselInner.innerHTML += `
-            <div class="carousel-item ${activeClass}">
-                <img src="${idDrive.trim()}" class="d-block w-100 img-fluid rounded" style="height: 300px; object-fit: contain;">
-            </div>`;
-        });
-
-        // Configurar botón de agregar
-        const btnAgregar = document.getElementById('btnAgregarDesdeDetalle');
-        btnAgregar.onclick = () => {
-            const cantidadSeleccionada = parseInt(inputQty.value);
-
-            // Sincronizamos con el input oculto de la tarjeta principal si es necesario
-            // o simplemente pasamos el valor directamente a addToCart
-            const qtyPrincipal = document.getElementById(`qty-${idPedido}`);
-            if (qtyPrincipal) qtyPrincipal.value = cantidadSeleccionada;
-
-            addToCart(idPedido);
-
-            // Cerrar modal
-            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalDetalle'));
-            modalInstance.hide();
-        };
-
-        new bootstrap.Modal(document.getElementById('modalDetalle')).show();
-    }
-    async function guardarEdicion() {
-        const fileInput = document.getElementById('upNewImg');
-        const files = fileInput.files;
-
-        // 1. Obtener datos actuales del modal
-        const idProducto = document.getElementById('eNomSKU').value;
-
-        // Estas son las URLs que el usuario decidió MANTENER (las que no borró en el modal)
-        let listaUrlsFinales = document.getElementById('editIdsActuales').value.split(',')
-            .map(s => s.trim()).filter(s => s !== "");
-
-        const btn = document.getElementById("saveChangeId");
-        const originalText = btn.innerHTML;
+    if (btn && cantidadEnCarrito >= p.stock) {
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Actualizando...';
+        btn.classList.replace('btn-dark', 'btn-secondary');
+        btn.innerText = "Límite alcanzado";
+    }
+}
 
-        try {
-            // --- PARTE A: LIMPIEZA DE IMÁGENES BORRADAS ---
-            // 2. Obtener las URLs que estaban originalmente en la base de datos para comparar
-            const docActual = await db.collection("productos").doc(idProducto).get();
-            const datosViejos = docActual.data();
-            const urlsOriginales = datosViejos.imagenes ? datosViejos.imagenes.split(',') : [];
-
-            // Identificar cuáles estaban antes pero ya no están en la lista final
-            const urlsABorrar = urlsOriginales.filter(url => !listaUrlsFinales.includes(url));
-
-            // Borrar físicamente de Storage
-            const promesasBorrado = urlsABorrar.map(async (url) => {
-                try {
-                    // Solo intentamos borrar si es una URL de Firebase Storage
-                    if (url.includes("firebasestorage.googleapis.com")) {
-                        const ref = firebase.storage().refFromURL(url);
-                        await ref.delete();
-                        console.log("Archivo eliminado de Storage:", url);
-                    }
-                } catch (e) {
-                    console.warn("No se pudo borrar el archivo físico (tal vez ya no existía):", e);
-                }
-            });
-            await Promise.all(promesasBorrado);
-
-
-            // --- PARTE B: SUBIDA DE NUEVAS IMÁGENES ---
-            // 3. Subir las nuevas fotos seleccionadas
-            if (files.length > 0) {
-                const promesasSubida = Array.from(files).map(async (file) => {
-                    const storageRef = firebase.storage().ref();
-                    const nombreUnico = `productos/${Date.now()}_${file.name}`;
-                    const referencia = storageRef.child(nombreUnico);
-
-                    const snapshot = await referencia.put(file);
-                    return await snapshot.ref.getDownloadURL();
-                });
-
-                const nuevasUrls = await Promise.all(promesasSubida);
-                listaUrlsFinales = listaUrlsFinales.concat(nuevasUrls);
-            }
-
-
-            // --- PARTE C: ACTUALIZAR FIRESTORE ---
-
-            const datosActualizados = {
-                idProducto: idProducto,
-                nombre: document.getElementById('eNom').value,
-                precio: parseFloat(document.getElementById('ePre').value),
-                stock: parseInt(document.getElementById('eSto').value),
-                imagenes: listaUrlsFinales.join(','), // Guardamos la lista combinada y limpia
-                descripcion: document.getElementById('eDes').value,
-                tipoProducto: document.getElementById('eTipoProducto').value,
-                tipoCliente: document.getElementById('eTipoCliente').value,
-                subCategoria: document.getElementById('eTiposubCategoria').value
-            };
-
-            await db.collection("productos").doc(idProducto).update(datosActualizados);
-
-            // Refrescar y cerrar
-            cargarProductosSegunRol(appData.rol, appData.perfil);
-            const modalEdicion = bootstrap.Modal.getInstance(document.getElementById('editModal'));
-            if (modalEdicion) modalEdicion.hide();
-
-            mostrarNotificacion("Producto actualizado y Storage optimizado", "success");
-
-        } catch (error) {
-            console.error("Error al editar:", error);
-            mostrarNotificacion("Error: " + error.message, "error");
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-            fileInput.value = "";
-        }
+function verDetalle(idPedido) {
+    // 1. Buscamos el producto
+    const producto = appData.productos.find(p => p.idProducto === idPedido);
+    console.log("producto- > ", producto);
+    
+    if (!producto) {
+        return mostrarNotificacion("No se encontró la información del producto", "error");
     }
 
-    function prepararEdicion(imagenesStr) {
-        // 1. Guardar los IDs actuales en el input oculto
-        document.getElementById('editIdsActuales').value = imagenesStr;
+    // 2. Cargamos la información básica
+    document.getElementById('detalleNombre').innerText = producto.nombre;
+    document.getElementById('detalleDescripcion').innerText = producto.descripcion;
+    document.getElementById('detallePrecio').innerText = `$${producto.precio}`;
+    document.getElementById('detalleStock').innerText = `Stock disponible: ${producto.stock}`;
 
-        // 2. Mostrar miniaturas para saber qué hay
-        const contenedor = document.getElementById('contenedorMiniaturasEdit');
-        contenedor.innerHTML = '';
+    // 3. Configuración del input de cantidad
+    const inputQty = document.getElementById('qtyDetalle');
+    const btnSumar = document.getElementById('btnSumarDetalle');
+    const btnRestar = document.getElementById('btnRestarDetalle');
+    const avisoStock = document.getElementById('maxStockAviso');
 
-        if (imagenesStr) {
-            const ids = imagenesStr.split(',');
-            ids.forEach(id => {
-                contenedor.innerHTML += `
+    inputQty.value = 1;
+    inputQty.max = producto.stock;
+    avisoStock.innerText = `Máximo disponible: ${producto.stock} pzs`;
+
+    btnSumar.onclick = () => {
+        let actual = parseInt(inputQty.value);
+        if (actual < producto.stock) inputQty.value = actual + 1;
+    };
+
+    btnRestar.onclick = () => {
+        let actual = parseInt(inputQty.value);
+        if (actual > 1) inputQty.value = actual - 1;
+    };
+
+    // 4. Manejo de Imágenes con PhotoSwipe para Zoom Táctil
+    const listaIds = producto.imagenes.split(',');
+    let carouselInner = document.getElementById('carouselImagenes');
+    carouselInner.innerHTML = '';
+    
+    // Aseguramos que el contenedor tenga la clase para el Lightbox
+    carouselInner.parentElement.classList.add('pswp-gallery');
+
+    listaIds.forEach((idDrive, index) => {
+        const activeClass = index === 0 ? 'active' : '';
+        const url = idDrive.trim();
+        
+        // Creamos un enlace (<a>) que envuelve a la imagen
+        // PhotoSwipe necesita este <a> para abrir la imagen en pantalla completa
+        carouselInner.innerHTML += `
+            <div class="carousel-item ${activeClass}">
+                <a href="${url}" 
+                   data-pswp-width="1200" 
+                   data-pswp-height="1200" 
+                   target="_blank" 
+                   class="d-block w-100">
+                    <img src="${url}" 
+                         class="d-block w-100 img-fluid rounded" 
+                         style="height: 300px; object-fit: contain; cursor: zoom-in;">
+                </a>
+            </div>`;
+    });
+
+    // 5. Configurar botón de agregar
+    const btnAgregar = document.getElementById('btnAgregarDesdeDetalle');
+    btnAgregar.onclick = () => {
+        const cantidadSeleccionada = parseInt(inputQty.value);
+        const qtyPrincipal = document.getElementById(`qty-${idPedido}`);
+        if (qtyPrincipal) qtyPrincipal.value = cantidadSeleccionada;
+
+        addToCart(idPedido);
+        const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalDetalle'));
+        modalInstance.hide();
+    };
+
+    // 6. Mostramos el modal
+    new bootstrap.Modal(document.getElementById('modalDetalle')).show();
+}
+async function guardarEdicion() {
+    const fileInput = document.getElementById('upNewImg');
+    const files = fileInput.files;
+
+    // 1. Obtener datos actuales del modal
+    const idProducto = document.getElementById('eNomSKU').value;
+
+    // Estas son las URLs que el usuario decidió MANTENER (las que no borró en el modal)
+    let listaUrlsFinales = document.getElementById('editIdsActuales').value.split(',')
+        .map(s => s.trim()).filter(s => s !== "");
+
+    const btn = document.getElementById("saveChangeId");
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Actualizando...';
+
+    try {
+        // --- PARTE A: LIMPIEZA DE IMÁGENES BORRADAS ---
+        // 2. Obtener las URLs que estaban originalmente en la base de datos para comparar
+        const docActual = await db.collection("productos").doc(idProducto).get();
+        const datosViejos = docActual.data();
+        const urlsOriginales = datosViejos.imagenes ? datosViejos.imagenes.split(',') : [];
+
+        // Identificar cuáles estaban antes pero ya no están en la lista final
+        const urlsABorrar = urlsOriginales.filter(url => !listaUrlsFinales.includes(url));
+
+        // Borrar físicamente de Storage
+        const promesasBorrado = urlsABorrar.map(async (url) => {
+            try {
+                // Solo intentamos borrar si es una URL de Firebase Storage
+                if (url.includes("firebasestorage.googleapis.com")) {
+                    const ref = firebase.storage().refFromURL(url);
+                    await ref.delete();
+                    console.log("Archivo eliminado de Storage:", url);
+                }
+            } catch (e) {
+                console.warn("No se pudo borrar el archivo físico (tal vez ya no existía):", e);
+            }
+        });
+        await Promise.all(promesasBorrado);
+
+
+        // --- PARTE B: SUBIDA DE NUEVAS IMÁGENES ---
+        // 3. Subir las nuevas fotos seleccionadas
+        if (files.length > 0) {
+            const promesasSubida = Array.from(files).map(async (file) => {
+                const storageRef = firebase.storage().ref();
+                const nombreUnico = `productos/${Date.now()}_${file.name}`;
+                const referencia = storageRef.child(nombreUnico);
+
+                const snapshot = await referencia.put(file);
+                return await snapshot.ref.getDownloadURL();
+            });
+
+            const nuevasUrls = await Promise.all(promesasSubida);
+            listaUrlsFinales = listaUrlsFinales.concat(nuevasUrls);
+        }
+
+
+        // --- PARTE C: ACTUALIZAR FIRESTORE ---
+
+        const datosActualizados = {
+            idProducto: idProducto,
+            nombre: document.getElementById('eNom').value,
+            precio: parseFloat(document.getElementById('ePre').value),
+            stock: parseInt(document.getElementById('eSto').value),
+            imagenes: listaUrlsFinales.join(','), // Guardamos la lista combinada y limpia
+            descripcion: document.getElementById('eDes').value,
+            tipoProducto: document.getElementById('eTipoProducto').value,
+            tipoCliente: document.getElementById('eTipoCliente').value,
+            subCategoria: document.getElementById('eTiposubCategoria').value
+        };
+
+        await db.collection("productos").doc(idProducto).update(datosActualizados);
+
+        // Refrescar y cerrar
+        cargarProductosSegunRol(appData.rol, appData.perfil);
+        const modalEdicion = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+        if (modalEdicion) modalEdicion.hide();
+
+        mostrarNotificacion("Producto actualizado y Storage optimizado", "success");
+
+    } catch (error) {
+        console.error("Error al editar:", error);
+        mostrarNotificacion("Error: " + error.message, "error");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        fileInput.value = "";
+    }
+}
+
+function prepararEdicion(imagenesStr) {
+    // 1. Guardar los IDs actuales en el input oculto
+    document.getElementById('editIdsActuales').value = imagenesStr;
+
+    // 2. Mostrar miniaturas para saber qué hay
+    const contenedor = document.getElementById('contenedorMiniaturasEdit');
+    contenedor.innerHTML = '';
+
+    if (imagenesStr) {
+        const ids = imagenesStr.split(',');
+        ids.forEach(id => {
+            contenedor.innerHTML += `
         <div class="position-relative" id="mini-${id.trim()}">
           <img src="${id.trim()}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 5px;">
           <button type="button" class="butondeletedImg btn btn-danger btn-xs position-absolute top-0 end-0" onclick="eliminarImagenDeLista('${id.trim()}')">×</button>
         </div>`;
-            });
+        });
+    }
+
+    // Abrir el modal de edición...
+}
+
+function eliminarImagenDeLista(id) {
+    // Elimina la miniatura visualmente y del input oculto
+    document.getElementById(`mini-${id}`).remove();
+    let actuales = document.getElementById('editIdsActuales').value.split(',');
+    actuales = actuales.filter(item => item.trim() !== id);
+    document.getElementById('editIdsActuales').value = actuales.join(',');
+}
+
+function mostrarNotificacion(mensaje, tipo = 'error') {
+    const modalEl = document.getElementById('modalAlerta');
+    const tituloEl = document.getElementById('tituloAlerta');
+    const mensajeEl = document.getElementById('mensajeAlerta');
+    const iconoEl = document.getElementById('iconoAlerta');
+
+    // Configuración según el tipo
+    const configuracion = {
+        error: {
+            titulo: '❌ Error en el Sistema',
+            icono: '⚠️',
+            colorIcono: 'text-danger'
+        },
+        warning: {
+            titulo: '⚠️ Atención',
+            icono: '🔔',
+            colorIcono: 'text-warning'
+        },
+        success: {
+            titulo: '✅ Éxito',
+            icono: '🎉',
+            colorIcono: 'text-success'
         }
+    };
 
-        // Abrir el modal de edición...
-    }
+    const config = configuracion[tipo] || configuracion.error;
 
-    function eliminarImagenDeLista(id) {
-        // Elimina la miniatura visualmente y del input oculto
-        document.getElementById(`mini-${id}`).remove();
-        let actuales = document.getElementById('editIdsActuales').value.split(',');
-        actuales = actuales.filter(item => item.trim() !== id);
-        document.getElementById('editIdsActuales').value = actuales.join(',');
-    }
+    // Inyectar datos
+    tituloEl.innerText = config.titulo;
+    mensajeEl.innerText = mensaje;
+    iconoEl.innerHTML = config.icono;
+    iconoEl.className = `display-1 mb-3 ${config.colorIcono}`;
 
-    function mostrarNotificacion(mensaje, tipo = 'error') {
-        const modalEl = document.getElementById('modalAlerta');
-        const tituloEl = document.getElementById('tituloAlerta');
-        const mensajeEl = document.getElementById('mensajeAlerta');
-        const iconoEl = document.getElementById('iconoAlerta');
-
-        // Configuración según el tipo
-        const configuracion = {
-            error: {
-                titulo: '❌ Error en el Sistema',
-                icono: '⚠️',
-                colorIcono: 'text-danger'
-            },
-            warning: {
-                titulo: '⚠️ Atención',
-                icono: '🔔',
-                colorIcono: 'text-warning'
-            },
-            success: {
-                titulo: '✅ Éxito',
-                icono: '🎉',
-                colorIcono: 'text-success'
-            }
-        };
-
-        const config = configuracion[tipo] || configuracion.error;
-
-        // Inyectar datos
-        tituloEl.innerText = config.titulo;
-        mensajeEl.innerText = mensaje;
-        iconoEl.innerHTML = config.icono;
-        iconoEl.className = `display-1 mb-3 ${config.colorIcono}`;
-
-        // Mostrar el modal
-        const modalBootstrap = new bootstrap.Modal(modalEl);
-        modalBootstrap.show();
-    }
+    // Mostrar el modal
+    const modalBootstrap = new bootstrap.Modal(modalEl);
+    modalBootstrap.show();
+}
 
 async function toggleFavorito(idProducto) {
     const user = firebase.auth().currentUser;
@@ -1731,7 +1741,7 @@ async function toggleFavorito(idProducto) {
 
         if (doc.exists) {
             // --- ELIMINAR ---
-            
+
             // 1. Cambio visual del icono
             if (btnIcono) {
                 btnIcono.classList.replace('bi-heart-fill', 'bi-heart');
@@ -1742,7 +1752,7 @@ async function toggleFavorito(idProducto) {
             const cardProducto = document.getElementById(`card-favorito-${idProducto}`);
             if (cardProducto) {
                 cardProducto.style.opacity = '0'; // Efecto de desvanecimiento opcional
-                setTimeout(() => cardProducto.remove(), 300); 
+                setTimeout(() => cardProducto.remove(), 300);
             }
 
             await favRef.delete();
@@ -1775,9 +1785,9 @@ async function toggleFavorito(idProducto) {
 
         // Si tienes una función que renderiza la lista, esto la refresca
         if (typeof mostrandoFavoritos !== 'undefined' && mostrandoFavoritos) {
-             // Si no usas .remove(), podrías llamar a cargarFavoritos()
-             // Pero llamar a la función puede ser lento, .remove() es instantáneo.
-             cargarFavoritos()
+            // Si no usas .remove(), podrías llamar a cargarFavoritos()
+            // Pero llamar a la función puede ser lento, .remove() es instantáneo.
+            cargarFavoritos()
         }
 
     } catch (error) {
@@ -1787,14 +1797,14 @@ async function toggleFavorito(idProducto) {
     }
 }
 
-    let mostrandoFavoritos = false;
+let mostrandoFavoritos = false;
 
-    async function cargarFavoritos() {
-      mostrandoFavoritos = true
-        const user = firebase.auth().currentUser;
-        const container = document.getElementById('favoritos-container');
+async function cargarFavoritos() {
+    mostrandoFavoritos = true
+    const user = firebase.auth().currentUser;
+    const container = document.getElementById('favoritos-container');
 
-        container.innerHTML = `
+    container.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3>Mis Favoritos ❤️</h3>
         </div>
@@ -1802,25 +1812,25 @@ async function toggleFavorito(idProducto) {
             <div class="text-center p-5"><div class="spinner-border text-danger"></div></div>
         </div>`;
 
-        const grid = document.getElementById('grid-favoritos');
+    const grid = document.getElementById('grid-favoritos');
 
-        try {
-            const snapshot = await db.collection("favoritos")
-                .where("userId", "==", user.uid)
-                .get();
+    try {
+        const snapshot = await db.collection("favoritos")
+            .where("userId", "==", user.uid)
+            .get();
 
-            if (snapshot.empty) {
-                grid.innerHTML = '<div class="col-12 text-center"><p class="text-muted">Aún no tienes productos guardados.</p></div>';
-                return;
-            }
+        if (snapshot.empty) {
+            grid.innerHTML = '<div class="col-12 text-center"><p class="text-muted">Aún no tienes productos guardados.</p></div>';
+            return;
+        }
 
-            let html = '';
-            snapshot.forEach(doc => {
-                const item = doc.data();
-                // Usamos la misma lógica de imagen que en tu catálogo
-                const img = item.imagenes.split(",")[0];
-                const id = item.idProducto;
-                html += `
+        let html = '';
+        snapshot.forEach(doc => {
+            const item = doc.data();
+            // Usamos la misma lógica de imagen que en tu catálogo
+            const img = item.imagenes.split(",")[0];
+            const id = item.idProducto;
+            html += `
                 <div class="col-6 col-md-6 col-lg-3">
                     <div class="card card-product h-100 shadow-sm border-0">
                         <button class="btn btn-light btn-sm shadow-sm" 
@@ -1845,15 +1855,15 @@ async function toggleFavorito(idProducto) {
                         </div>
                     </div>
                 </div>`;
-            });
+        });
 
-            grid.innerHTML = html;
+        grid.innerHTML = html;
 
-        } catch (error) {
-            console.error("Error:", error);
-            grid.innerHTML = '<div class="alert alert-danger">No se pudieron cargar los favoritos.</div>';
-        }
+    } catch (error) {
+        console.error("Error:", error);
+        grid.innerHTML = '<div class="alert alert-danger">No se pudieron cargar los favoritos.</div>';
     }
+}
 
 const bannerRef = db.collection("banner_imagenes"); //
 const storageRef = firebase.storage().ref("banner_fotos"); //
@@ -1862,7 +1872,7 @@ const storageRef = firebase.storage().ref("banner_fotos"); //
 async function cargarCarrusel() {
     const slidesContainer = document.getElementById('carousel-slides');
     const snapshot = await bannerRef.orderBy("fecha", "desc").get();
-    
+
     let html = "";
     snapshot.docs.forEach((doc, index) => {
         const data = doc.data();
@@ -1878,7 +1888,7 @@ async function cargarCarrusel() {
 async function abrirModalGestionBanner() {
     const listaGestion = document.getElementById('listaFotosGestion');
     if (!listaGestion) return;
-    
+
     // Abrimos el modal inmediatamente para que el usuario no sienta que se "congeló" la página
     const modalElement = document.getElementById('modalGestionBanner');
     let myModal = bootstrap.Modal.getInstance(modalElement);
@@ -1888,14 +1898,14 @@ async function abrirModalGestionBanner() {
     myModal.show();
 
     listaGestion.innerHTML = "<p class='text-center w-100'>Cargando imágenes del carrusel...</p>";
-    
+
     try {
         const snapshot = await bannerRef.orderBy("fecha", "desc").get();
         let html = "";
-        
+
         snapshot.docs.forEach(doc => {
             const data = doc.data();
-            
+
             // Limpiamos y escapamos las comillas simples de las rutas para evitar errores de sintaxis en el HTML string
             const docId = doc.id.trim();
             const storagePath = (data.storagePath || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
@@ -1910,9 +1920,9 @@ async function abrirModalGestionBanner() {
                     </button>
                 </div>`;
         });
-        
+
         listaGestion.innerHTML = html || "<p class='text-center w-100 text-muted p-3'>No hay fotos en el banner</p>";
-        
+
     } catch (error) {
         console.error("Error al listar banner:", error);
         listaGestion.innerHTML = "<p class='text-center text-danger w-100'>Error de permisos o lectura en la base de datos.</p>";
@@ -1936,7 +1946,7 @@ async function subirFotoBanner() {
         // Guardamos exactamente la misma estructura relacional en Firestore
         await bannerRef.add({
             url: url,
-            storagePath: path, 
+            storagePath: path,
             fecha: firebase.firestore.FieldValue.serverTimestamp()
         });
 
@@ -1944,9 +1954,9 @@ async function subirFotoBanner() {
         if (fileInput) fileInput.value = ""; // Limpiamos el selector de archivos
 
         // Refrescamos los componentes visuales de la página de forma limpia
-        await abrirModalGestionBanner(); 
+        await abrirModalGestionBanner();
         if (typeof cargarCarrusel === "function") cargarCarrusel();
-        
+
     } catch (error) {
         console.error("Error crítico al subir banner:", error);
         mostrarNotificacion("Error de permisos al intentar guardar la imagen", "error");
@@ -1958,22 +1968,22 @@ async function eliminarFotoBanner(docId, storagePath) {
     if (!storagePath || storagePath === 'undefined' || storagePath === '') {
         return mostrarNotificacion("La imagen seleccionada no posee una ruta física válida en Storage", "error");
     }
-    
+
     if (!confirm("¿Seguro que quieres eliminar esta imagen del carrusel?")) return;
 
     try {
         // 1. Eliminación física en Storage apuntando directo a la ruta guardada
         await firebase.storage().ref().child(storagePath).delete();
-        
+
         // 2. Eliminación del documento relacional en la base de datos
         await bannerRef.doc(docId).delete();
 
         mostrarNotificacion("Imagen removida correctamente", "success");
 
         // Refrescamos los componentes visuales
-        await abrirModalGestionBanner(); 
+        await abrirModalGestionBanner();
         if (typeof cargarCarrusel === "function") cargarCarrusel();
-        
+
     } catch (error) {
         console.error("Error crítico al eliminar banner:", error);
         mostrarNotificacion("No se pudo completar la eliminación por restricciones de seguridad", "error");
@@ -1985,10 +1995,10 @@ cargarCarrusel();
 function cerrarModalCorrectamente() {
     const modalEl = document.getElementById('modalGestionBanner');
     const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    
+
     if (modalInstance) {
         modalInstance.hide();
-        
+
         // Refuerzo manual por si Bootstrap falla:
         modalEl.addEventListener('hidden.bs.modal', function () {
             const backdrop = document.querySelector('.modal-backdrop');
@@ -2003,9 +2013,9 @@ function cerrarModalCorrectamente() {
 
 async function enviarCorreoPedido(pedido) {
     const folio = pedido.folio;
-    const totalFormateado = Number(pedido.total).toLocaleString('es-MX', { 
-        style: 'currency', 
-        currency: 'MXN' 
+    const totalFormateado = Number(pedido.total).toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
     });
 
     // 1. Crear la tabla de productos (Tu misma estructura)
