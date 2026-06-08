@@ -1584,8 +1584,7 @@ function verDetalle(idPedido) {
             <div class="carousel-item ${activeClass}">
                 <a href="${url}" 
                    data-pswp-width="1200" 
-                   data-pswp-height="1200" 
-                   target="_blank" 
+                   data-pswp-height="1200"
                    class="d-block w-100">
                     <img src="${url}" 
                          class="d-block w-100 img-fluid rounded" 
@@ -2163,6 +2162,8 @@ async function enviarCorreoPedido(pedido) {
 const lightbox = new PhotoSwipeLightbox({
   gallery: '.pswp-gallery',
   children: 'a',
-  pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js')
+  pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.3/photoswipe.esm.min.js'),
+  // Esto ayuda a que el zoom viva sobre el modal y no fuera de él
+  appendToElement: document.getElementById('modalDetalle') 
 });
 lightbox.init();
