@@ -164,8 +164,52 @@ function renderizarTarjetaProducto(p, contenedor, perfil, idPedido) {
     // VERIFICACIÓN: ¿Este producto está en mis favoritos?
     const esFav = idsFavoritosUser.includes(p.idProducto);
     // 3. Crear el HTML de la tarjeta (Card)
-    if (!sinStock) {
+    if (!sinStock && perfil.rol !== 'administrador') {
 
+        contenedor.innerHTML += `
+        <div class="card-item col-6 col-md-6 col-lg-3 mb-4">
+          <div class="card card-product h-100 ${sinStock ? 'out-of-stock' : ''}">
+
+            <img src="${imagen}" class="card-img-top product-img" style="cursor: pointer; object-fit: cover;"
+                onclick="verDetalle('${idPedido}')">
+            
+            <div class="card-body d-flex flex-column">
+              <h6 class="nameProducto text-truncate">${p.nombre}</h6>
+              <p class="descripcionProduct small" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                ${p.descripcion || ''}
+              </p>
+              <div class="contentInfoProducto d-flex justify-content-between align-items-center">
+              
+                <span class="priceProduct fw-bold fs-4">$${p.precio}<small>mxn</small></span>
+              
+
+              ${sinStock ?
+                '<div class="alert alert-danger p-1 text-center small mb-0">AGOTADO</div></div>' : `
+                      <div class="actionsContentProduct d-flex gap-2">
+                          <button id="fav-btn-${idPedido}" class="btn-icon-solo favorito" onclick="toggleFavorito('${idPedido}')">
+                          <i class="bi bi-heart"></i>
+                          </button>
+                      <input type="number" id="qty-${idPedido}" class="form-control" value="1" min="1" max="${p.stock}" style="max-width: 60px; display: none;">
+                          <button onclick="addToCart('${idPedido}')" class="btn-icon-solo card" title="Agregar al carrito">
+                          <i class="bi bi-cart-fill"></i>
+                          </button>
+                      </div>
+                  </div>
+              `}
+
+              ${perfil.rol === 'administrador' ? `
+                <div class="accionsAdmin d-flex gap-1">
+                  <button class="btn btn-warning btn-sm flex-fill" onclick="abrirEditor('${idPedido}')">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button class="btn btn-danger btn-sm flex-fill" onclick="confirmarEliminacion('${idPedido}')">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>` : ''}
+            </div>
+          </div>
+        </div>`;
+    } else {
         contenedor.innerHTML += `
         <div class="card-item col-6 col-md-6 col-lg-3 mb-4">
           <div class="card card-product h-100 ${sinStock ? 'out-of-stock' : ''}">
