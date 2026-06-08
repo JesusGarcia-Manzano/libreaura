@@ -982,4 +982,14 @@ span#cartCount {
     z-index: 1056 !important; /* Los modales de Bootstrap terminan en 1055 */
 }
 
+#zoomModal .modal-dialog{
+  width: 100%;
+}
+
+#zoomModal .modal-dialog img{
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
 }
