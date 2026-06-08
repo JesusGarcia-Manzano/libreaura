@@ -1572,11 +1572,13 @@ const listaIds = producto.imagenes.split(',');
 let carouselInner = document.getElementById('carouselImagenes');
 carouselInner.innerHTML = '';
 
+// Dentro de tu función verDetalle, después de llenar el innerHTML del carrusel:
+
+// 1. Inyectas el HTML igual que antes
 listaIds.forEach((idDrive, index) => {
     const activeClass = index === 0 ? 'active' : '';
     const url = idDrive.trim();
     
-    // Usamos un div con data-fslightbox. Esto NO causa recargas.
     carouselInner.innerHTML += `
         <div class="carousel-item ${activeClass}">
             <div data-fslightbox="galeria" 
@@ -1590,8 +1592,13 @@ listaIds.forEach((idDrive, index) => {
         </div>`;
 });
 
-// IMPORTANTE: Después de inyectar el HTML, refrescamos la librería para que reconozca las nuevas imágenes
-refreshFsLightbox();
+// 2. IMPORTANTE: Forzamos la actualización de la librería con un pequeño retraso
+// Esto permite que el DOM se renderice antes de buscar las imágenes
+setTimeout(() => {
+    if (typeof refreshFsLightbox === 'function') {
+        refreshFsLightbox();
+    }
+}, 300); // 300 milisegundos de espera
 
     // 5. Configurar botón de agregar
     const btnAgregar = document.getElementById('btnAgregarDesdeDetalle');
