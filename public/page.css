@@ -602,8 +602,8 @@ span#cartCount{
     }
 
     .modalProductDetalle .modal-dialog .modal-content .modal-body .carousel-item img {
-      max-height: 12rem;
-      height: 12rem !important;
+      max-height: 29rem;
+      height: 100% !important;
     }
 
     .modalProductDetalle .modal-dialog{
@@ -615,7 +615,7 @@ span#cartCount{
     }
     .titieTextDescripcion,
     #cartTotal{
-      font-size: 1rem !important;
+      font-size: 1.2rem !important;
     }
     #btnAgregarDesdeDetalle,
     #btnFinalizarCompra{
@@ -629,7 +629,7 @@ span#cartCount{
     .textdetallePrecio,
     .textdetalleStock,
     #pedidos-container tr{
-      font-size: .5rem;
+      font-size: .7rem;
     }
     
     .btn-outline-light,
@@ -762,7 +762,7 @@ span#cartCount{
     }
     #authBtn button,
     .btn-close{
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
     #nav-logo-dynamic{
       display: none;
@@ -823,7 +823,7 @@ span#cartCount{
   }
 
   .modal .modal-header .modal-title{
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
   .modal .modal-body .textModal,
   #grid-favoritos .card-product .card-body p.text-truncate {
@@ -875,7 +875,7 @@ span#cartCount{
   .card.card-product .card-body,
   .modal.modalProductDetalle .modal-dialog .modal-body,
   #cartModal .modal-dialog .modal-body{
-    padding: .5rem;
+    padding: .2rem .5rem;
   }
   .modal.modalProductDetalle .modal-dialog .modal-body .rounded{
     padding: 0 !important;
@@ -883,9 +883,13 @@ span#cartCount{
 
   .modal.modalProductDetalle .modal-dialog,
   #cartModal .modal-dialog{
-    width: 65%;
-    top: 4rem;
+    width: 90%;
+    top: 1rem;
     margin: 0 auto;
+  }
+
+  .modal-dialog .modal-header{
+    padding: .5rem 1rem;
   }
   #cartModal .modal-dialog .modal-header button,
   #cartModal .modal-dialog .modal-header .modal-title{
