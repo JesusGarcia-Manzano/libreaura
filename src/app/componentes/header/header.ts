@@ -82,6 +82,18 @@ export class HeaderComponent {
   }
 
 async confirmarCambioRol() {
+
+// NUEVA VALIDACIÓN: Revisamos si el carrito tiene al menos 1 producto
+    if (this.cartService.carrito().length > 0) {
+      this.snackBar.open('Para poder cambiar de perfil, necesitas vaciar tu carrito de compras.', 'Entendido', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['alerta-carrito']
+      });
+      return; // Detenemos la función aquí mismo
+    }
+    
     const user = this.authService.currentUser();
     const userData = this.authService.userData(); // Obtener la data actual
  
