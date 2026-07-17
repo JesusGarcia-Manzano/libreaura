@@ -84,7 +84,7 @@ export class HeaderComponent {
 async confirmarCambioRol() {
     const user = this.authService.currentUser();
     const userData = this.authService.userData(); // Obtener la data actual
-
+ 
     // Validar que exista el usuario y que los datos de Firestore ya estén cargados
     if (!user || !userData) {
       console.error("Aún no se ha cargado el usuario o sus datos de Firestore.");

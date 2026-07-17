@@ -20,7 +20,7 @@ firebaseService = inject(Firebase);
     console.log("perfil -> ", this.perfil)
     const user = this.firebaseService.currentUser();
     if (user) {
-      //await this.firebaseService.actualizarUsuario(user.uid, this.perfil);
+      await this.firebaseService.actualizarUsuario(user.uid, this.perfil);
       this.dialogRef.close(); // Cerramos al guardar
     }
   }
