@@ -19,6 +19,10 @@
 .priceProduct{
     font-size: 1.7rem;
     color: var(--color-rosa-fuerte);
+    small{
+        font-size: .9rem;
+        font-weight: normal;
+    }
 }
 
 .containerProduct{
@@ -38,8 +42,13 @@
         padding: 0 .5rem;
         .card-item{
             padding: .2rem;
+            .card-product{
+                border-radius: 25px 25px 12px 12px;
+            }
+
             .product-img{
                 height: 13rem;
+                border-radius: 25px;
             }
             .card-body{
                 padding: .5rem;

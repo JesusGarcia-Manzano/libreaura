@@ -1,10 +1,23 @@
 .product-img{
     cursor: pointer;
     height: 21rem;
+    img{
+        border-radius: 25px;
+    }
 }
 
 .descripcionProduct{
     color: var(--color-grid-claro);
+}
+
+.containerProduct{
+    margin-top: 4.3rem;
+    .card-product{
+        border-radius: 25px 25px 12px 12px;
+        img{
+            border-radius: 25px;
+        }
+    }
 }
 
 .favorito,
@@ -18,6 +31,10 @@
 .priceProduct{
     font-size: 1.7rem;
     color: var(--color-rosa-fuerte);
+    small{
+        font-size: .9rem;
+        font-weight: normal;
+    }
 }
 
 .contentInfoProducto{
