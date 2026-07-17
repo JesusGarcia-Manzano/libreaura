@@ -9,6 +9,21 @@ img {
     align-items: center;
     border-bottom: 1px;
     padding: 2px;
+    .acctions{
+        border: solid 1px var(--color-rosa-fuerte);
+        border-radius: 12px;
+        button{
+            border: none;
+            background-color: var(--color-rosa-fuerte);
+            color: white;
+            &.more{
+                border-radius: 0 12px 12px 0;
+            }
+            &.less{
+                border-radius: 12px 0 0 12px;
+            }
+        }
+    }
 }
 
 .mobileVersion {

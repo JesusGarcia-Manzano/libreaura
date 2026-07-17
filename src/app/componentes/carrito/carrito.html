@@ -17,19 +17,19 @@
           </div>
           
           <div class="acctions d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-outline-secondary" 
+            <button class="btn btn-sm btn-outline-secondary less" 
                     (click)="cartService.actualizarCantidad(item.idProducto, -1, item.stock)">-</button>
             
             <span class="fw-bold px-2">{{ item.cantidad }}</span>
             
-            <button class="btn btn-sm btn-outline-secondary" 
+            <button class="btn btn-sm btn-outline-secondary more" 
                     (click)="cartService.actualizarCantidad(item.idProducto, 1, item.stock)">+</button>
             
-            <button class="btn btn-sm btn-danger ms-2" 
-                    (click)="cartService.eliminarDelCarrito(item.idProducto)">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
+                  </div>
+                  <button class="btn btn-sm btn-danger ms-2" 
+                          (click)="cartService.eliminarDelCarrito(item.idProducto)">
+                    <i class="bi bi-trash"></i>
+                  </button>
         </div>
       } @empty {
         <div class="text-center py-4 text-muted">
