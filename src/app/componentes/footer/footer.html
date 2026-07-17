@@ -1,0 +1,50 @@
+<footer id="dynamic-footer" class="py-4">
+  <div class="capa-movimiento movimiento-lento"></div>
+  <div class="capa-movimiento movimiento-rapido"></div>
+
+  <div class="container container-footer-img">
+    <div class="row align-items-center text-center content-items-img-footer">
+      <div class="col-md-5 imgfooter1" id="footer-img-1">
+        @if (authService.configuracion()) {
+        <img [src]="authService.configuracion()!.img1" alt="Contacto" class="img-fluid">
+        } @else {
+        <div class="placeholder-footer" style="height: 100px;"></div>
+        }
+
+        <div id="footer-img-2" class="imgfooter2">
+          @if (authService.configuracion()) {
+          <img [src]="authService.configuracion()!.img2" alt="Vuélvete Proveedor" class="img-fluid">
+          } @else {
+          <div class="placeholder-footer" style="height: 100px;"></div>
+          }
+          @if ((usuario | async) !== null) {
+          <button class="btn-proveedor-footer" style="border-style: dashed;" (click)="confirmarCambioRol()">
+            {{ authService.userData()?.rol === 'cliente' ? 'Cliente Mayorista' : 'Cliente' }}
+          </button>
+          }
+
+
+        </div>
+      </div>
+
+      <div class="col-md-5 imgfooter3" id="footer-img-3">
+        <a href="https://www.instagram.com/libre_aura?igsh=OTJ2MjBoYjh5bTNwswwwwwwwwwwwwqqqqq" target="_blank">
+          @if (authService.configuracion()) {
+          <img [src]="authService.configuracion()!.img3" alt="Siguenos en Instagram" class="img-fluid">
+          } @else {
+          <div class="placeholder-footer" style="height: 100px;"></div>
+          }
+        </a>
+      </div>
+    </div>
+
+    @if (esAdmin) {
+    <div class="text-center mt-3">
+      <button class="btn btn-sm btn-outline-warning" (click)="abrirGestor()">
+        Editar Imágenes del Footer
+      </button>
+    </div>
+    }
+  </div>
+</footer>
+

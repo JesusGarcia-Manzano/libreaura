@@ -1,0 +1,86 @@
+.carousel-control-prev-icon{
+    color: black;
+}
+
+.carousel-control-prev{
+    opacity: initial;
+}
+
+p{
+    color: black;
+}
+
+.precio{
+    font-size: 2.5rem;
+    color: var(--color-rosa-fuerte);
+}
+
+.hayprecio{
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.stock{
+    color: white;
+    background-color: var(--color-rosa-fuerte);
+    padding: 0 .5rem;
+    border-radius: 12px;
+}
+
+.contentCantidad{
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border: solid 1px var(--color-rosa-fuerte);
+    border-radius: 12px;
+    margin-top: 0;
+    input.form-control{
+        width: 70%;
+        border: none;
+        height: 2rem;
+        &:focus{
+            border: none;
+            box-shadow: none;
+        }
+    }
+    button{
+        height: 2rem;
+        background-color: var(--color-rosa-fuerte);
+        border: none;
+        color: white;
+        width: 10%;
+        &.rest{
+            border-radius: 12px 0 0 12PX;
+        }
+        &.add{
+            border-radius: 0 12px 12px 0;
+        }
+    }
+}
+
+.agregarCarrito{
+    background-color: var(--color-rosa-fuerte);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+.cantidad{
+    margin: 0;
+}
+
+@media (max-width: 800px) {
+    mat-dialog-content{
+        .hayprecio{
+            display: inline-block;
+            width: 100%;
+            .precio{
+                font-size: 1.3rem;
+                margin: .5rem 0;
+            }
+        }
+    }
+}

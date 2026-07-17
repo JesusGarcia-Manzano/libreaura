@@ -1,0 +1,19 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h2>Iniciar Sesión</h2>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo electrónico</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="password" type="password">
+    </mat-form-field>
+    <section class="action">
+      <button mat-raised-button type="submit" [disabled]="">Ingresar</button>
+      <button mat-raised-button routerLink="/registrarse">Registrarse</button>
+    </section>
+  </form>
+</div>

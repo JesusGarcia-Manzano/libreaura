@@ -1,0 +1,29 @@
+.buttonCreate{
+    color: white;
+    background-color: var(--color-rosa-fuerte);
+}
+
+mat-dialog-content{
+    .itemProduct{
+        border-color: var(--color-rosa-fuerte) !important;
+        h5{
+            color: var(--color-rosa-fuerte);
+        }
+        .subProductosSection{
+            border-color: var(--color-rosa-fuerte);
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    mat-dialog-content{
+        .allItems{
+            padding: 0 !important;
+            .subProductosSection{
+                .form-label{
+                    color: var(--color-rosa-fuerte);
+                }
+            }
+        }
+    }
+}

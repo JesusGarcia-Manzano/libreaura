@@ -1,0 +1,95 @@
+.container-footer-img {
+  position: relative;
+}
+
+footer{
+    height: 100%;
+}
+
+.btnFooterupIma {
+  position: absolute;
+  width: 100%;
+  bottom: -1.5rem;
+}
+
+.content-items-img-footer,
+.imgfooter1 {
+  display: flex;
+  justify-content: center;
+}
+
+#dynamic-footer {
+  background-color: #f8c0d5;
+  /* Tu rosa base */
+  position: relative;
+  overflow: hidden;
+
+}
+
+/* Añadimos un efecto de "chispa" adicional con pseudoelementos */
+#dynamic-footer {
+  background-color: #f8c0d5;
+  position: relative;
+  overflow: hidden;
+  /* Importante para que no se salgan las estrellas */
+  z-index: 1;
+}
+
+/* Estilo para las estrellas del GIF */
+.capa-movimiento {
+  position: absolute;
+  top: -100%;
+  /* Área extra para que no se vea el corte al mover */
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  pointer-events: none;
+  z-index: 0;
+  /* Usamos un SVG de estrella de 4 puntas nítida */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 0l2 10 10 2-10 2-2 10-2-10-10-2 10-2z"/></svg>');
+}
+
+/* Capa 1: Estrellas grandes que se mueven lento (Diagonal) */
+.movimiento-lento {
+  background-size: 200px 200px;
+  opacity: 0.4;
+  animation: diagonalMove 20s linear infinite;
+}
+
+/* Capa 2: Estrellas pequeñas que se mueven más rápido y brillan */
+.movimiento-rapido {
+  opacity: 0.2;
+  animation: diagonalMove 10s linear infinite, twinkle 4s ease-in-out infinite;
+}
+
+.btn-proveedor-footer:hover {
+    background-color: white;
+    color: #E93C96;
+}
+
+.btn-proveedor-footer {
+    background: none;
+    border: 2px dashed white;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-top: 5px;
+    transition: 0.3s;
+    width: 100%;
+}
+
+#footer-img-1{
+  align-items: center;
+  img{
+    width: 40%;
+  }
+
+  .imgfooter2 img{
+    width: 60%;
+  } 
+}
+
+#footer-img-3 img{
+  width: 70%;
+}

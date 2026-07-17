@@ -1,0 +1,61 @@
+<mat-toolbar class="shadow-sm row content-header">
+  <section class="derecha col-lg-4 col-dm-6 row align-items-center">
+    <button class="menuNav" mat-icon-button (click)="onToggle.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    @if (authService.configuracion()) {
+    <img class="imgDesk" routerLink="/productos" [src]="authService.configuracion()!.navLogo" alt="Logo">
+    <img class="imgMob" routerLink="/productos" [src]="authService.configuracion()!.navLogoMobile" alt="Logo">
+    }
+  </section>
+  <section class="izquierda col-lg-8 col-dm-6 row">
+    <div class="col-6 accionProvedor row">
+@if ((usuario | async) !== null) {
+        
+        <!-- 2. NUEVO: Esperamos a que Firestore haya traído los datos del usuario -->
+        @if (authService.userData() !== null) {
+          
+          @if (esAdmin) {
+            <button class="btn listCompras" routerLink="/lista-compras">Lista de pedidos</button>
+          } @else {
+            <button class="btn-proveedor-footer" style="border-style: dashed;" (click)="confirmarCambioRol()">
+              {{ authService.userData()?.rol === 'cliente' ? 'Cliente Mayorista' : 'Cliente' }}
+            </button>
+          }
+          
+        } @else {
+          <!-- Opcional: Mostrar algo mientras carga el rol desde Firestore -->
+          <p class="text-muted" style="font-size: 12px;">Cargando perfil...</p>
+        }
+      }
+    </div>
+
+    
+    <div class="col-6 actionsUser">
+      @if (esAdmin) {
+      <button class="btn nuevoProducto" (click)="abrirModalCrearProductos()">
+        <i class="bi bi-plus-circle"></i> Nuevo Producto
+      </button>
+      }
+      @if ((usuario | async) !== null) {
+      <button class="iniciarSesion" routerLink="/login" (click)="cerrarSesion()">Cerrar Sesion</button>
+      <button id="btnPerfil" class="editPerfil" (click)="abrirPerfil()"><i class="bi bi-person-fill icono-rosa"></i></button>
+      <button class="favoritosbutton" id="favoritosbuttonId" routerLink="/favoritos"><i
+          class="bi bi-heart-fill icono-rosa"></i></button>
+      } @else {
+      <button class="registrado" routerLink="/registrarse">Registrarse</button>
+      <button class="iniciarSesion" routerLink="/login">Iniciar Sesion</button>
+      }
+
+      <button class="carritobutton" id="carritobuttonId" (click)="abrirCarrito()">
+        <i class="bi bi-cart-fill icono-rosa"></i>
+        @if (cartService.carrito().length > 0) {
+        <span class="badge rounded-pill bg-danger">
+          {{ obtenerTotalProductos() }}
+        </span>
+        }
+      </button>
+    </div>
+  </section>
+
+</mat-toolbar>

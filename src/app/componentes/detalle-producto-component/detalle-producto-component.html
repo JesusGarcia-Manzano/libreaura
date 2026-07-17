@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>{{ producto.nombre }}</h2>
+
+<mat-dialog-content>
+<div id="carruselProducto" class="carousel slide mb-3" data-bs-ride="carousel">
+    
+    <div class="carousel-indicators">
+      @for (url of producto.imagenes.split(','); track $index) {
+        <button type="button" data-bs-target="#carruselProducto" [attr.data-bs-slide-to]="$index" [class.active]="$index === 0"></button>
+      }
+    </div>
+
+    <div class="carousel-inner">
+      @for (url of producto.imagenes.split(','); track $index) {
+        <div class="carousel-item" [class.active]="$index === 0">
+          <img [src]="url" class="d-block w-100" style="max-height: 300px; object-fit: contain;">
+        </div>
+      }
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carruselProducto" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carruselProducto" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+  </div>
+
+  <p>{{ producto.descripcion }}</p>
+  <div class="hayprecio">
+    <p class="fw-bold precio">Precio: ${{ producto.precio }}</p>
+    <p class="stock">Stock disponible: {{ producto.stock }}</p>
+  </div>
+  
+  @if (producto.stock > 0) {
+    <p class="cantidad">Cantidad a comprar:</p>
+    <div class="d-flex align-items-center gap-2 contentCantidad">
+      <button class="btn rest btn-outline-secondary btn-sm" (click)="restar()">-</button>
+      <input type="number" class="form-control text-center mx-2" [(ngModel)]="cantidad" readonly>
+      <button class="btn add btn-outline-secondary btn-sm" (click)="sumar()">+</button>
+    </div>
+    <small class="text-muted">Máximo disponible: {{ producto.stock }} pzs</small>
+  } @else {
+    <div class="alert alert-danger mt-2">Este producto está agotado por el momento.</div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancelar</button>
+  <button class="agregarCarrito" [disabled]="producto.stock <= 0" (click)="agregarAlCarrito()">
+    Agregar al Carrito
+  </button>
+</mat-dialog-actions>

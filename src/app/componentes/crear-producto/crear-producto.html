@@ -1,0 +1,126 @@
+<mat-dialog-content>
+  @if (!formularioListo) {
+  <div class="p-3">
+    <label>¿Cuántos productos deseas crear?</label>
+    <input type="number" [(ngModel)]="cantidad" class="form-control mb-2">
+    <button (click)="iniciarFormulario()" class="btn buttonCreate">Continuar</button>
+  </div>
+  } @else {
+  <div class="p-3 allItems">
+    @for (p of productos; track $index) {
+    <div class="border border-2 itemProduct p-3 mb-4 rounded shadow-sm">
+      <h5 class="border-bottom pb-2 mb-3">Producto {{$index + 1}}</h5>
+
+      <div class="row mb-2">
+        <div class="col-md-8">
+          <label class="form-label small mb-0">Nombre del Producto</label>
+          <input [(ngModel)]="p.nombre" placeholder="Ej. Bolso de cuero" class="form-control form-control-sm">
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <label class="form-label small mb-0">Precio ($)</label>
+          <input [(ngModel)]="p.precio" type="number" placeholder="0.00" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small mb-0">Stock (Piezas)</label>
+          <input [(ngModel)]="p.stock" type="number" placeholder="0" class="form-control form-control-sm">
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label small mb-0">Descripción</label>
+        <textarea [(ngModel)]="p.descripcion" placeholder="Detalles del producto..."
+          class="form-control form-control-sm" rows="2"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label small mb-0">Imágenes del Producto</label>
+        <input type="file" multiple accept="image/*" (change)="seleccionarImagenes(p, $event)"
+          class="form-control form-control-sm">
+
+        @if (p.archivosTemporales.length > 0) {
+        <small class="text-success mt-1 d-block">
+          <i class="bi bi-check-circle"></i> {{ p.archivosTemporales.length }} imagen(es) seleccionada(s)
+        </small>
+        }
+      </div>
+
+      <div class="row mb-2 bg-light p-2 rounded">
+        <div class="col-md-6">
+          <label class="form-label small mb-0 fw-bold">Tipo de Cliente</label>
+          <select [(ngModel)]="p.tipoCliente" class="form-select form-select-sm">
+            <option value="">Seleccione...</option>
+            <option value="cliente">Clientes</option>
+            <option value="proveedor">Proveedores</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small mb-0 fw-bold">Tipo de Producto</label>
+          <select [(ngModel)]="p.tipoProducto" class="form-select form-select-sm">
+            <option value="">Seleccione...</option>
+            <option value="bolsos">Bolsos</option>
+            <option value="sobrero">Sombreros</option>
+            <option value="llavero">Llaveros</option>
+            <option value="ropa">Ropa</option>
+          </select>
+        </div>
+      </div>
+
+      @if (p.tipoProducto === 'bolsos') {
+      <div class="subProductosSection p-2 mt-2 border rounded bg-white">
+        <label class="form-label small fw-bold d-block mb-2">Subcategorías de Bolsas</label>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkMochila{{$index}}"
+            (change)="toggleSubCategoria(p, 'elegante', $event)">
+          <label class="form-check-label small" for="checkMochila{{$index}}">Elegante</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkBandolera{{$index}}"
+            (change)="toggleSubCategoria(p, 'casual', $event)">
+          <label class="form-check-label small" for="checkBandolera{{$index}}">Casual</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkTote{{$index}}"
+            (change)="toggleSubCategoria(p, 'mochila', $event)">
+          <label class="form-check-label small" for="checkTote{{$index}}">Mochila</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkTote{{$index}}"
+            (change)="toggleSubCategoria(p, 'cartera', $event)">
+          <label class="form-check-label small" for="checkTote{{$index}}">Cartera</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkTote{{$index}}"
+            (change)="toggleSubCategoria(p, 'divertida', $event)">
+          <label class="form-check-label small" for="checkTote{{$index}}">Divertida</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkTote{{$index}}"
+            (change)="toggleSubCategoria(p, 'alternativa', $event)">
+          <label class="form-check-label small" for="checkTote{{$index}}">Alternativa</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkTote{{$index}}"
+            (change)="toggleSubCategoria(p, 'personalizado', $event)">
+          <label class="form-check-label small" for="checkTote{{$index}}">Personalizado</label>
+        </div>
+      </div>
+      }
+
+    </div>
+    }
+    <button (click)="guardarProductos()" [disabled]="guardando" class="btn buttonCreate w-100 fw-bold py-2 shadow mt-3">
+      @if (guardando) {
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Subiendo imágenes y guardando...
+      } @else {
+      <i class="bi bi-save me-2"></i> Guardar Todos los Productos
+      }
+    </button>
+  </div>
+  }
+</mat-dialog-content>

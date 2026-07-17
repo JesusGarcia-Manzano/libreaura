@@ -1,0 +1,55 @@
+<app-banner />
+<div class="row container containerProduct">
+  <!-- EL CAMBIO ESTÁ AQUÍ: Cambiamos firebaseService.productos() por productosFiltrados() -->
+  @for (p of productosFiltrados(); track p.id) {
+    
+    @if (firebaseService.userData()?.rol === 'administrador' || 
+    (p.tipoCliente === (firebaseService.userData()?.rol || 'cliente') && p.stock > 0)) {
+      <div class="card-item col-6 col-md-6 col-lg-3 mb-4">
+        <div class="card card-product h-100" [class.out-of-stock]="p.stock <= 0">
+          
+          <img [src]="p.imagenes?.split(',')[0]" 
+          class="card-img-top product-img" 
+          (click)="verDetalle(p)">
+          
+          <div class="card-body d-flex flex-column">
+            <h6 class="nameProducto text-truncate">{{ p.nombre }}</h6>
+            <p class="descripcionProduct small">{{ p.descripcion }}</p>
+            
+            <!-- Aquí aplicamos el flex-grow en el CSS, o margin-top: auto en el contentInfoProducto -->
+            <div class="contentInfoProducto">
+              <span class="priceProduct fw-bold">${{ p.precio }}<small>MXN</small></span>
+
+              @if (p.stock <= 0) {
+                <div class="alert alert-danger p-1 text-center small mb-0">AGOTADO</div>
+              } @else {
+                <div class="actionsContentProduct d-flex gap-2">
+                  <button class="btn-icon-solo favorito" (click)="toggleFavorito(p.id)">
+                    <i class="bi" 
+                      [ngClass]="isFavorito(p.id) ? 'bi-heart-fill' : 'bi-heart'"
+                      [style.color]="isFavorito(p.id) ? 'var(--color-rosa-fuerte)' : 'inherit'">
+                    </i>
+                  </button>
+                  <button class="btn-icon-solo cardadd" (click)="addToCart(p)">
+                    <i class="bi bi-cart-fill"></i>
+                  </button>
+                </div>
+              }
+            </div>
+
+            @if (firebaseService.userData()?.rol === 'administrador') {
+              <div class="accionsAdmin d-flex gap-1 mt-2">
+                <button class="btn btn-warning btn-sm flex-fill" (click)="abrirEditor(p)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm flex-fill" (click)="confirmarEliminacion(p)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

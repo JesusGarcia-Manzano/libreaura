@@ -1,0 +1,17 @@
+.carousel-item{
+    img{
+        object-fit: cover; 
+        height: 620px;
+    }
+}
+@media (max-width: 800px) {
+    .carousel-item{
+        img{
+            height: 160px;
+        }
+    }
+
+    #banner-carousel-container{
+        margin-top: 3.5rem;
+    }
+}

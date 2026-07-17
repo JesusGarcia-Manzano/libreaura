@@ -1,0 +1,54 @@
+<div class="reginstrarse-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <h2>Registrarte</h2>
+    <section class="section1">
+      <mat-form-field appearance="outline">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password">
+      </mat-form-field>
+    </section>
+
+    <section class="section2">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre Completo</mat-label>
+        <input matInput formControlName="name" type="text">
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Numero telefonico</mat-label>
+        <input matInput formControlName="number" type="number" placeholder="5645852595">
+      </mat-form-field>
+    </section>
+
+    <section class="section3">
+      <mat-form-field appearance="outline">
+        <mat-label>Dirección de envio</mat-label>
+        <textarea matInput formControlName="direccion" type="text" placeholder="calle, numero, colonia"></textarea>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Indicaciones o referencias</mat-label>
+        <textarea matInput formControlName="indicaciones" type="number" placeholder="casa o local verde, puerta azul, barba gris"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de cliente</mat-label>
+        <mat-select formControlName="tipoCliente">
+          <mat-option value="cliente" selected>cliente</mat-option>
+          <mat-option value="proveedor">proveedor</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+    
+
+
+    <section class="action">
+      <button mat-raised-button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+      <button mat-raised-button routerLink="/login">Inicias Sesión</button>
+    </section>
+  </form>
+</div>

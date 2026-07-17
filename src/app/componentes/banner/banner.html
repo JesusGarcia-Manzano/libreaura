@@ -1,0 +1,79 @@
+<section id="banner-carousel-container">
+  <div class="carousel slide shadow-sm rounded overflow-hidden">
+    <div class="carousel-inner" id="carousel-slides">
+      
+      @for(banner of banners(); track banner.id; let i = $index) {
+        <div class="carousel-item" [class.active]="i === currentIndex()" style="transition: opacity 0.5s ease-in-out;">
+          <img [src]="banner.url" class="d-block w-100 imgcarruselBanner" alt="Banner imagen">
+        </div>
+      } @empty {
+        <p class='text-center p-5'>No hay imágenes en el banner.</p>
+      }
+
+    </div>
+    
+    @if (banners().length > 1) {
+      <button class="carousel-control-prev" type="button" (click)="anterior()">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" (click)="siguiente()">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    }
+  </div>
+
+  @if (firebaseService.userData()?.rol === 'administrador') {
+    <div class="text-center mt-3" id="inserImgAdmin">
+      <button class="btn btn-sm btn-dark" (click)="abrirModalGestionBanner()">
+        <i class="bi bi-images me-2"></i>Gestionar Banner
+      </button>
+    </div>
+  }
+</section>
+
+@if (mostrarModal()) {
+  <div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title">Gestionar Imagenes del Banner</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="mb-4 p-3 border rounded bg-light">
+            <label class="form-label fw-bold">Agregar nueva imagen</label>
+            <input type="file" class="form-control" (change)="subirFotoBanner($event)" accept="image/*" [disabled]="cargando()">
+          </div>
+
+          <h6 class="fw-bold mb-3">Imágenes actuales</h6>
+          
+          <div class="row g-2" id="listaFotosGestion">
+            @if (cargando()) {
+              <div class="col-12 text-center py-3">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2">Procesando...</p>
+              </div>
+            }
+
+            @for(banner of banners(); track banner.id) {
+              <div class="col-4 col-md-3 position-relative">
+                <img [src]="banner.url" class="img-thumbnail w-100 shadow-sm" style="height: 100px; object-fit: cover;">
+                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle" 
+                        (click)="eliminarFotoBanner(banner.id, banner.storagePath)"
+                        title="Eliminar imagen">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            } @empty {
+              @if (!cargando()) {
+                <p class='text-center w-100 text-muted p-3'>No hay fotos cargadas en el carrusel.</p>
+              }
+            }
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,48 @@
+:root {
+  /* Definición de colores globales */
+  --color-rosa-claro: #F8BBD0;
+  --color-rosa-fuerte: #E93C96;
+  --color-rosa-botones-oscuro: #E24E96;
+  --color-rosa-botones-claro: #EB7AAE;
+  --color-blanco: #FFFFFF;
+  --color-grid-oscuro: #666666;
+  --color-grid-claro: #888888;
+}
+
+app-footer{
+  display: inline-block;
+  width: 100%;
+}
+
+app-navbar{
+    display: inline-block;
+    position: fixed;
+    height: 100%;
+    top: 64px;
+    transition: width 0.3s ease-in-out;
+    background: white;
+    z-index: 9;
+}
+
+:host {
+  display: block;
+  position: sticky; /* Esto hace que se quede fijo */
+  top: 0;           /* Define la distancia desde el borde superior */
+  z-index: 1000;    /* Asegura que el header esté por encima de otros elementos */
+  width: 100%;
+}
+
+app-header {
+    display: inline-block;
+    position: fixed; /* Ya lo tienes fijo, pero quizás el header no */
+    width: 100%;
+    top: 0;
+    z-index: 9;      /* Si el header mide 60px, el navbar empieza debajo */
+    /* ... */
+}
+
+@media (max-width: 800px) {
+  app-navbar{
+    top: 55px;
+  }
+}

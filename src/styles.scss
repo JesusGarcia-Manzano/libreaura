@@ -1,0 +1,31 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+  /* Definición de colores globales */
+  --color-rosa-claro: #F8BBD0;
+  --color-rosa-fuerte: #E93C96;
+  --color-rosa-botones-oscuro: #E24E96;
+  --color-rosa-botones-claro: #EB7AAE;
+  --color-blanco: #FFFFFF;
+  --color-grid-oscuro: #666666;
+  --color-grid-claro: #888888;
+}
+
+/* Fuerza a que el texto siempre sea visible y sólido */
+.mat-mdc-select-value-text {
+    display: inline-block !important;
+    color: black !important;
+    opacity: 1 !important;
+}
+
+/* Fuerza el fondo del panel */
+.mi-select-personalizado {
+    background-color: white !important;
+    border: 1px solid #ccc !important;
+}

@@ -1,0 +1,219 @@
+.derecha {
+    justify-content: center;
+    align-items: center;
+
+    img {
+        display: inline-block;
+        width: 70%;
+        height: 100%;
+        cursor: pointer;
+    }
+
+    .imgMob {
+        display: none;
+    }
+
+    button {
+        bottom: 4px;
+    }
+        .menuNav{
+            mat-icon{
+                font-size: 2rem;
+                color: white;
+            }
+        }
+}
+
+.izquierda {
+
+    .btn-proveedor-footer {
+        background: none;
+        border: 2px dashed white;
+        color: white;
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-weight: bold;
+        margin: 0;
+        transition: 0.3s;
+        width: 75%;
+    }
+
+    .btn-proveedor-footer:hover {
+        background-color: white;
+        color: #E93C96;
+    }
+
+    .registrado,
+    .iniciarSesion {
+        background-color: var(--color-rosa-fuerte);
+        color: var(--color-blanco);
+        border: none;
+    }
+
+    button {
+        margin: 0 .5rem;
+    }
+
+    .actionsUser {
+        display: inline-flex;
+        justify-content: right;
+        align-items: center;
+
+        .editPerfil {
+            font-size: 1.8rem;
+        }
+
+        .favoritosbutton {
+            font-size: 1.5rem;
+        }
+
+        .carritobutton {
+            font-size: 1.6rem;
+        }
+
+    }
+
+    .accionProvedor {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .editPerfil,
+    .favoritosbutton,
+    .carritobutton {
+        border: none;
+        background: transparent;
+        color: var(--color-rosa-fuerte);
+    }
+}
+
+mat-toolbar {
+    background-color: var(--color-rosa-claro);
+}
+
+#carritobuttonId {
+    position: relative;
+
+    span {
+        font-size: 0.5rem;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+.nuevoProducto,
+button.listCompras {
+    background-color: var(--color-rosa-fuerte);
+    color: white;
+}
+
+button.listCompras {
+    width: auto;
+}
+
+@media (min-width: 768px) {
+
+    .imgDesk {
+        display: block; // Mostramos el logo completo
+    }
+
+    .imgMob {
+        display: none; // Ocultamos el logo pequeño
+    }
+
+    .accionProvedor,
+    .actionsUser {
+        gap: 15px; // Más espacio para respirar
+    }
+
+    .btn,
+    .iniciarSesion,
+    .registrado,
+    .btn-proveedor-footer,
+    .listCompras {
+        font-size: 0.9rem; // Restauramos el tamaño de texto
+        padding: 6px 12px;
+    }
+
+    .editPerfil,
+    .favoritosbutton,
+    .carritobutton {
+        padding: 5px;
+
+        .bi {
+            font-size: 1.5rem; // Iconos más grandes en PC
+        }
+    }
+}
+
+/* =========================================
+   AJUSTES EXTREMOS PARA PANTALLAS MUY PEQUEÑAS
+   ========================================= */
+
+// Celulares pequeños (menos de 400px)
+@media (max-width: 800px) {
+
+    // Ocultamos el texto del botón "Nuevo Producto" y dejamos solo el ícono +
+    .nuevoProducto {
+        font-size: 0; // Desaparece el texto
+        padding: 4px 8px;
+
+        i {
+            font-size: 1.2rem; // El icono se mantiene visible
+        }
+    }
+
+    .accionProvedor,
+    .actionsUser {
+        gap: 4px; // Comprimimos al máximo
+    }
+
+    .iniciarSesion,
+    .registrado,
+    .listCompras {
+        display: none;
+    }
+
+    .derecha {
+        padding: 0;
+        justify-content: start;
+        width: 40%;
+        img.imgDesk {
+            display: none;
+        }
+
+        img.imgMob {
+            display: block;
+            width: 40%;
+            height: 40%;
+            padding: 0;
+        }
+        .menuNav{
+            position: relative;
+            mat-icon{
+                font-size: 2rem;
+                color: white;
+            }
+        }
+    }
+
+    mat-toolbar {
+        width: 100%;
+    }
+    .izquierda{
+        padding: 0;
+        width: 70%;
+        justify-content: end;
+        .accionProvedor{
+            display: none;
+        }
+        .actionsUser{
+            width: 100%;
+            button{
+                margin: 0 .2rem;
+            }
+        }
+    }
+}

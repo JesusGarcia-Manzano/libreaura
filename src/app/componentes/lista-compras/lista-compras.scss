@@ -1,0 +1,45 @@
+.listaPedidosCompras {
+    margin-top: 5rem;
+
+    div {
+        h3 {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    
+    .pedidosEstatus,
+    .tableHead tr th {
+        background-color: var(--color-rosa-fuerte);
+        color: white;
+        border: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .table-responsive{
+        .infoProductototal{
+            justify-content: center;
+            div{
+                font-size: .6rem;
+            }
+        }
+        table{
+            thead{
+                display: none;
+            }
+            tr{
+                border: solid 1px var(--color-rosa-fuerte);
+                height: 12rem;
+            }
+            th, td{
+                font-size: .7rem;
+                width: 50%;
+                height: 2.5rem;
+                text-align: center;
+                display: inline-block;
+                border: none;
+            }
+        }
+    }
+}
