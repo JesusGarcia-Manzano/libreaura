@@ -45,7 +45,7 @@
             <mat-label>Stock</mat-label>
             <input matInput type="number" formControlName="stock">
         </mat-form-field>
-        
+
         <div class="row mt-2">
             <mat-form-field appearance="outline" class="col-12 col-md-6">
                 <mat-label>Visible para</mat-label>
@@ -57,9 +57,8 @@
 
             <mat-form-field appearance="outline" class="col-12 col-md-6">
                 <mat-label>Categoría</mat-label>
-                <mat-select #miSelect 
-    formControlName="tipoProducto" 
-    (selectionChange)="onTipoProductoChange($event.value)">
+                <mat-select #miSelect formControlName="tipoProducto"
+                    (selectionChange)="onTipoProductoChange($event.value)">
                     <mat-option value="bolsos">Bolsos</mat-option>
                     <mat-option value="sobrero">Sombreros</mat-option>
                     <mat-option value="llavero">Llaveros</mat-option>
@@ -73,10 +72,10 @@
 
             <div class="d-flex flex-wrap gap-3">
                 @for (estilo of estilosBolso; track estilo.valor) {
-                    <mat-checkbox color="primary" [checked]="isChecked(estilo.valor)"
-                        (change)="onCheckboxChange(estilo.valor, $event.checked)">
-                        {{ estilo.etiqueta }}
-                    </mat-checkbox>
+                <mat-checkbox color="primary" [checked]="isChecked(estilo.valor)"
+                    (change)="onCheckboxChange(estilo.valor, $event.checked)">
+                    {{ estilo.etiqueta }}
+                </mat-checkbox>
                 }
             </div>
         </div>

@@ -11,16 +11,16 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './error-modal.scss',
 })
 export class ErrorModalComponent {
-constructor(
+  constructor(
     public dialogRef: MatDialogRef<ErrorModalComponent>,
     // Usamos MAT_DIALOG_DATA para recibir el mensaje de error desde afuera
     @Inject(MAT_DIALOG_DATA) public data: {
-        mensaje: string,
-        mode: string,
-        icono: string,
-        textoLabel: string
-    } 
-  ) {}
+      mensaje: string,
+      mode: string,
+      icono: string,
+      textoLabel: string
+    }
+  ) { }
 
   cerrar(): void {
     this.dialogRef.close();

@@ -53,11 +53,11 @@ export class NavbarComponent {
 
 
   baseCategorias: MenuItem[] = [
-    { path: "/productos/todo", icon: "/todoV.png",  label: "Ver Todo" },
-    { path: "/productos/bolsos",    icon: "/BolsoV.png",     label: "Bolsa" },
-    { path: "/productos/llavero",  icon: "/llaveroV.png",    label: "Llavero" },
-    { path: "/productos/sobrero",  icon: "/sombreroV.png",  label: "Sombrero" },
-    { path: "/productos/ropa",      icon: "/RopaV.png",       label: "Ropa" },
+    { path: "/productos/todo", icon: "/todoV.png", label: "Ver Todo" },
+    { path: "/productos/bolsos", icon: "/BolsoV.png", label: "Bolsa" },
+    { path: "/productos/llavero", icon: "/llaveroV.png", label: "Llavero" },
+    { path: "/productos/sobrero", icon: "/sombreroV.png", label: "Sombrero" },
+    { path: "/productos/ropa", icon: "/RopaV.png", label: "Ropa" },
   ]
   categorias = signal<MenuItem[]>([]);
   private actualizarCategorias(estaLogueado: boolean) {

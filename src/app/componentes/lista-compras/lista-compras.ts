@@ -33,7 +33,7 @@ export class ListaComprasComponente implements OnInit {
   rolUsuario = computed(() => this.firebaseService.userData()?.rol);
 
   async ngOnInit() {
-    
+
     this.cargando.set(true);
 
     try {
@@ -64,13 +64,13 @@ export class ListaComprasComponente implements OnInit {
       const colRef = collection(this.firestore, 'pedidos');
       const esAdmin = this.firebaseService.userData()?.rol === 'administrador';
       let q;
-      
+
       if (esAdmin) {
         q = query(colRef, orderBy('fecha', 'desc'));
       } else {
         q = query(colRef, where('clienteId', '==', uid), orderBy('fecha', 'desc'));
       }
-      
+
       const snapshot = await getDocs(q);
       const datos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       this.pedidos.set(datos);

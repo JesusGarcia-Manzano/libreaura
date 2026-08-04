@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class RegistrarseComponent {
   private fb = inject(FormBuilder)
-  constructor(private authService: RegistrarseService,private router: Router,private dialog: MatDialog){
+  constructor(private authService: RegistrarseService, private router: Router, private dialog: MatDialog) {
 
   }
 

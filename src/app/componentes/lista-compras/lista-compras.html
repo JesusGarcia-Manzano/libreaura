@@ -4,101 +4,101 @@
         <button class="btn btn-outline-secondary btn-sm" routerLink="/catalogo">Volver al catálogo</button>
     </div>
     @if(rolUsuario() === 'administrador'){
-        @if (cargando()) {
-        <div class="text-center p-5">
-            <div class="spinner-border text-danger"></div>
+    @if (cargando()) {
+    <div class="text-center p-5">
+        <div class="spinner-border text-danger"></div>
+    </div>
+    } @else {
+    <div class="table-responsive">
+        <div class="d-flex gap-3 mb-4 infoProductototal">
+            <div class="card p-2 pedidosEstatus text-white">Entregados: {{ totalEntregados() }}</div>
+            <div class="card p-2 pedidosEstatus">Pendientes de Entrega: {{ totalPendientesEntrega() }}</div>
+            <div class="card p-2 pedidosEstatus text-white">Pendientes de Pago: {{ totalPendientesPago() }}</div>
         </div>
-        } @else {
-        <div class="table-responsive">
-            <div class="d-flex gap-3 mb-4 infoProductototal">
-                <div class="card p-2 pedidosEstatus text-white">Entregados: {{ totalEntregados() }}</div>
-                <div class="card p-2 pedidosEstatus">Pendientes de Entrega: {{ totalPendientesEntrega() }}</div>
-                <div class="card p-2 pedidosEstatus text-white">Pendientes de Pago: {{ totalPendientesPago() }}</div>
-            </div>
-            <table class="table table-hover mt-3" style="font-size: 0.9rem;">
-                <thead class="tableHead">
-                    <tr>
-                        <th>Folio</th>
-                        <th>Cliente</th>
-                        <th>Detalle Compra</th>
-                        <th>Estatus</th>
-                        <th>Pago</th>
-                        <th>Total</th>
-                        @if (rolUsuario() === 'administrador') { <th>Acciones</th> }
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (p of pedidosPendientesEntrega(); track p.id) {
-                    <tr>
-                        <td><span class="badge bg-light text-dark border">{{ p.folio }}</span></td>
-                        <td>
-                            <strong>{{ rolUsuario() === 'administrador' ? p.clienteNombre : 'Tu Pedido' }}</strong><br>
-                            <small class="text-muted">{{ p.clienteEmail }}</small>
-                        </td>
-                        <td>
-                            @for (prod of p.productos; track prod.idProducto) {
-                            <small>- {{ prod.nombre }} (x{{ prod.cantidad }})</small><br>
-                            }
-                        </td>
-                        <td><span class="badge"
-                                [ngClass]="p.estado === 'Entregado' ? 'pedidosEstatus' : 'pedidosEstatus'">{{
-                                p.estado }}</span></td>
-                        <td><span class="badge" [ngClass]="p.pagoValidado ? 'pedidosEstatus' : 'pedidosEstatus'">{{
-                                p.pagoValidado ?
-                                'Pagado' : 'Pendiente' }}</span></td>
-                        <td class="fw-bold">${{ p.total | number }}</td>
-
-                        @if (rolUsuario() === 'administrador') {
-                        <td>
-                            <!-- Para el cambio de estado -->
-                            <select class="form-select"
-                                (change)="actualizarEstado(p.id, 'estado', $any($event.target).value)">
-                                <option value="">Cambiar Estatus...</option>
-                                <option value="Procesando">Procesando</option>
-                                <option value="Entregado">Entregado</option>
-                            </select>
-
-                            <!-- Para marcar como pagado -->
-                            <button class="pedidosEstatus" (click)="actualizarEstado(p.id, 'pagoValidado', true)">Marcar
-                                Pagado</button>
-                        </td>
+        <table class="table table-hover mt-3" style="font-size: 0.9rem;">
+            <thead class="tableHead">
+                <tr>
+                    <th>Folio</th>
+                    <th>Cliente</th>
+                    <th>Detalle Compra</th>
+                    <th>Estatus</th>
+                    <th>Pago</th>
+                    <th>Total</th>
+                    @if (rolUsuario() === 'administrador') { <th>Acciones</th> }
+                </tr>
+            </thead>
+            <tbody>
+                @for (p of pedidosPendientesEntrega(); track p.id) {
+                <tr>
+                    <td><span class="badge bg-light text-dark border">{{ p.folio }}</span></td>
+                    <td>
+                        <strong>{{ rolUsuario() === 'administrador' ? p.clienteNombre : 'Tu Pedido' }}</strong><br>
+                        <small class="text-muted">{{ p.clienteEmail }}</small>
+                    </td>
+                    <td>
+                        @for (prod of p.productos; track prod.idProducto) {
+                        <small>- {{ prod.nombre }} (x{{ prod.cantidad }})</small><br>
                         }
-                    </tr>
-                    } @empty {
-                    <tr>
-                        <td colspan="7" class="text-center">No se encontraron pedidos.</td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                    </td>
+                    <td><span class="badge"
+                            [ngClass]="p.estado === 'Entregado' ? 'pedidosEstatus' : 'pedidosEstatus'">{{
+                            p.estado }}</span></td>
+                    <td><span class="badge" [ngClass]="p.pagoValidado ? 'pedidosEstatus' : 'pedidosEstatus'">{{
+                            p.pagoValidado ?
+                            'Pagado' : 'Pendiente' }}</span></td>
+                    <td class="fw-bold">${{ p.total | number }}</td>
 
-            <h4 class="mt-5">Pedidos Entregados</h4>
-            <table class="table table-hover table-striped">
-                <thead class="table-secondary">
-                    <tr>
-                        <th>Folio</th>
-                        <th>Detalle</th>
-                        <th>Total</th>
-                        <th>Fecha</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (p of pedidosEntregados(); track p.id) {
-                    <tr>
-                        <td>{{ p.folio }}</td>
-                        <td>{{ p.clienteNombre }}</td>
-                        <td>${{ p.total }}</td>
-                        <td>{{ p.fecha.toDate() | date:'short' }}</td>
-                    </tr>
-                    } @empty {
-                    <tr>
-                        <td colspan="4" class="text-center">No hay pedidos entregados aún.</td>
-                    </tr>
+                    @if (rolUsuario() === 'administrador') {
+                    <td>
+                        <!-- Para el cambio de estado -->
+                        <select class="form-select"
+                            (change)="actualizarEstado(p.id, 'estado', $any($event.target).value)">
+                            <option value="">Cambiar Estatus...</option>
+                            <option value="Procesando">Procesando</option>
+                            <option value="Entregado">Entregado</option>
+                        </select>
+
+                        <!-- Para marcar como pagado -->
+                        <button class="pedidosEstatus" (click)="actualizarEstado(p.id, 'pagoValidado', true)">Marcar
+                            Pagado</button>
+                    </td>
                     }
-                </tbody>
-            </table>
-        </div>
-        }
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="7" class="text-center">No se encontraron pedidos.</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <h4 class="mt-5">Pedidos Entregados</h4>
+        <table class="table table-hover table-striped">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Folio</th>
+                    <th>Detalle</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (p of pedidosEntregados(); track p.id) {
+                <tr>
+                    <td>{{ p.folio }}</td>
+                    <td>{{ p.clienteNombre }}</td>
+                    <td>${{ p.total }}</td>
+                    <td>{{ p.fecha.toDate() | date:'short' }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="4" class="text-center">No hay pedidos entregados aún.</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
     } @else {
     <div class="table-responsive">
         <table class="table table-hover mt-3" style="font-size: 0.9rem;">

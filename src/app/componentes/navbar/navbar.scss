@@ -1,15 +1,16 @@
-mat-sidenav-container{
+mat-sidenav-container {
     height: 100%;
 }
-mat-sidenav-content{
+
+mat-sidenav-content {
     opacity: .5;
     background-color: black;
 }
 
-mat-nav-list{
-    img{
-        width: 24px; 
-        height: 24px; 
+mat-nav-list {
+    img {
+        width: 24px;
+        height: 24px;
         object-fit: contain;
     }
 }

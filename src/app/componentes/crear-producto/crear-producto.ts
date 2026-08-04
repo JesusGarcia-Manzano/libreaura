@@ -21,7 +21,7 @@ export class CrearProductoComponent {
   private dialog = inject(MatDialog);
 
   iniciarFormulario() {
-    
+
     if (this.cantidad > 0) {
       this.productos = Array.from({ length: this.cantidad }, () => ({
         descripcion: '', idProducto: "", imagenes: '', nombre: '',
@@ -78,18 +78,18 @@ export class CrearProductoComponent {
         delete productoParaGuardar.archivosTemporales;
 
         // 4. Guardamos en Firestore
-        
+
         await this.firebase.agregarProducto(productoParaGuardar);
       }
 
       this.dialog.open(ModalExitoComponent, {
-        data: { mensaje: '¡Productos guardados con éxito!', tipo: '¡Éxito!"'}
+        data: { mensaje: '¡Productos guardados con éxito!', tipo: '¡Éxito!"' }
       });
       this.dialogRef.close(); // Cerramos el modal
 
     } catch (error) {
       console.error("Error al guardar:", error);
-        this.dialog.open(ModalExitoComponent, {
+      this.dialog.open(ModalExitoComponent, {
         data: { mensaje: '¡Problemas al crear el producto!', tipo: '¡Error!' }
       });
     } finally {
@@ -116,5 +116,5 @@ export class CrearProductoComponent {
 export class ModalExitoComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { mensaje: string, tipo: string }
-  ) {}
+  ) { }
 }

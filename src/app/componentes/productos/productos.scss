@@ -1,11 +1,16 @@
 .product-img {
     cursor: pointer;
     height: 21rem;
-    border-radius: 25px;
+    border-radius: .75rem;
 }
 
 .descripcionProduct {
     color: var(--color-grid-claro);
+    margin-bottom: 2.5rem;
+}
+
+.nameProducto {
+    margin-bottom: .5rem;
 }
 
 .cardadd,
@@ -14,6 +19,10 @@
     color: var(--color-rosa-fuerte);
     background: transparent;
     font-size: 1.3rem;
+
+    i {
+        font-size: 1.5rem;
+    }
 }
 
 .priceProduct {
@@ -27,7 +36,7 @@
 }
 
 .card-product {
-    border-radius: 25px 25px 12px 12px;
+    border-radius: .75rem;
 }
 
 .containerProduct {
@@ -52,7 +61,7 @@
 
             .product-img {
                 height: 13rem;
-                border-radius: 25px;
+                border-radius: .75rem;
             }
 
             .card-body {

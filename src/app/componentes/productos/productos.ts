@@ -25,7 +25,7 @@ export class ProductosComponent implements OnInit {
 
   // Signal exclusivo para mostrar en el HTML
   productosFiltrados = signal<any[]>([]);
-  
+
   // Arreglo vacío que se llenará con los datos reales de Firebase
   todosLosProductos: any[] = [];
 
@@ -36,23 +36,23 @@ export class ProductosComponent implements OnInit {
     // para evitar que el filtro altere tu estado global.
   }
 
-async ngOnInit() {
+  async ngOnInit() {
     // 1. Nos suscribimos a los cambios de la URL PRIMERO
     this.route.paramMap.subscribe(async (params) => {
-      const categoriaUrl = params.get('categoria'); 
-      
+      const categoriaUrl = params.get('categoria');
+
       // 2. Comprobamos si los productos ya están cargados localmente
       if (this.todosLosProductos.length === 0) {
-          if (isPlatformBrowser(this.platformId)) {
-            await this.firebaseService.cargarProductos();
-            
-            // Verificamos si es Signal o array para guardarlo
-            this.todosLosProductos = typeof this.firebaseService.productos === 'function' 
-              ? this.firebaseService.productos() 
-              : this.firebaseService.productos;
-          }
+        if (isPlatformBrowser(this.platformId)) {
+          await this.firebaseService.cargarProductos();
+
+          // Verificamos si es Signal o array para guardarlo
+          this.todosLosProductos = typeof this.firebaseService.productos === 'function'
+            ? this.firebaseService.productos()
+            : this.firebaseService.productos;
+        }
       }
-      
+
       // 3. AHORA SÍ filtramos el catálogo con seguridad
       this.filtrarCatalogo(categoriaUrl);
     });
@@ -60,7 +60,7 @@ async ngOnInit() {
 
   verDetalle(producto: any) {
     this.dialog.open(DetalleProductoComponent, {
-      data: producto, 
+      data: producto,
       width: '600px'
     });
   }
@@ -70,14 +70,14 @@ async ngOnInit() {
       try {
         await this.firebaseService.eliminarProducto(product.idProducto, product.imagenes);
         this.snackBar.open('Producto eliminado correctamente', 'Cerrar', { duration: 3000 });
-        
+
         // Recargamos y actualizamos localmente
         await this.firebaseService.cargarProductos();
-        this.todosLosProductos = typeof this.firebaseService.productos === 'function' 
-          ? this.firebaseService.productos() 
+        this.todosLosProductos = typeof this.firebaseService.productos === 'function'
+          ? this.firebaseService.productos()
           : this.firebaseService.productos;
-        
-        
+
+
         // Volvemos a aplicar el filtro actual de la URL
         const categoriaActual = this.route.snapshot.paramMap.get('categoria');
         this.filtrarCatalogo(categoriaActual);
@@ -103,7 +103,7 @@ async ngOnInit() {
     try {
       const yaEraFavorito = this.isFavorito(id);
       await this.firebaseService.toggleFavorito(user.uid, id, yaEraFavorito);
-      
+
       const mensaje = yaEraFavorito ? 'Eliminado de favoritos 🤍' : 'Agregado a favoritos 💖';
       this.snackBar.open(mensaje, 'Cerrar', { duration: 3000, horizontalPosition: 'center', verticalPosition: 'bottom' });
     } catch (error) {
@@ -125,7 +125,7 @@ async ngOnInit() {
 
     dialogRef.afterClosed().subscribe(async (datos) => {
       if (datos) {
-        let urlsFinales = [...datos.imagenesExistentes]; 
+        let urlsFinales = [...datos.imagenesExistentes];
 
         if (datos.archivosNuevos.length > 0) {
           // Lógica de subir imágenes si se requiere
@@ -139,36 +139,36 @@ async ngOnInit() {
           tipoCliente: datos.tipoCliente,
           tipoProducto: datos.tipoProducto,
           subCategoria: datos.subCategoria,
-          imagenes: urlsFinales.join(',') 
+          imagenes: urlsFinales.join(',')
         };
-        
+
         await this.firebaseService.editarProducto(datos.idProducto, updatePayload);
-        
+
         // Recargar el catálogo local para reflejar cambios
         await this.firebaseService.cargarProductos();
-        this.todosLosProductos = typeof this.firebaseService.productos === 'function' 
-          ? this.firebaseService.productos() 
+        this.todosLosProductos = typeof this.firebaseService.productos === 'function'
+          ? this.firebaseService.productos()
           : this.firebaseService.productos;
-          
+
         const categoriaActual = this.route.snapshot.paramMap.get('categoria');
         this.filtrarCatalogo(categoriaActual);
       }
     });
   }
 
-filtrarCatalogo(categoria: string | null) {
-    
+  filtrarCatalogo(categoria: string | null) {
+
     if (!categoria || categoria === 'todo') {
       this.productosFiltrados.set(this.todosLosProductos);
     } else {
       // AQUÍ: Si en Firestore usas 'tipoProducto' (ej. 'bolsas', 'ropa')
       const filtrados = this.todosLosProductos.filter(
-        producto => 
+        producto =>
           producto.tipoProducto === categoria || // Revisa este
-          producto.categoria === categoria    || // O este
+          producto.categoria === categoria || // O este
           producto.subCategoria === categoria    // O este
       );
-      
+
       this.productosFiltrados.set(filtrados);
     }
   }

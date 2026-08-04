@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
 @Service()
 export class LoginService {
 
-private auth = inject(Auth); // Usamos inject para las nuevas versiones de Angular
+  private auth = inject(Auth); // Usamos inject para las nuevas versiones de Angular
 
   login(email: string, pass: string) {
     return signInWithEmailAndPassword(this.auth, email, pass);
@@ -30,7 +30,7 @@ private auth = inject(Auth); // Usamos inject para las nuevas versiones de Angul
     return signOut(this.auth);
   }
 
- private user = inject(Auth);
+  private user = inject(Auth);
 
   // Esto devuelve un observable que emite el usuario (o null si no hay)
   get getUser() {

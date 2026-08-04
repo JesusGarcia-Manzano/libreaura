@@ -12,8 +12,8 @@ import { DetalleProductoComponent } from '../detalle-producto-component/detalle-
   templateUrl: './favoritos.html',
   styleUrl: './favoritos.scss',
 })
-export class FavoritosComponent implements OnInit{
-firebaseService = inject(Firebase);
+export class FavoritosComponent implements OnInit {
+  firebaseService = inject(Firebase);
   private platformId = inject(PLATFORM_ID);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
@@ -22,7 +22,7 @@ firebaseService = inject(Firebase);
   productosFavoritos = computed(() => {
     const todosLosProductos = this.firebaseService.productos();
     const idsFavoritos = this.firebaseService.userData()?.favoritos || [];
-    
+
     // Filtramos para dejar únicamente los productos cuyo ID esté en la lista de favoritos
     return todosLosProductos.filter(producto => idsFavoritos.includes(producto.id));
   });
@@ -52,10 +52,10 @@ firebaseService = inject(Firebase);
 
     try {
       const yaEraFavorito = this.isFavorito(id);
-      
+
       // Llama a la función que modificamos en tu servicio de Firebase
       await this.firebaseService.toggleFavorito(user.uid, id, yaEraFavorito);
-      
+
       const mensaje = yaEraFavorito ? 'Eliminado de favoritos 🤍' : 'Agregado a favoritos 💖';
       this.snackBar.open(mensaje, 'Cerrar', {
         duration: 3000,

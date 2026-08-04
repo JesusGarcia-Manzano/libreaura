@@ -107,14 +107,14 @@ export class Firebase {
   constructor() {
     this.getImagenes();
     if (isPlatformBrowser(this.platformId)) {
-authState(this.auth).subscribe(user => {
+      authState(this.auth).subscribe(user => {
         this.currentUser.set(user);
         if (user) {
-            this.loadUserData(user.uid);
+          this.loadUserData(user.uid);
         } else {
-            this.userData.set(null);
+          this.userData.set(null);
         }
-    });
+      });
     }
   }
 
@@ -201,25 +201,25 @@ authState(this.auth).subscribe(user => {
 
   private unsubscribeUser: any = null;
 
-async loadUserData(uid: string) {
-  if (this.unsubscribeUser) this.unsubscribeUser();
-  const userRef = doc(this.dataBaseFirebase, 'usuarios', uid);
+  async loadUserData(uid: string) {
+    if (this.unsubscribeUser) this.unsubscribeUser();
+    const userRef = doc(this.dataBaseFirebase, 'usuarios', uid);
 
-  this.unsubscribeUser = onSnapshot(userRef, (docSnap) => {
-    if (docSnap.exists()) {
-      // Si el documento existe, guardamos los datos
-      this.userData.set(docSnap.data()); 
-    } else {
-      // NUEVO: Si el documento no existe en BD, evitamos que se quede atascado en null
-      // y le asignamos un rol por defecto.
-      this.userData.set({ rol: 'cliente' }); 
-      console.warn("El usuario no tiene documento en Firestore aún.");
-    }
-  });
-}
+    this.unsubscribeUser = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        // Si el documento existe, guardamos los datos
+        this.userData.set(docSnap.data());
+      } else {
+        // NUEVO: Si el documento no existe en BD, evitamos que se quede atascado en null
+        // y le asignamos un rol por defecto.
+        this.userData.set({ rol: 'cliente' });
+        console.warn("El usuario no tiene documento en Firestore aún.");
+      }
+    });
+  }
 
   async cambiarRolUsuario(uid: string, rolActual: string | undefined | null) {
-    
+
     const rolNormalizado = (rolActual || 'cliente').toLowerCase();
     const nuevoRol = (rolNormalizado === 'cliente') ? 'proveedor' : 'cliente';
 

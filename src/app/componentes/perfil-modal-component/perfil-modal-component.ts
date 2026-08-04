@@ -10,9 +10,9 @@ import { Firebase } from '../../services/firebase/firebase';
   styleUrl: './perfil-modal-component.scss',
 })
 export class PerfilModalComponent {
-firebaseService = inject(Firebase);
+  firebaseService = inject(Firebase);
   dialogRef = inject(MatDialogRef<PerfilModalComponent>);
-  
+
   // Clonamos los datos actuales para editar
   perfil = { ...this.firebaseService.userData() };
 

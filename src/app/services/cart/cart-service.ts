@@ -40,13 +40,13 @@ export class CartService {
     agregarAlCarrito(producto: any, cantidad: number) {
         let actual = [...this.carrito()];
         console.log("1.- actual -> ", actual);
-        
+
         let index = actual.findIndex(item => item.idProducto === producto.id);
-        
+
         if (index !== -1) {
             // Si ya existe, sumamos
             let nuevaCantidad = actual[index].cantidad + cantidad;
-            
+
             if (nuevaCantidad > producto.stock) {
                 nuevaCantidad = producto.stock;
                 this.snackBar.open('Límite de stock alcanzado', 'Cerrar', { duration: 3000 });
@@ -55,7 +55,7 @@ export class CartService {
             actual[index].totaProducto = actual[index].precio * nuevaCantidad
         } else {
             // Si es nuevo en el carrito
-            
+
             actual.push({
                 idProducto: producto.id,
                 cantidad: Math.min(cantidad, producto.stock),
@@ -72,31 +72,31 @@ export class CartService {
     }
 
     // REQ 5 y 6: Botones + y - en el carrito
-// En cart-service.ts dentro del método actualizarCantidad
+    // En cart-service.ts dentro del método actualizarCantidad
 
-actualizarCantidad(idProducto: string, operacion: number, stockActual: number) {
-    let actual = [...this.carrito()];
-    let index = actual.findIndex(item => item.idProducto === idProducto);
-    
-    if (index !== -1) {
-        let nuevaCantidad = actual[index].cantidad + operacion;
-        
-        if (nuevaCantidad > stockActual) {
-            this.snackBar.open('Ya llegaste al tope de stock disponible', 'Cerrar', { duration: 3000 });
-            return;
+    actualizarCantidad(idProducto: string, operacion: number, stockActual: number) {
+        let actual = [...this.carrito()];
+        let index = actual.findIndex(item => item.idProducto === idProducto);
+
+        if (index !== -1) {
+            let nuevaCantidad = actual[index].cantidad + operacion;
+
+            if (nuevaCantidad > stockActual) {
+                this.snackBar.open('Ya llegaste al tope de stock disponible', 'Cerrar', { duration: 3000 });
+                return;
+            }
+
+            // Si llega a 0, se elimina
+            if (nuevaCantidad <= 0) {
+                actual.splice(index, 1);
+            } else {
+                actual[index].cantidad = nuevaCantidad;
+                // AQUÍ ESTÁ LA CORRECCIÓN: Actualizamos el total del producto
+                actual[index].totaProducto = actual[index].precio * nuevaCantidad;
+            }
+            this.guardarEstado(actual);
         }
-        
-        // Si llega a 0, se elimina
-        if (nuevaCantidad <= 0) {
-            actual.splice(index, 1);
-        } else {
-            actual[index].cantidad = nuevaCantidad;
-            // AQUÍ ESTÁ LA CORRECCIÓN: Actualizamos el total del producto
-            actual[index].totaProducto = actual[index].precio * nuevaCantidad;
-        }
-        this.guardarEstado(actual);
     }
-}
 
     // REQ 7: Botón eliminar
     eliminarDelCarrito(idProducto: string) {

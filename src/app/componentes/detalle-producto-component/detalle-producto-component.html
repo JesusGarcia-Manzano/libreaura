@@ -1,21 +1,33 @@
-<h2 mat-dialog-title>{{ producto.nombre }}</h2>
-
 <mat-dialog-content>
-<div id="carruselProducto" class="carousel slide mb-3" data-bs-ride="carousel">
-    
+  <div id="carruselProducto" class="carousel slide mb-3" data-bs-ride="carousel">
+
     <div class="carousel-indicators">
       @for (url of producto.imagenes.split(','); track $index) {
-        <button type="button" data-bs-target="#carruselProducto" [attr.data-bs-slide-to]="$index" [class.active]="$index === 0"></button>
+      <button type="button" data-bs-target="#carruselProducto" [attr.data-bs-slide-to]="$index"
+        [class.active]="$index === 0"></button>
       }
     </div>
 
     <div class="carousel-inner">
       @for (url of producto.imagenes.split(','); track $index) {
-        <div class="carousel-item" [class.active]="$index === 0">
-          <img [src]="url" class="d-block w-100" style="max-height: 300px; object-fit: contain;">
-        </div>
+      <div class="carousel-item" [class.active]="$index === 0">
+        <!-- Solo agregamos el click normal -->
+        <img [src]="url" class="d-block w-100" style="max-height: 300px; object-fit: contain; cursor: pointer;"
+          (click)="abrirZoom(url)">
+      </div>
       }
     </div>
+
+    <!-- NUEVO: EL OVERLAY DE PANTALLA COMPLETA (fuera del carrusel) -->
+    @if (isZoomed) {
+    <div class="zoom-overlay" (click)="cerrarZoom()">
+      <!-- Botón para cerrar explícitamente, útil en celulares -->
+      <button class="btn-cerrar" (click)="cerrarZoom()"><i class="bi bi-x-lg"></i></button>
+
+      <!-- Imagen en grande -->
+      <img [src]="imagenActivaUrl" class="img-fullscreen" (click)="$event.stopPropagation()">
+    </div>
+    }
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carruselProducto" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -26,29 +38,35 @@
       <span class="visually-hidden">Siguiente</span>
     </button>
   </div>
-
-  <p>{{ producto.descripcion }}</p>
-  <div class="hayprecio">
-    <p class="fw-bold precio">Precio: ${{ producto.precio }}</p>
+  <div class="contentNameStock">
+    <p class="nameProduct">{{ producto.nombre }}</p>
     <p class="stock">Stock disponible: {{ producto.stock }}</p>
   </div>
-  
-  @if (producto.stock > 0) {
-    <p class="cantidad">Cantidad a comprar:</p>
-    <div class="d-flex align-items-center gap-2 contentCantidad">
-      <button class="btn rest btn-outline-secondary btn-sm" (click)="restar()">-</button>
-      <input type="number" class="form-control text-center mx-2" [(ngModel)]="cantidad" readonly>
-      <button class="btn add btn-outline-secondary btn-sm" (click)="sumar()">+</button>
+  <div class="descripcionCantidad">
+    <p class="descripcion">{{ producto.descripcion }}</p>
+    @if (producto.stock > 0) {
+    <div class="cantidadComprar">
+      <p class="cantidad">Cantidad a comprar:</p>
+      <div class="d-flex align-items-center gap-2 contentCantidad">
+        <button class="btn rest btn-outline-secondary btn-sm" (click)="restar()">-</button>
+        <input type="number" class="form-control text-center mx-2" [(ngModel)]="cantidad" readonly>
+        <button class="btn add btn-outline-secondary btn-sm" (click)="sumar()">+</button>
+      </div>
+      <small class="text-muted">Máximo disponible: {{ producto.stock }} pzs</small>
     </div>
-    <small class="text-muted">Máximo disponible: {{ producto.stock }} pzs</small>
-  } @else {
+    } @else {
     <div class="alert alert-danger mt-2">Este producto está agotado por el momento.</div>
-  }
-</mat-dialog-content>
+    }
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="dialogRef.close()">Cancelar</button>
-  <button class="agregarCarrito" [disabled]="producto.stock <= 0" (click)="agregarAlCarrito()">
-    Agregar al Carrito
-  </button>
-</mat-dialog-actions>
+  </div>
+  <div class="hayprecio">
+    <p class="fw-bold precio">${{producto.precio}}<small>MXN</small> </p>
+    <div class="actions">
+      <button class="agregarCarrito" [disabled]="producto.stock <= 0" (click)="agregarAlCarrito()">
+        Agregar al Carrito
+      </button>
+      <button mat-button (click)="dialogRef.close()" class="cancelar">Cancelar</button>
+    </div>
+  </div>
+
+</mat-dialog-content>

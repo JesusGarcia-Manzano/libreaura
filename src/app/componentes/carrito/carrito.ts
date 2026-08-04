@@ -24,16 +24,16 @@ export class CarritoModalComponent {
   // NUEVO: Genera el mensaje de error si un proveedor no cumple el mínimo
   obtenerErrorProveedor(): string | null {
     const userData = this.firebaseService.userData();
-    
+
     if (userData?.rol === 'proveedor') {
       // Buscamos el primer producto en el carrito que tenga menos de 4 unidades
       const itemInvalido = this.cartService.carrito().find((item: any) => item.cantidad < 4);
-      
+
       if (itemInvalido) {
         return `El producto "${itemInvalido.nombre}" requiere un mínimo de 4 unidades para realizar la compra.`;
       }
     }
-    
+
     return null; // Retorna null si no es proveedor o si cumple todas las reglas
   }
 
@@ -41,10 +41,10 @@ export class CarritoModalComponent {
   puedeComprar(): boolean {
     // Falla si el carrito está vacío
     if (this.cartService.carrito().length === 0) return false;
-    
+
     // Falla si existe un error de cantidad para proveedores
     if (this.obtenerErrorProveedor() !== null) return false;
-    
+
     return true;
   }
 
@@ -66,7 +66,7 @@ export class CarritoModalComponent {
       clienteId: user?.uid,
       clienteNombre: userData?.nombre,
       estado: 'Pendiente',
-      fecha: new Date(), 
+      fecha: new Date(),
       folio: folioGenerado,
       productos: this.cartService.carrito().map((item: any) => ({
         idProducto: item.idProducto,
@@ -82,11 +82,11 @@ export class CarritoModalComponent {
 
     try {
       await this.firebaseService.crearPedido(nuevoPedido, folioGenerado);
-      
+
       for (const item of nuevoPedido.productos) {
         await this.firebaseService.descontarStock(item.idProducto, item.cantidad);
       }
-      
+
       this.cartService.vaciarCarrito();
       await this.emailService.enviarCorreoPedido(nuevoPedido);
       this.cartService.snackBar.open('¡Pedido realizado con éxito!', 'Cerrar', { duration: 4000 });

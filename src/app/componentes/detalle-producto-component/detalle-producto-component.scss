@@ -1,66 +1,125 @@
-.carousel-control-prev-icon{
+.carousel-control-prev-icon {
     color: black;
 }
 
-.carousel-control-prev{
+.carousel-control-prev {
     opacity: initial;
 }
 
-p{
-    color: black;
-}
-
-.precio{
-    font-size: 2.5rem;
-    color: var(--color-rosa-fuerte);
-}
-
-.hayprecio{
+.contentNameStock {
     display: inline-flex;
     width: 100%;
     justify-content: space-between;
-    margin: 1rem 0;
+    margin-bottom: 1.25rem;
+
+    .nameProduct {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
 }
 
-.stock{
+.descripcionCantidad {
+    display: inline-block;
+    width: 100%;
+
+    .descripcion {
+        display: inline-block;
+        width: 65%;
+        padding: 0 .5rem 0 0;
+    }
+
+    .cantidadComprar {
+        display: inline-block;
+        width: 35%;
+    }
+}
+
+p {
+    color: black;
+}
+
+.precio {
+    font-size: 2rem;
+    color: var(--color-rosa-fuerte);
+}
+
+.hayprecio {
+    display: inline-block;
+    width: 100%;
+    margin: 1rem 0;
+
+    .precio {
+        display: inline-block;
+        width: 30%;
+
+        small {
+            font-size: 1rem;
+            font-weight: 100;
+        }
+    }
+
+    .actions {
+        display: inline-block;
+        width: 70%;
+        text-align: end;
+
+        .cancelar {
+            border: solid 1px var(--color-rosa-fuerte);
+            border-radius: 3px;
+            color: var(--color-rosa-fuerte)
+        }
+
+        button {
+            margin: 0 .5rem;
+        }
+    }
+}
+
+.stock {
     color: white;
     background-color: var(--color-rosa-fuerte);
     padding: 0 .5rem;
     border-radius: 12px;
 }
 
-.contentCantidad{
+.contentCantidad {
     width: 100%;
     justify-content: space-between;
     align-items: center;
     border: solid 1px var(--color-rosa-fuerte);
     border-radius: 12px;
     margin-top: 0;
-    input.form-control{
+
+    input.form-control {
         width: 70%;
         border: none;
-        height: 2rem;
-        &:focus{
+        height: 1rem;
+
+        &:focus {
             border: none;
             box-shadow: none;
         }
     }
-    button{
+
+    button {
         height: 2rem;
         background-color: var(--color-rosa-fuerte);
         border: none;
         color: white;
-        width: 10%;
-        &.rest{
+        width: 3rem;
+        font-weight: bold;
+
+        &.rest {
             border-radius: 12px 0 0 12PX;
         }
-        &.add{
+
+        &.add {
             border-radius: 0 12px 12px 0;
         }
     }
 }
 
-.agregarCarrito{
+.agregarCarrito {
     background-color: var(--color-rosa-fuerte);
     color: white;
     border: none;
@@ -68,19 +127,90 @@ p{
     padding: 1%;
 }
 
-.cantidad{
+.cantidad {
     margin: 0;
 }
 
 @media (max-width: 800px) {
-    mat-dialog-content{
-        .hayprecio{
+    mat-dialog-content {
+        .descripcionCantidad {
+
+            .descripcion,
+            .cantidadComprar {
+                width: 100%;
+            }
+        }
+
+        .hayprecio {
             display: inline-block;
             width: 100%;
-            .precio{
+
+            .precio {
                 font-size: 1.3rem;
                 margin: .5rem 0;
+                width: 100%;
+            }
+
+            .actions {
+                width: 100%;
+
+                button {
+                    width: 100%;
+                    margin: .3rem 0;
+                    height: 2rem;
+                }
             }
         }
     }
+
+/* OVERLAY PARA CELULARES Y ESCRITORIO */
+.zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Fondo negro semitransparente */
+  z-index: 9999; /* Asegura que cubra el header y menú */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: zoom-out; /* Indica que al hacer clic fuera se cierra */
+  
+  .img-fullscreen {
+    max-width: 95%; /* Deja un pequeño margen en los bordes del celular */
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    cursor: default;
+    
+    /* Pequeña animación de entrada para que se vea premium */
+    animation: zoomIn 0.3s ease; 
+  }
+
+  .btn-cerrar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10000;
+  }
+}
+
+/* Animación opcional */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 }

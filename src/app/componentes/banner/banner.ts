@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Firebase } from '../../services/firebase/firebase'; 
+import { Firebase } from '../../services/firebase/firebase';
 import { Firestore, addDoc, deleteDoc, doc, collection, serverTimestamp } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 export interface Banner {
@@ -17,21 +17,21 @@ export interface Banner {
 })
 export class BannerComponent implements OnInit, OnDestroy {
 
-  firebaseService = inject(Firebase); 
+  firebaseService = inject(Firebase);
   private firestore = inject(Firestore);
   private storage = inject(Storage);
   private platformId = inject(PLATFORM_ID);
 
   banners = signal<Banner[]>([]);
   cargando = signal<boolean>(false);
-  
+
   mostrarModal = signal<boolean>(false);
-  
+
   // Control nativo del carrusel
   currentIndex = signal<number>(0);
   private intervaloRotacion: any;
 
-  ngOnInit() {    
+  ngOnInit() {
     this.cargarCarrusel();
   }
 
@@ -47,7 +47,7 @@ export class BannerComponent implements OnInit, OnDestroy {
     try {
       const bannersData = await this.firebaseService.getBannerImg();
       this.banners.set(bannersData as Banner[]);
-      
+
       // Solo iniciamos la rotación si estamos en el navegador y hay imágenes
       if (isPlatformBrowser(this.platformId) && this.banners().length > 1) {
         this.iniciarRotacion();
@@ -92,7 +92,7 @@ export class BannerComponent implements OnInit, OnDestroy {
 
   abrirModalGestionBanner() {
     this.mostrarModal.set(true);
-    this.cargarCarrusel(); 
+    this.cargarCarrusel();
   }
 
   cerrarModal() {
@@ -107,7 +107,7 @@ export class BannerComponent implements OnInit, OnDestroy {
       this.cargando.set(true);
       const fileName = `${Date.now()}_${file.name}`;
       const path = `banner_fotos/${fileName}`;
-      
+
       const storageRef = ref(this.storage, path);
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
@@ -120,7 +120,7 @@ export class BannerComponent implements OnInit, OnDestroy {
       });
 
       alert("Imagen agregada con éxito");
-      this.cargarCarrusel(); 
+      this.cargarCarrusel();
     } catch (error) {
       console.error("Error al subir:", error);
       alert("Error al intentar guardar la imagen");
@@ -141,7 +141,7 @@ export class BannerComponent implements OnInit, OnDestroy {
 
       alert("Imagen removida correctamente");
       this.currentIndex.set(0); // Reiniciamos el índice por seguridad
-      this.cargarCarrusel(); 
+      this.cargarCarrusel();
     } catch (error) {
       console.error("Error al eliminar:", error);
       alert("No se pudo completar la eliminación");

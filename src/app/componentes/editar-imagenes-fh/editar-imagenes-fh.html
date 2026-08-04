@@ -1,36 +1,36 @@
 <h2 mat-dialog-title>Editar Imágenes (Header y Footer)</h2>
 <mat-dialog-content>
   @if (config(); as data) {
-    <div class="mb-4 p-3 border rounded shadow-sm">
-      <div class="row">
-        <div class="col-12">
-          <p class="small">Logo (Escritorio)</p>
-          <img [src]="data.navLogo" style="height: 50px;" class="mb-2 d-block">
-          <input type="file" (change)="actualizarImagen('navLogo', $event)">
-          <button class="btn btn-sm btn-danger mt-1" (click)="eliminarImagen('navLogo')">Eliminar</button>
-        </div>
-        <div class="col-12">
-          <p class="small">Logo (Móvil)</p>
-          <img [src]="data.navLogoMobile" style="height: 50px;" class="mb-2 d-block">
-          <input type="file" (change)="actualizarImagen('navLogoMobile', $event)">
-          <button class="btn btn-sm btn-danger mt-1" (click)="eliminarImagen('navLogoMobile')">Eliminar</button>
-        </div>
+  <div class="mb-4 p-3 border rounded shadow-sm">
+    <div class="row">
+      <div class="col-12">
+        <p class="small">Logo (Escritorio)</p>
+        <img [src]="data.navLogo" style="height: 50px;" class="mb-2 d-block">
+        <input type="file" (change)="actualizarImagen('navLogo', $event)">
+        <button class="btn btn-sm btn-danger mt-1" (click)="eliminarImagen('navLogo')">Eliminar</button>
+      </div>
+      <div class="col-12">
+        <p class="small">Logo (Móvil)</p>
+        <img [src]="data.navLogoMobile" style="height: 50px;" class="mb-2 d-block">
+        <input type="file" (change)="actualizarImagen('navLogoMobile', $event)">
+        <button class="btn btn-sm btn-danger mt-1" (click)="eliminarImagen('navLogoMobile')">Eliminar</button>
       </div>
     </div>
+  </div>
 
-    <div class="p-3 border rounded shadow-sm">
-      <h5>Imágenes del Footer</h5>
-      @for (campo of ['img1', 'img2', 'img3']; track campo) {
-        <div class="mb-3 {{campo}}">
-          <p class="small">Imagen Footer {{campo.replace('img', '')}}</p>
-          <img [src]="data[campo]" style="height: 60px;" class="mb-2 d-block">
-          <input type="file" (change)="actualizarImagen(campo, $event)">
-          <button class="btn btn-sm btn-danger ms-2" (click)="eliminarImagen(campo)">Eliminar</button>
-        </div>
-      }
+  <div class="p-3 border rounded shadow-sm">
+    <h5>Imágenes del Footer</h5>
+    @for (campo of ['img1', 'img2', 'img3']; track campo) {
+    <div class="mb-3 {{campo}}">
+      <p class="small">Imagen Footer {{campo.replace('img', '')}}</p>
+      <img [src]="data[campo]" style="height: 60px;" class="mb-2 d-block">
+      <input type="file" (change)="actualizarImagen(campo, $event)">
+      <button class="btn btn-sm btn-danger ms-2" (click)="eliminarImagen(campo)">Eliminar</button>
     </div>
+    }
+  </div>
   } @else {
-    <p>Cargando configuración...</p>
+  <p>Cargando configuración...</p>
   }
 </mat-dialog-content>
 

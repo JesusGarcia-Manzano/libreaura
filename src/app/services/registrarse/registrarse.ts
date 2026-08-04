@@ -13,9 +13,9 @@ export class RegistrarseService {
     const userCredential = await createUserWithEmailAndPassword(this.authService, email, pass);
     const user = userCredential.user;
 
-// 2. Guardar los datos extra en Firestore, usando el UID del usuario como ID del documento
+    // 2. Guardar los datos extra en Firestore, usando el UID del usuario como ID del documento
     const userDocRef = doc(this.authFireStore, 'usuarios', user.uid);
-    
+
     await setDoc(userDocRef, {
       nombre: name,
       telefono: number,

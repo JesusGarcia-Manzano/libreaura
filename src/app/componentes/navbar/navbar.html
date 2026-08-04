@@ -2,28 +2,28 @@
   <mat-sidenav #sidenav mode="side" opened>
     <mat-nav-list>
       @for(item of categorias(); track item.label) {
-        
-        @if (item.path === '/logout') {
-          <button routerLink="/login" mat-list-item (click)="cerrarSesion(); cerrarMenu()">
-            <!-- Agregamos matListItemIcon a la etiqueta img -->
-            @if (item.icon.includes('V')) {
-              <img matListItemIcon [src]="item.icon" alt="Icono" />
-            } @else {
-              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-            }
-            <span matListItemTitle>{{item.label}}</span>
-          </button>
+
+      @if (item.path === '/logout') {
+      <button routerLink="/login" mat-list-item (click)="cerrarSesion(); cerrarMenu()">
+        <!-- Agregamos matListItemIcon a la etiqueta img -->
+        @if (item.icon.includes('V')) {
+        <img matListItemIcon [src]="item.icon" alt="Icono" />
         } @else {
-          <a mat-list-item [routerLink]="item.path" (click)="cerrarMenu()" class="elementContent">
-            <!-- Agregamos matListItemIcon a la etiqueta img -->
-            @if (item.icon.includes('V')) {
-              <img matListItemIcon [src]="item.icon" alt="Icono" />
-            } @else {
-              <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-            }
-            <span matListItemTitle>{{item.label}}</span>
-          </a>
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
         }
+        <span matListItemTitle>{{item.label}}</span>
+      </button>
+      } @else {
+      <a mat-list-item [routerLink]="item.path" (click)="cerrarMenu()" class="elementContent">
+        <!-- Agregamos matListItemIcon a la etiqueta img -->
+        @if (item.icon.includes('V')) {
+        <img matListItemIcon [src]="item.icon" alt="Icono" />
+        } @else {
+        <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+        }
+        <span matListItemTitle>{{item.label}}</span>
+      </a>
+      }
 
       }
     </mat-nav-list>

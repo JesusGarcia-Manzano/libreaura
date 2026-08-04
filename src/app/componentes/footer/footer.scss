@@ -2,8 +2,8 @@
   position: relative;
 }
 
-footer{
-    height: 100%;
+footer {
+  height: 100%;
 }
 
 .btnFooterupIma {
@@ -63,33 +63,34 @@ footer{
 }
 
 .btn-proveedor-footer:hover {
-    background-color: white;
-    color: #E93C96;
+  background-color: white;
+  color: #E93C96;
 }
 
 .btn-proveedor-footer {
-    background: none;
-    border: 2px dashed white;
-    color: white;
-    padding: 5px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    margin-top: 5px;
-    transition: 0.3s;
-    width: 100%;
+  background: none;
+  border: 2px dashed white;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-top: 5px;
+  transition: 0.3s;
+  width: 100%;
 }
 
-#footer-img-1{
+#footer-img-1 {
   align-items: center;
-  img{
+
+  img {
     width: 40%;
   }
 
-  .imgfooter2 img{
+  .imgfooter2 img {
     width: 60%;
-  } 
+  }
 }
 
-#footer-img-3 img{
+#footer-img-3 img {
   width: 70%;
 }

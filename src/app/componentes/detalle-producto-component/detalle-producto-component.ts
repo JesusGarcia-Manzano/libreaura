@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './detalle-producto-component.scss',
 })
 export class DetalleProductoComponent {
-// Variable única para la cantidad
+  // Variable única para la cantidad
   cantidad: number = 1;
   cartService = inject(CartService);
   snackBar = inject(MatSnackBar);
@@ -25,13 +25,13 @@ export class DetalleProductoComponent {
 
   // Aumenta hasta el límite del stock
   sumar() {
-if (this.cantidad < this.producto.stock) {
-    this.cantidad++;
-  } else {
-    // Aquí puedes usar un MatSnackBar si quieres un mensaje tipo "toast"
-    // o simplemente dejar que el botón se deshabilite visualmente.
-    this.snackBar.open(`Se llego al limite de stock del producto`, 'Cerrar', { duration: 3000 });
-  }
+    if (this.cantidad < this.producto.stock) {
+      this.cantidad++;
+    } else {
+      // Aquí puedes usar un MatSnackBar si quieres un mensaje tipo "toast"
+      // o simplemente dejar que el botón se deshabilite visualmente.
+      this.snackBar.open(`Se llego al limite de stock del producto`, 'Cerrar', { duration: 3000 });
+    }
   }
 
   // Reduce hasta un mínimo de 1
@@ -48,8 +48,17 @@ if (this.cantidad < this.producto.stock) {
       this.dialogRef.close(); // Cierra el modal tras agregar
     }
   }
+// Ahora guardaremos la URL de la imagen que queremos ver en grande
+  imagenActivaUrl: string = '';
+  isZoomed: boolean = false;
 
   abrirZoom(url: string) {
-    console.log("Abrir zoom para: ", url);
+    this.imagenActivaUrl = url;
+    this.isZoomed = true;
+  }
+
+  cerrarZoom() {
+    this.isZoomed = false;
+    this.imagenActivaUrl = '';
   }
 }

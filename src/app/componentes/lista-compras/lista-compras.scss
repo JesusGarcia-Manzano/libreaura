@@ -7,7 +7,7 @@
             text-align: center;
         }
     }
-    
+
     .pedidosEstatus,
     .tableHead tr th {
         background-color: var(--color-rosa-fuerte);
@@ -17,22 +17,27 @@
 }
 
 @media (max-width: 800px) {
-    .table-responsive{
-        .infoProductototal{
+    .table-responsive {
+        .infoProductototal {
             justify-content: center;
-            div{
+
+            div {
                 font-size: .6rem;
             }
         }
-        table{
-            thead{
+
+        table {
+            thead {
                 display: none;
             }
-            tr{
+
+            tr {
                 border: solid 1px var(--color-rosa-fuerte);
                 height: 12rem;
             }
-            th, td{
+
+            th,
+            td {
                 font-size: .7rem;
                 width: 50%;
                 height: 2.5rem;
